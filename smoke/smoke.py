@@ -102,7 +102,7 @@ expect_ok(
 expect_ok("holiday null", lambda: parse.holiday.date("US", "2026-08-12"), lambda r: None if r["holiday"] is None else "expected null")
 expect_ok("elevation", lambda: parse.elevation(35.2271, -80.8431), lambda r: None if isinstance(r["elevation"], (int, float)) else "no elevation")
 expect_ok("point", lambda: parse.point(36.0726, -79.792), lambda r: None if r["country"] == "US" else f"country {r['country']}")
-expect_ok("weather", lambda: parse.weather(40.7128, -74.006), lambda r: None if r.get("station") else "no station")
+expect_ok("weather", lambda: parse.weather(40.7128, -74.006), lambda r: None if (r.get("station") or {}).get("id") else "no station")
 expect_ok("emoji", lambda: parse.emoji("rocket"), lambda r: None if r["emoji"] == "\U0001F680" else "wrong emoji")
 expect_ok("emoji.search", lambda: parse.emoji.search("fire", limit=5), lambda r: None if r["emojis"] else "empty")
 expect_ok("point deep triad", lambda: parse.point(36.0726, -79.792, deep=True), lambda r: None if isinstance(r.get("deep"), dict) else "deep missing")
