@@ -73,6 +73,10 @@ expect_ok(
 )
 expect_ok("email", lambda: parse.email("hello@gmail.com"), lambda r: None if r["valid"] is True else "not valid")
 expect_ok("phone", lambda: parse.phone("+14155552671"), lambda r: None if r["phone"] == "+14155552671" else "wrong phone")
+# Metered core siblings: junk numbers answer 200 valid false, free, no vendor dip.
+expect_ok("carrier junk free", lambda: parse.carrier("555-0100"), lambda r: None if r["valid"] is False else "expected invalid")
+expect_ok("caller junk free", lambda: parse.caller("555-0100"), lambda r: None if r["valid"] is False else "expected invalid")
+expect_ok("hlr junk free", lambda: parse.hlr("555-0100"), lambda r: None if r["valid"] is False else "expected invalid")
 expect_ok("domain", lambda: parse.domain("gmail.com"), lambda r: None if r["available"] is False else "gmail available?")
 expect_ok("mx", lambda: parse.mx("gmail.com"), lambda r: None if r["mx"] else "no mx")
 expect_ok("useragent", lambda: parse.useragent(UA), lambda r: None if r["browser"] == "Chrome" else f"browser {r['browser']}")

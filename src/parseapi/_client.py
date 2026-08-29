@@ -154,6 +154,15 @@ class ParseAPI:
     def phone(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         return self._get(f"/phone/{_seg(number)}", {"country": country, "deep": deep})
 
+    def carrier(self, number: str, *, country: Optional[str] = None) -> Json:
+        return self._get(f"/carrier/{_seg(number)}", {"country": country})
+
+    def caller(self, number: str, *, country: Optional[str] = None) -> Json:
+        return self._get(f"/caller/{_seg(number)}", {"country": country})
+
+    def hlr(self, number: str, *, country: Optional[str] = None) -> Json:
+        return self._get(f"/hlr/{_seg(number)}", {"country": country})
+
     def domain(self, domain: str, *, deep: bool = False) -> Json:
         return self._get(f"/domain/{_seg(domain)}", {"deep": deep})
 
@@ -373,6 +382,15 @@ class AsyncParseAPI:
 
     async def phone(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         return await self._get(f"/phone/{_seg(number)}", {"country": country, "deep": deep})
+
+    async def carrier(self, number: str, *, country: Optional[str] = None) -> Json:
+        return await self._get(f"/carrier/{_seg(number)}", {"country": country})
+
+    async def caller(self, number: str, *, country: Optional[str] = None) -> Json:
+        return await self._get(f"/caller/{_seg(number)}", {"country": country})
+
+    async def hlr(self, number: str, *, country: Optional[str] = None) -> Json:
+        return await self._get(f"/hlr/{_seg(number)}", {"country": country})
 
     async def domain(self, domain: str, *, deep: bool = False) -> Json:
         return await self._get(f"/domain/{_seg(domain)}", {"deep": deep})
