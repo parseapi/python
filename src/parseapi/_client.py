@@ -107,6 +107,7 @@ class ParseAPI:
         )
         self.ip = _IpSync(self)
         self.continent = _ContinentSync(self)
+        self.bloc = _BlocSync(self)
         self.country = _CountrySync(self)
         self.state = _StateSync(self)
         self.city = _CitySync(self)
@@ -211,6 +212,17 @@ class _ContinentSync:
 
     def countries(self, code: str) -> Json:
         return self._client._get(f"/continent/{_seg(code)}/countries")
+
+
+class _BlocSync:
+    def __init__(self, client: ParseAPI):
+        self._client = client
+
+    def __call__(self, code: str) -> Json:
+        return self._client._get(f"/bloc/{_seg(code)}")
+
+    def countries(self, code: str) -> Json:
+        return self._client._get(f"/bloc/{_seg(code)}/countries")
 
 
 class _CountrySync:
@@ -334,6 +346,7 @@ class AsyncParseAPI:
         )
         self.ip = _IpAsync(self)
         self.continent = _ContinentAsync(self)
+        self.bloc = _BlocAsync(self)
         self.country = _CountryAsync(self)
         self.state = _StateAsync(self)
         self.city = _CityAsync(self)
@@ -440,6 +453,17 @@ class _ContinentAsync:
 
     async def countries(self, code: str) -> Json:
         return await self._client._get(f"/continent/{_seg(code)}/countries")
+
+
+class _BlocAsync:
+    def __init__(self, client: AsyncParseAPI):
+        self._client = client
+
+    async def __call__(self, code: str) -> Json:
+        return await self._client._get(f"/bloc/{_seg(code)}")
+
+    async def countries(self, code: str) -> Json:
+        return await self._client._get(f"/bloc/{_seg(code)}/countries")
 
 
 class _CountryAsync:

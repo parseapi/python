@@ -28,6 +28,8 @@ URL_TABLE = [
     (lambda p: p.ip("8.8.8.8", deep=True), "https://api.parseapi.com/ip/8.8.8.8?deep=true"),
     (lambda p: p.continent("NA"), "https://api.parseapi.com/continent/NA"),
     (lambda p: p.continent.countries("NA"), "https://api.parseapi.com/continent/NA/countries"),
+    (lambda p: p.bloc("EU"), "https://api.parseapi.com/bloc/EU"),
+    (lambda p: p.bloc.countries("SCHENGEN"), "https://api.parseapi.com/bloc/SCHENGEN/countries"),
     (lambda p: p.country("US"), "https://api.parseapi.com/country/US"),
     (lambda p: p.country.states("US"), "https://api.parseapi.com/country/US/states"),
     (lambda p: p.state("NC", country="US"), "https://api.parseapi.com/state/NC?country=US"),
