@@ -146,8 +146,8 @@ class ParseAPI:
 
     # Plain methods (no subresources)
 
-    def district(self, code: str, *, country: Optional[str] = None) -> Json:
-        return self._get(f"/district/{_seg(code)}", {"country": country})
+    def district(self, code: str, *, country: Optional[str] = None, state: Optional[str] = None) -> Json:
+        return self._get(f"/district/{_seg(code)}", {"country": country, "state": state})
 
     def email(self, email: str, *, deep: bool = False) -> Json:
         return self._get(f"/email/{_seg(email)}", {"deep": deep})
@@ -240,10 +240,10 @@ class _StateSync:
     def __init__(self, client: ParseAPI):
         self._client = client
 
-    def __call__(self, code: str, *, country: str) -> Json:
+    def __call__(self, code: str, *, country: Optional[str] = None) -> Json:
         return self._client._get(f"/state/{_seg(code)}", {"country": country})
 
-    def districts(self, code: str, *, country: str) -> Json:
+    def districts(self, code: str, *, country: Optional[str] = None) -> Json:
         return self._client._get(f"/state/{_seg(code)}/districts", {"country": country})
 
 
@@ -270,25 +270,40 @@ class _CitySync:
     def nearest(self, lat: float, lon: float) -> Json:
         return self._client._get("/city", {"lat": lat, "lon": lon})
 
+    def nearby(
+        self,
+        name: str,
+        *,
+        radius: Optional[float] = None,
+        unit: Optional[str] = None,
+        country: Optional[str] = None,
+        state: Optional[str] = None,
+        limit: Optional[int] = None,
+    ) -> Json:
+        return self._client._get(
+            f"/city/{_seg(name)}/nearby",
+            {"radius": radius, "unit": unit, "country": country, "state": state, "limit": limit},
+        )
+
 
 class _PostalSync:
     def __init__(self, client: ParseAPI):
         self._client = client
 
-    def __call__(self, code: str, *, country: str) -> Json:
+    def __call__(self, code: str, *, country: Optional[str] = None) -> Json:
         return self._client._get(f"/postal/{_seg(code)}", {"country": country})
 
     def nearby(
         self,
         code: str,
         *,
-        country: str,
+        country: Optional[str] = None,
         radius: Optional[float] = None,
         unit: Optional[str] = None,
     ) -> Json:
         return self._client._get(f"/postal/{_seg(code)}/nearby", {"country": country, "radius": radius, "unit": unit})
 
-    def distance(self, from_postal: str, to_postal: str, *, country: str) -> Json:
+    def distance(self, from_postal: str, to_postal: str, *, country: Optional[str] = None) -> Json:
         return self._client._get(f"/postal/{_seg(from_postal)}/distance/{_seg(to_postal)}", {"country": country})
 
 
@@ -387,8 +402,8 @@ class AsyncParseAPI:
                 continue
             raise _error_from(response)
 
-    async def district(self, code: str, *, country: Optional[str] = None) -> Json:
-        return await self._get(f"/district/{_seg(code)}", {"country": country})
+    async def district(self, code: str, *, country: Optional[str] = None, state: Optional[str] = None) -> Json:
+        return await self._get(f"/district/{_seg(code)}", {"country": country, "state": state})
 
     async def email(self, email: str, *, deep: bool = False) -> Json:
         return await self._get(f"/email/{_seg(email)}", {"deep": deep})
@@ -481,10 +496,10 @@ class _StateAsync:
     def __init__(self, client: AsyncParseAPI):
         self._client = client
 
-    async def __call__(self, code: str, *, country: str) -> Json:
+    async def __call__(self, code: str, *, country: Optional[str] = None) -> Json:
         return await self._client._get(f"/state/{_seg(code)}", {"country": country})
 
-    async def districts(self, code: str, *, country: str) -> Json:
+    async def districts(self, code: str, *, country: Optional[str] = None) -> Json:
         return await self._client._get(f"/state/{_seg(code)}/districts", {"country": country})
 
 
@@ -511,19 +526,34 @@ class _CityAsync:
     async def nearest(self, lat: float, lon: float) -> Json:
         return await self._client._get("/city", {"lat": lat, "lon": lon})
 
+    async def nearby(
+        self,
+        name: str,
+        *,
+        radius: Optional[float] = None,
+        unit: Optional[str] = None,
+        country: Optional[str] = None,
+        state: Optional[str] = None,
+        limit: Optional[int] = None,
+    ) -> Json:
+        return await self._client._get(
+            f"/city/{_seg(name)}/nearby",
+            {"radius": radius, "unit": unit, "country": country, "state": state, "limit": limit},
+        )
+
 
 class _PostalAsync:
     def __init__(self, client: AsyncParseAPI):
         self._client = client
 
-    async def __call__(self, code: str, *, country: str) -> Json:
+    async def __call__(self, code: str, *, country: Optional[str] = None) -> Json:
         return await self._client._get(f"/postal/{_seg(code)}", {"country": country})
 
     async def nearby(
         self,
         code: str,
         *,
-        country: str,
+        country: Optional[str] = None,
         radius: Optional[float] = None,
         unit: Optional[str] = None,
     ) -> Json:
@@ -531,7 +561,7 @@ class _PostalAsync:
             f"/postal/{_seg(code)}/nearby", {"country": country, "radius": radius, "unit": unit}
         )
 
-    async def distance(self, from_postal: str, to_postal: str, *, country: str) -> Json:
+    async def distance(self, from_postal: str, to_postal: str, *, country: Optional[str] = None) -> Json:
         return await self._client._get(f"/postal/{_seg(from_postal)}/distance/{_seg(to_postal)}", {"country": country})
 
 
