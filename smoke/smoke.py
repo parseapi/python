@@ -120,6 +120,16 @@ expect_ok(
     lambda r: None if r["name"] == "Billy O'Shall" and r["valid"] is True and r["gender"] == "male" else "wrong name",
 )
 expect_ok(
+    "sanctions",
+    lambda: parse.sanctions("AEROCARIBBEAN AIRLINES"),
+    lambda r: None if r["sanctioned"] is True and r["matches"][0]["list"] == "sdn" else "expected sdn match",
+)
+expect_ok(
+    "sanctions clean",
+    lambda: parse.sanctions("Jane Smith"),
+    lambda r: None if r["sanctioned"] is False and r["matches"] == [] else "expected no match",
+)
+expect_ok(
     "timezone",
     lambda: parse.timezone("America/New_York"),
     lambda r: None if r["offset_minutes"] in (-240, -300) else f"offset {r['offset_minutes']}",

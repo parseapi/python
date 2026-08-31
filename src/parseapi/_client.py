@@ -198,6 +198,9 @@ class ParseAPI:
     def name(self, name: str) -> Json:
         return self._get(f"/name/{_seg(name)}")
 
+    def sanctions(self, name: str) -> Json:
+        return self._get(f"/sanctions/{_seg(name)}")
+
     def elevation(self, lat: float, lon: float) -> Json:
         return self._get("/elevation", {"lat": lat, "lon": lon})
 
@@ -473,6 +476,9 @@ class AsyncParseAPI:
 
     async def name(self, name: str) -> Json:
         return await self._get(f"/name/{_seg(name)}")
+
+    async def sanctions(self, name: str) -> Json:
+        return await self._get(f"/sanctions/{_seg(name)}")
 
     async def elevation(self, lat: float, lon: float) -> Json:
         return await self._get("/elevation", {"lat": lat, "lon": lon})
