@@ -324,8 +324,12 @@ class _CurrencySync:
     def __call__(self, code: str) -> Json:
         return self._client._get(f"/currency/{_seg(code)}")
 
-    def rate(self, base: str, quote_currency: str) -> Json:
-        return self._client._get(f"/currency/{_seg(base)}/{_seg(quote_currency)}")
+    def rate(
+        self, base: str, quote_currency: str, *, date: Optional[str] = None, amount: Optional[float] = None
+    ) -> Json:
+        return self._client._get(
+            f"/currency/{_seg(base)}/{_seg(quote_currency)}", {"date": date, "amount": amount}
+        )
 
 
 class _HolidaySync:
@@ -592,8 +596,12 @@ class _CurrencyAsync:
     async def __call__(self, code: str) -> Json:
         return await self._client._get(f"/currency/{_seg(code)}")
 
-    async def rate(self, base: str, quote_currency: str) -> Json:
-        return await self._client._get(f"/currency/{_seg(base)}/{_seg(quote_currency)}")
+    async def rate(
+        self, base: str, quote_currency: str, *, date: Optional[str] = None, amount: Optional[float] = None
+    ) -> Json:
+        return await self._client._get(
+            f"/currency/{_seg(base)}/{_seg(quote_currency)}", {"date": date, "amount": amount}
+        )
 
 
 class _HolidayAsync:

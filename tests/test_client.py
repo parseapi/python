@@ -68,6 +68,10 @@ URL_TABLE = [
     (lambda p: p.useragent("TestUA/1.0"), "https://api.parseapi.com/useragent"),
     (lambda p: p.currency("USD"), "https://api.parseapi.com/currency/USD"),
     (lambda p: p.currency.rate("USD", "EUR"), "https://api.parseapi.com/currency/USD/EUR"),
+    (
+        lambda p: p.currency.rate("USD", "JPY", date="2026-08-28", amount=100),
+        "https://api.parseapi.com/currency/USD/JPY?date=2026-08-28&amount=100",
+    ),
     (lambda p: p.language("en"), "https://api.parseapi.com/language/en"),
     (lambda p: p.name("Smith, John"), "https://api.parseapi.com/name/Smith%2C%20John"),
     (lambda p: p.timezone("America/New_York"), "https://api.parseapi.com/timezone/America%2FNew_York"),
