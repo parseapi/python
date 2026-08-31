@@ -186,6 +186,9 @@ class ParseAPI:
     def useragent(self, ua: str, *, deep: bool = False) -> Json:
         return self._get("/useragent", {"deep": deep}, headers={"User-Agent": ua})
 
+    def vin(self, vin: str, *, deep: bool = False) -> Json:
+        return self._get(f"/vin/{_seg(vin)}", {"deep": deep})
+
     def timezone(self, id: str, *, at: Optional[str] = None) -> Json:
         return self._get(f"/timezone/{_seg(id)}", {"at": at})
 
@@ -458,6 +461,9 @@ class AsyncParseAPI:
 
     async def useragent(self, ua: str, *, deep: bool = False) -> Json:
         return await self._get("/useragent", {"deep": deep}, headers={"User-Agent": ua})
+
+    async def vin(self, vin: str, *, deep: bool = False) -> Json:
+        return await self._get(f"/vin/{_seg(vin)}", {"deep": deep})
 
     async def timezone(self, id: str, *, at: Optional[str] = None) -> Json:
         return await self._get(f"/timezone/{_seg(id)}", {"at": at})

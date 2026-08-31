@@ -59,6 +59,7 @@ parse.weather(40.7128, -74.006)
 parse.domain("example.com")
 parse.mx("example.com")
 parse.useragent(ua_string)
+parse.vin("1HGCM82633A004352")
 parse.emoji("rocket")
 parse.emoji.search("fire")
 ```

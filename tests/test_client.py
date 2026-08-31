@@ -74,6 +74,11 @@ URL_TABLE = [
     (lambda p: p.domain("example.com"), "https://api.parseapi.com/domain/example.com"),
     (lambda p: p.mx("example.com"), "https://api.parseapi.com/mx/example.com"),
     (lambda p: p.useragent("TestUA/1.0"), "https://api.parseapi.com/useragent"),
+    (lambda p: p.vin("1HGCM82633A004352"), "https://api.parseapi.com/vin/1HGCM82633A004352"),
+    (
+        lambda p: p.vin("1HGCM82633A004352", deep=True),
+        "https://api.parseapi.com/vin/1HGCM82633A004352?deep=true",
+    ),
     (lambda p: p.currency("USD"), "https://api.parseapi.com/currency/USD"),
     (lambda p: p.currency.rate("USD", "EUR"), "https://api.parseapi.com/currency/USD/EUR"),
     (
