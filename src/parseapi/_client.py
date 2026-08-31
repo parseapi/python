@@ -115,6 +115,7 @@ class ParseAPI:
         self.currency = _CurrencySync(self)
         self.holiday = _HolidaySync(self)
         self.emoji = _EmojiSync(self)
+        self.hts = _HtsSync(self)
 
     def close(self) -> None:
         self._http.close()
@@ -366,6 +367,17 @@ class _EmojiSync:
         return self._client._get("/emoji", {"q": q, "limit": limit})
 
 
+class _HtsSync:
+    def __init__(self, client: ParseAPI):
+        self._client = client
+
+    def __call__(self, code: str, *, deep: bool = False, origin: Optional[str] = None) -> Json:
+        return self._client._get(f"/hts/{_seg(code)}", {"deep": deep, "origin": origin})
+
+    def search(self, q: str) -> Json:
+        return self._client._get("/hts", {"q": q})
+
+
 class AsyncParseAPI:
     """Async client. `parse = AsyncParseAPI()` reads PARSEAPI_KEY from the env."""
 
@@ -395,6 +407,7 @@ class AsyncParseAPI:
         self.currency = _CurrencyAsync(self)
         self.holiday = _HolidayAsync(self)
         self.emoji = _EmojiAsync(self)
+        self.hts = _HtsAsync(self)
 
     async def close(self) -> None:
         await self._http.aclose()
@@ -648,3 +661,14 @@ class _EmojiAsync:
 
     async def search(self, q: str, *, limit: Optional[int] = None) -> Json:
         return await self._client._get("/emoji", {"q": q, "limit": limit})
+
+
+class _HtsAsync:
+    def __init__(self, client: AsyncParseAPI):
+        self._client = client
+
+    async def __call__(self, code: str, *, deep: bool = False, origin: Optional[str] = None) -> Json:
+        return await self._client._get(f"/hts/{_seg(code)}", {"deep": deep, "origin": origin})
+
+    async def search(self, q: str) -> Json:
+        return await self._client._get("/hts", {"q": q})
