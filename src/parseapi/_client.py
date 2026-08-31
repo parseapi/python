@@ -165,6 +165,9 @@ class ParseAPI:
     def iban(self, iban: str, *, country: Optional[str] = None) -> Json:
         return self._get(f"/iban/{_seg(iban)}", {"country": country})
 
+    def npi(self, npi: str) -> Json:
+        return self._get(f"/npi/{_seg(npi)}")
+
     def phone(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         return self._get(f"/phone/{_seg(number)}", {"country": country, "deep": deep})
 
@@ -443,6 +446,9 @@ class AsyncParseAPI:
 
     async def iban(self, iban: str, *, country: Optional[str] = None) -> Json:
         return await self._get(f"/iban/{_seg(iban)}", {"country": country})
+
+    async def npi(self, npi: str) -> Json:
+        return await self._get(f"/npi/{_seg(npi)}")
 
     async def phone(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         return await self._get(f"/phone/{_seg(number)}", {"country": country, "deep": deep})
