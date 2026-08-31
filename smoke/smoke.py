@@ -82,6 +82,11 @@ expect_ok(
     lambda r: None if 800 < r["distance"] < 1000 else f"distance {r['distance']}",
 )
 expect_ok("email", lambda: parse.email("hello@gmail.com"), lambda r: None if r["valid"] is True else "not valid")
+expect_ok(
+    "vat",
+    lambda: parse.vat("DE136695976"),
+    lambda r: None if r.get("valid") is True and r.get("country") == "DE" else "not valid DE",
+)
 expect_ok("phone", lambda: parse.phone("+14155552671"), lambda r: None if r["phone"] == "+14155552671" else "wrong phone")
 # Metered core siblings: junk numbers answer 200 valid false, free, no vendor dip.
 expect_ok("carrier junk free", lambda: parse.carrier("555-0100"), lambda r: None if r["valid"] is False else "expected invalid")

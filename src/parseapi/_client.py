@@ -152,6 +152,16 @@ class ParseAPI:
     def email(self, email: str, *, deep: bool = False) -> Json:
         return self._get(f"/email/{_seg(email)}", {"deep": deep})
 
+    def vat(
+        self,
+        number: str,
+        *,
+        country: Optional[str] = None,
+        deep: bool = False,
+        from_vat: Optional[str] = None,
+    ) -> Json:
+        return self._get(f"/vat/{_seg(number)}", {"country": country, "deep": deep, "from": from_vat})
+
     def phone(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         return self._get(f"/phone/{_seg(number)}", {"country": country, "deep": deep})
 
@@ -407,6 +417,16 @@ class AsyncParseAPI:
 
     async def email(self, email: str, *, deep: bool = False) -> Json:
         return await self._get(f"/email/{_seg(email)}", {"deep": deep})
+
+    async def vat(
+        self,
+        number: str,
+        *,
+        country: Optional[str] = None,
+        deep: bool = False,
+        from_vat: Optional[str] = None,
+    ) -> Json:
+        return await self._get(f"/vat/{_seg(number)}", {"country": country, "deep": deep, "from": from_vat})
 
     async def phone(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         return await self._get(f"/phone/{_seg(number)}", {"country": country, "deep": deep})

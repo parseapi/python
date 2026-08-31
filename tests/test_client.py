@@ -55,6 +55,10 @@ URL_TABLE = [
         "https://api.parseapi.com/postal/28202/distance/10001?country=US",
     ),
     (lambda p: p.email("a@b.com"), "https://api.parseapi.com/email/a%40b.com"),
+    (
+        lambda p: p.vat("DE136695976", from_vat="IE6388047V", deep=True),
+        "https://api.parseapi.com/vat/DE136695976?deep=true&from=IE6388047V",
+    ),
     (lambda p: p.phone("+14155552671", deep=True), "https://api.parseapi.com/phone/%2B14155552671?deep=true"),
     (lambda p: p.carrier("+14155552671"), "https://api.parseapi.com/carrier/%2B14155552671"),
     (lambda p: p.caller("4155552671", country="US"), "https://api.parseapi.com/caller/4155552671?country=US"),

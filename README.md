@@ -23,6 +23,7 @@ One method per endpoint, named after the route.
 parse.ip("8.8.8.8")
 parse.ip.self()
 parse.email("hello@gmail.com")
+parse.vat("DE136695976")
 parse.phone("+14155552671")
 parse.carrier("+14155552671")
 parse.caller("+14155552671")
