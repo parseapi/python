@@ -162,6 +162,9 @@ class ParseAPI:
     ) -> Json:
         return self._get(f"/vat/{_seg(number)}", {"country": country, "deep": deep, "from": from_vat})
 
+    def iban(self, iban: str, *, country: Optional[str] = None) -> Json:
+        return self._get(f"/iban/{_seg(iban)}", {"country": country})
+
     def phone(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         return self._get(f"/phone/{_seg(number)}", {"country": country, "deep": deep})
 
@@ -431,6 +434,9 @@ class AsyncParseAPI:
         from_vat: Optional[str] = None,
     ) -> Json:
         return await self._get(f"/vat/{_seg(number)}", {"country": country, "deep": deep, "from": from_vat})
+
+    async def iban(self, iban: str, *, country: Optional[str] = None) -> Json:
+        return await self._get(f"/iban/{_seg(iban)}", {"country": country})
 
     async def phone(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         return await self._get(f"/phone/{_seg(number)}", {"country": country, "deep": deep})

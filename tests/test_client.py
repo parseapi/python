@@ -59,6 +59,14 @@ URL_TABLE = [
         lambda p: p.vat("DE136695976", from_vat="IE6388047V", deep=True),
         "https://api.parseapi.com/vat/DE136695976?deep=true&from=IE6388047V",
     ),
+    (
+        lambda p: p.iban("DE89370400440532013000"),
+        "https://api.parseapi.com/iban/DE89370400440532013000",
+    ),
+    (
+        lambda p: p.iban("89370400440532013000", country="DE"),
+        "https://api.parseapi.com/iban/89370400440532013000?country=DE",
+    ),
     (lambda p: p.phone("+14155552671", deep=True), "https://api.parseapi.com/phone/%2B14155552671?deep=true"),
     (lambda p: p.carrier("+14155552671"), "https://api.parseapi.com/carrier/%2B14155552671"),
     (lambda p: p.caller("4155552671", country="US"), "https://api.parseapi.com/caller/4155552671?country=US"),

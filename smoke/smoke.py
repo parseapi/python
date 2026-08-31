@@ -87,6 +87,12 @@ expect_ok(
     lambda: parse.vat("DE136695976"),
     lambda r: None if r.get("valid") is True and r.get("country") == "DE" else "not valid DE",
 )
+expect_ok(
+    "iban",
+    lambda: parse.iban("DE89370400440532013000"),
+    lambda r: None if r.get("valid") is True and r.get("country") == "DE" and r.get("bank") == "37040044" else "not valid DE",
+)
+expect_ok("iban junk", lambda: parse.iban("hello"), lambda r: None if r.get("valid") is False else "expected invalid")
 expect_ok("phone", lambda: parse.phone("+14155552671"), lambda r: None if r["phone"] == "+14155552671" else "wrong phone")
 # Metered core siblings: junk numbers answer 200 valid false, free, no vendor dip.
 expect_ok("carrier junk free", lambda: parse.carrier("555-0100"), lambda r: None if r["valid"] is False else "expected invalid")
