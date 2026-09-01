@@ -68,6 +68,7 @@ URL_TABLE = [
         "https://api.parseapi.com/iban/89370400440532013000?country=DE",
     ),
     (lambda p: p.npi("1881018208"), "https://api.parseapi.com/npi/1881018208"),
+    (lambda p: p.npi("1881018208", deep=True), "https://api.parseapi.com/npi/1881018208?deep=true"),
     (lambda p: p.phone("+14155552671", deep=True), "https://api.parseapi.com/phone/%2B14155552671?deep=true"),
     (lambda p: p.carrier("+14155552671"), "https://api.parseapi.com/carrier/%2B14155552671"),
     (lambda p: p.caller("4155552671", country="US"), "https://api.parseapi.com/caller/4155552671?country=US"),
