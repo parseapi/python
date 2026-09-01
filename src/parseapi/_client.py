@@ -8,7 +8,7 @@ from urllib.parse import quote
 
 import httpx
 
-VERSION = "0.1.0"
+VERSION = "0.2.0"
 DEFAULT_BASE_URL = "https://api.parseapi.com"
 DEFAULT_TIMEOUT = 10.0
 DEFAULT_RETRIES = 2
