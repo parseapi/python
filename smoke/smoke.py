@@ -126,13 +126,13 @@ expect_ok(
     lambda r: None if r["name"] == "Billy O'Shall" and r["valid"] is True and r["gender"] == "male" else "wrong name",
 )
 expect_ok(
-    "sanctions",
-    lambda: parse.sanctions("AEROCARIBBEAN AIRLINES"),
+    "ofac",
+    lambda: parse.ofac("AEROCARIBBEAN AIRLINES"),
     lambda r: None if r["sanctioned"] is True and r["matches"][0]["list"] == "sdn" else "expected sdn match",
 )
 expect_ok(
-    "sanctions clean",
-    lambda: parse.sanctions("Jane Smith"),
+    "ofac clean",
+    lambda: parse.ofac("Jane Smith"),
     lambda r: None if r["sanctioned"] is False and r["matches"] == [] else "expected no match",
 )
 expect_ok(
