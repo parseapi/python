@@ -88,10 +88,6 @@ URL_TABLE = [
     ),
     (lambda p: p.language("en"), "https://api.parseapi.com/language/en"),
     (lambda p: p.name("Smith, John"), "https://api.parseapi.com/name/Smith%2C%20John"),
-    (
-        lambda p: p.ofac("AEROCARIBBEAN AIRLINES"),
-        "https://api.parseapi.com/ofac/AEROCARIBBEAN%20AIRLINES",
-    ),
     (lambda p: p.timezone("America/New_York"), "https://api.parseapi.com/timezone/America%2FNew_York"),
     (lambda p: p.holiday("US", year=1955), "https://api.parseapi.com/holiday/US?year=1955"),
     (lambda p: p.holiday.date("US", "2026-12-25"), "https://api.parseapi.com/holiday/US/2026-12-25"),
