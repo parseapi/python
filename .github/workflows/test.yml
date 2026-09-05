@@ -1,0 +1,21 @@
+name: SDK checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.9', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install -e . pytest build
+      - run: python -m pytest -q
+      - run: python scripts/public_api.py
+      - run: python -m build
+      - name: Verify wheel typing marker
+        run: python -c "import glob,zipfile; z=zipfile.ZipFile(glob.glob('dist/*.whl')[0]); assert 'parseapi/py.typed' in z.namelist()"

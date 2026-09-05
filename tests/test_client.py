@@ -23,6 +23,20 @@ def ok(body=None):
 
 
 URL_TABLE = [
+    (lambda p: p.address("10 rue / Paris", country="FR"),
+     "https://api.parseapi.com/address/10%20rue%20%2F%20Paris?country=FR"),
+    (lambda p: p.address.search("10 rue", country="FR", postal="75001"),
+     "https://api.parseapi.com/address?q=10+rue&country=FR&postal=75001"),
+    (lambda p: p.company("51 824 753 556"), "https://api.parseapi.com/company/51%20824%20753%20556"),
+    (lambda p: p.date("03/04/2026", format="dmy", to="2026-04-05"),
+     "https://api.parseapi.com/date/03%2F04%2F2026?format=dmy&to=2026-04-05"),
+    (lambda p: p.date.today(to="2026-12-25"), "https://api.parseapi.com/date?to=2026-12-25"),
+    (lambda p: p.timezone.at(0, -0.5, at="2026-09-05T00:00:00Z"),
+     "https://api.parseapi.com/timezone?lat=0&lon=-0.5&at=2026-09-05T00%3A00%3A00Z"),
+    (lambda p: p.timezone("America/New_York", at="2026-09-05T15:00:00", to="Europe/London"),
+     "https://api.parseapi.com/timezone/America%2FNew_York?at=2026-09-05T15%3A00%3A00&to=Europe%2FLondon"),
+    (lambda p: p.weather(0, 0, deep=True, date="2026-08-28"),
+     "https://api.parseapi.com/weather?lat=0&lon=0&deep=true&date=2026-08-28"),
     (lambda p: p.ip("8.8.8.8"), "https://api.parseapi.com/ip/8.8.8.8"),
     (lambda p: p.ip.self(), "https://api.parseapi.com/ip"),
     (lambda p: p.ip("8.8.8.8", deep=True), "https://api.parseapi.com/ip/8.8.8.8?deep=true"),
@@ -74,6 +88,9 @@ URL_TABLE = [
     (lambda p: p.caller("4155552671", country="US"), "https://api.parseapi.com/caller/4155552671?country=US"),
     (lambda p: p.hlr("+447712345678"), "https://api.parseapi.com/hlr/%2B447712345678"),
     (lambda p: p.domain("example.com"), "https://api.parseapi.com/domain/example.com"),
+    (lambda p: p.asn("AS13335"), "https://api.parseapi.com/asn/AS13335"),
+    (lambda p: p.asn("13335"), "https://api.parseapi.com/asn/13335"),
+    (lambda p: p.mac("00:1B:63:84:45:E6"), "https://api.parseapi.com/mac/00%3A1B%3A63%3A84%3A45%3AE6"),
     (lambda p: p.mx("example.com"), "https://api.parseapi.com/mx/example.com"),
     (lambda p: p.useragent("TestUA/1.0"), "https://api.parseapi.com/useragent"),
     (lambda p: p.vin("1HGCM82633A004352"), "https://api.parseapi.com/vin/1HGCM82633A004352"),
@@ -234,4 +251,121 @@ def test_async_client():
         assert str(calls[1].url) == "https://api.parseapi.com/ip?deep=true"
         await client.close()
 
+    asyncio.run(run())
+
+
+@pytest.mark.parametrize("invoke,expected", URL_TABLE)
+def test_async_url_mapping_matches_sync(invoke, expected):
+    async def run():
+        calls = []
+        def record(request):
+            calls.append(request)
+            return httpx.Response(200, json={"future_field": {"value": None}})
+        async with AsyncParseAPI("test_key", transport=httpx.MockTransport(record), retries=0) as client:
+            result = await invoke(client)
+        assert len(calls) == 1
+        assert str(calls[0].url) == expected
+        assert result == {"future_field": {"value": None}}
+    asyncio.run(run())
+
+
+@pytest.mark.parametrize("client_type", [ParseAPI, AsyncParseAPI])
+@pytest.mark.parametrize("options", [
+    {"retries": -1}, {"retries": 1.5}, {"retries": float("inf")},
+    {"timeout": 0}, {"timeout": -1}, {"timeout": True}, {"timeout": float("nan")}, {"timeout": float("inf")},
+])
+def test_invalid_config_fails_at_construction(client_type, options):
+    with pytest.raises(ValueError):
+        client_type("test_key", **options)
+
+
+def test_retry_after_http_date(monkeypatch):
+    from parseapi import _client
+    monkeypatch.setattr(_client.time, "time", lambda: 1788566400.0)
+    assert _client._retry_delay(0, "Sat, 05 Sep 2026 00:00:02 GMT") == 2.0
+    assert _client._retry_delay(0, "Sat, 05 Sep 2026 00:01:00 GMT") == 5.0
+    assert _client._retry_delay(0, "Fri, 04 Sep 2026 00:00:00 GMT") == 0.0
+
+
+def test_redirect_is_an_error_not_a_second_request():
+    client, calls = make_client(lambda request: httpx.Response(302, headers={"Location": "https://example.com/other"}))
+    with client:
+        with pytest.raises(ParseAPIError) as error:
+            client.country("US")
+    assert error.value.status == 302
+    assert len(calls) == 1
+
+
+def test_async_redirect_is_an_error_not_a_second_request():
+    async def run():
+        calls = []
+        def redirect(request):
+            calls.append(request)
+            return httpx.Response(302, headers={"Location": "https://example.com/other"})
+        async with AsyncParseAPI("test_key", transport=httpx.MockTransport(redirect)) as client:
+            with pytest.raises(ParseAPIError) as error:
+                await client.country("US")
+        assert error.value.status == 302
+        assert len(calls) == 1
+    asyncio.run(run())
+
+
+@pytest.mark.parametrize("async_mode", [False, True])
+@pytest.mark.parametrize("invoke", [
+    lambda p: p.carrier("555-0100"), lambda p: p.caller("555-0100"), lambda p: p.hlr("555-0100"),
+    lambda p: p.email("a@example.com", deep=True), lambda p: p.vat("junk", deep=True),
+])
+def test_paid_checks_default_to_one_attempt(async_mode, invoke):
+    calls = []
+    def fail(request):
+        calls.append(request)
+        return httpx.Response(503, json={"code": "unavailable"}, headers={"Retry-After": "0"})
+    if async_mode:
+        async def run():
+            async with AsyncParseAPI("test_key", transport=httpx.MockTransport(fail)) as client:
+                with pytest.raises(ParseAPIError):
+                    await invoke(client)
+        asyncio.run(run())
+    else:
+        with ParseAPI("test_key", transport=httpx.MockTransport(fail)) as client:
+            with pytest.raises(ParseAPIError):
+                invoke(client)
+    assert len(calls) == 1
+
+
+@pytest.mark.parametrize("async_mode", [False, True])
+@pytest.mark.parametrize("explicit,deep,expected", [(None, False, 3), (None, True, 1), (1, True, 2), (0, False, 1)])
+def test_retry_policy_overrides(async_mode, explicit, deep, expected):
+    calls = []
+    def fail(request):
+        calls.append(request)
+        return httpx.Response(503, json={"code": "unavailable"}, headers={"Retry-After": "0"})
+    if async_mode:
+        async def run():
+            async with AsyncParseAPI("test_key", retries=explicit, transport=httpx.MockTransport(fail)) as client:
+                with pytest.raises(ParseAPIError):
+                    await client.email("a@example.com", deep=deep)
+        asyncio.run(run())
+    else:
+        with ParseAPI("test_key", retries=explicit, transport=httpx.MockTransport(fail)) as client:
+            with pytest.raises(ParseAPIError):
+                client.email("a@example.com", deep=deep)
+    assert len(calls) == expected
+
+
+def test_async_cancellation_does_not_retry():
+    async def run():
+        calls = []
+        started = asyncio.Event()
+        async def transport(request):
+            calls.append(request)
+            started.set()
+            await asyncio.Event().wait()
+        async with AsyncParseAPI("test_key", transport=httpx.MockTransport(transport)) as client:
+            task = asyncio.create_task(client.country("US"))
+            await started.wait()
+            task.cancel()
+            with pytest.raises(asyncio.CancelledError):
+                await task
+        assert len(calls) == 1
     asyncio.run(run())

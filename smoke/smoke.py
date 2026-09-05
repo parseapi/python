@@ -81,6 +81,9 @@ expect_ok(
     lambda: parse.postal.distance("28202", "10001", country="US"),
     lambda r: None if 800 < r["distance"] < 1000 else f"distance {r['distance']}",
 )
+expect_ok("address junk", lambda: parse.address("junk"), lambda r: None if r["valid"] is False else "expected invalid")
+expect_ok("address.search", lambda: parse.address.search("1600 Pennsylvania", country="US", postal="20500"), lambda r: None if isinstance(r.get("addresses"), list) else "missing addresses")
+expect_ok("company junk", lambda: parse.company("junk"), lambda r: None if r["valid"] is False else "expected invalid")
 expect_ok("email", lambda: parse.email("hello@gmail.com"), lambda r: None if r["valid"] is True else "not valid")
 expect_ok(
     "vat",
@@ -105,6 +108,8 @@ expect_ok("carrier junk free", lambda: parse.carrier("555-0100"), lambda r: None
 expect_ok("caller junk free", lambda: parse.caller("555-0100"), lambda r: None if r["valid"] is False else "expected invalid")
 expect_ok("hlr junk free", lambda: parse.hlr("555-0100"), lambda r: None if r["valid"] is False else "expected invalid")
 expect_ok("domain", lambda: parse.domain("gmail.com"), lambda r: None if r["available"] is False else "gmail available?")
+expect_ok("asn", lambda: parse.asn("AS13335"), lambda r: None if r["asn"] == 13335 else "wrong ASN")
+expect_ok("mac", lambda: parse.mac("00:1B:63:84:45:E6"), lambda r: None if r["valid"] and r["mac"] == "00:1B:63:84:45:E6" and r["local"] is False and r["multicast"] is False else "wrong MAC")
 expect_ok("mx", lambda: parse.mx("gmail.com"), lambda r: None if r["mx"] else "no mx")
 expect_ok("useragent", lambda: parse.useragent(UA), lambda r: None if r["browser"] == "Chrome" else f"browser {r['browser']}")
 expect_ok(
@@ -130,6 +135,11 @@ expect_ok(
     lambda: parse.timezone("America/New_York"),
     lambda r: None if r["offset_minutes"] in (-240, -300) else f"offset {r['offset_minutes']}",
 )
+expect_ok("timezone.at", lambda: parse.timezone.at(39.77, -104.9), lambda r: None if r["timezone"] == "America/Denver" else "wrong timezone")
+expect_ok("date", lambda: parse.date("03/04/2026", format="mdy"), lambda r: None if r["date"] == "2026-03-04" else "wrong date")
+expect_ok("date.today", lambda: parse.date.today(), lambda r: None if r["valid"] is True else "invalid today")
+expect_ok("tariff", lambda: parse.tariff("8471.30.01.00"), lambda r: None if r.get("hts") else "missing hts")
+expect_ok("tariff.search", lambda: parse.tariff.search("sunglasses"), lambda r: None if isinstance(r.get("lines"), list) else "missing lines")
 expect_ok("holiday", lambda: parse.holiday("US"), lambda r: None if len(r["holidays"]) > 5 else "too few")
 expect_ok(
     "holiday.date",

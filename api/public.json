@@ -1,0 +1,2050 @@
+{
+  "AsyncParseAPI": {
+    "address": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "address",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "address.search": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "query",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "postal",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "city",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "state",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "ip",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "asn": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "asn",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "bloc": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "bloc.countries": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "caller": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "number",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "carrier": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "number",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "name",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "state",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city.id": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "id",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city.nearby": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "name",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "radius",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "unit",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "state",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city.nearest": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lat",
+          "type": "float"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lon",
+          "type": "float"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city.search": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "query",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "state",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "close": {
+      "async": true,
+      "parameters": [],
+      "returns": "None"
+    },
+    "company": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "number",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "constructor": {
+      "async": false,
+      "parameters": [
+        {
+          "default": null,
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "api_key",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "base_url",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "timeout",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "retries",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "transport",
+          "type": "Optional[httpx.AsyncBaseTransport]"
+        }
+      ]
+    },
+    "continent": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "continent.countries": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "country": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "country.states": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "currency": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "currency.rate": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "base",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "quote_currency",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "date",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "amount",
+          "type": "Optional[float]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "date": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "date",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "format",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "to",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "date.today": {
+      "async": true,
+      "parameters": [
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "to",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "district": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "state",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "domain": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "domain",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "elevation": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lat",
+          "type": "float"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lon",
+          "type": "float"
+        }
+      ],
+      "returns": "Json"
+    },
+    "email": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "email",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "emoji": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "emoji",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "emoji.search": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "query",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "hlr": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "number",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "holiday": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "country",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "year",
+          "type": "Optional[int]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "holiday.date": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "country",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "date",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "iban": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "iban",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "ip": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "ip",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "ip.self": {
+      "async": true,
+      "parameters": [
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "language": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "mac": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "mac",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "mx": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "domain",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "name": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "name",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "npi": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "npi",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "phone": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "number",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "point": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lat",
+          "type": "float"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lon",
+          "type": "float"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "postal": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "postal.distance": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "from_postal",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "to_postal",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "postal.nearby": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "radius",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "unit",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "state": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "state.districts": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "tariff": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "origin",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "tariff.search": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "query",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "timezone": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "id",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "at",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "to",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "timezone.at": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lat",
+          "type": "float"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lon",
+          "type": "float"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "at",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "useragent": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "ua",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "vat": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "number",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "from_vat",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "vin": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "vin",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "weather": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lat",
+          "type": "float"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lon",
+          "type": "float"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "date",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    }
+  },
+  "ParseAPI": {
+    "address": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "address",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "address.search": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "query",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "postal",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "city",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "state",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "ip",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "asn": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "asn",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "bloc": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "bloc.countries": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "caller": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "number",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "carrier": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "number",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "name",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "state",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city.id": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "id",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city.nearby": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "name",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "radius",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "unit",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "state",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city.nearest": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lat",
+          "type": "float"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lon",
+          "type": "float"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city.search": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "query",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "state",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "close": {
+      "async": false,
+      "parameters": [],
+      "returns": "None"
+    },
+    "company": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "number",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "constructor": {
+      "async": false,
+      "parameters": [
+        {
+          "default": null,
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "api_key",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "base_url",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "timeout",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "retries",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "transport",
+          "type": "Optional[httpx.BaseTransport]"
+        }
+      ]
+    },
+    "continent": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "continent.countries": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "country": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "country.states": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "currency": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "currency.rate": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "base",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "quote_currency",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "date",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "amount",
+          "type": "Optional[float]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "date": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "date",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "format",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "to",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "date.today": {
+      "async": false,
+      "parameters": [
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "to",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "district": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "state",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "domain": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "domain",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "elevation": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lat",
+          "type": "float"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lon",
+          "type": "float"
+        }
+      ],
+      "returns": "Json"
+    },
+    "email": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "email",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "emoji": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "emoji",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "emoji.search": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "query",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "hlr": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "number",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "holiday": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "country",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "year",
+          "type": "Optional[int]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "holiday.date": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "country",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "date",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "iban": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "iban",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "ip": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "ip",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "ip.self": {
+      "async": false,
+      "parameters": [
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "language": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "mac": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "mac",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "mx": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "domain",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "name": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "name",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "npi": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "npi",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "phone": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "number",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "point": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lat",
+          "type": "float"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lon",
+          "type": "float"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "postal": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "postal.distance": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "from_postal",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "to_postal",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "postal.nearby": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "radius",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "unit",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "state": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "state.districts": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "tariff": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "origin",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "tariff.search": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "query",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "timezone": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "id",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "at",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "to",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "timezone.at": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lat",
+          "type": "float"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lon",
+          "type": "float"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "at",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "useragent": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "ua",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "vat": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "number",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "from_vat",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "vin": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "vin",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "weather": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lat",
+          "type": "float"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lon",
+          "type": "float"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "date",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    }
+  },
+  "ParseAPIError": {
+    "async": false,
+    "parameters": [
+      {
+        "kind": "POSITIONAL_OR_KEYWORD",
+        "name": "status",
+        "type": "int"
+      },
+      {
+        "kind": "POSITIONAL_OR_KEYWORD",
+        "name": "code",
+        "type": "str"
+      },
+      {
+        "kind": "POSITIONAL_OR_KEYWORD",
+        "name": "message",
+        "type": "str"
+      },
+      {
+        "kind": "POSITIONAL_OR_KEYWORD",
+        "name": "docs",
+        "type": "Optional[str]"
+      },
+      {
+        "kind": "POSITIONAL_OR_KEYWORD",
+        "name": "request_id",
+        "type": "Optional[str]"
+      }
+    ]
+  }
+}

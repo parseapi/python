@@ -1,14 +1,16 @@
 from __future__ import annotations
 
 import os
+import math
 import random
 import time
+from email.utils import parsedate_to_datetime
 from typing import Any, Dict, Optional
 from urllib.parse import quote
 
 import httpx
 
-VERSION = "0.2.1"
+VERSION = "0.3.0"
 DEFAULT_BASE_URL = "https://api.parseapi.com"
 DEFAULT_TIMEOUT = 10.0
 DEFAULT_RETRIES = 2
@@ -37,10 +39,15 @@ def _retry_delay(attempt: int, retry_after: Optional[str]) -> float:
     if retry_after:
         try:
             seconds = float(retry_after)
-            if seconds >= 0:
+            if math.isfinite(seconds) and seconds >= 0:
                 return min(seconds, RETRY_AFTER_CAP)
         except ValueError:
-            pass
+            try:
+                parsed = parsedate_to_datetime(retry_after)
+                if parsed.tzinfo is not None:
+                    return min(max(parsed.timestamp() - time.time(), 0), RETRY_AFTER_CAP)
+            except (ValueError, TypeError, OverflowError):
+                pass
     return random.random() * 0.25 * (2**attempt)
 
 
@@ -66,6 +73,13 @@ def _clean(params: Dict[str, Any]) -> Dict[str, Any]:
     return {name: value for name, value in params.items() if value is not None and value is not False}
 
 
+def _default_retries(path: str, params: Optional[Dict[str, Any]]) -> int:
+    product = path.split("/")[1]
+    metered = product in {"carrier", "caller", "hlr", "litigator", "reassigned"}
+    metered = metered or (product in {"email", "vat", "address"} and (params or {}).get("deep") is True)
+    return 0 if metered else DEFAULT_RETRIES
+
+
 class _Config:
     def __init__(
         self,
@@ -80,7 +94,11 @@ class _Config:
         self.api_key = key
         self.base_url = (base_url or os.environ.get("PARSEAPI_BASE_URL") or DEFAULT_BASE_URL).rstrip("/")
         self.timeout = DEFAULT_TIMEOUT if timeout is None else timeout
-        self.retries = DEFAULT_RETRIES if retries is None else retries
+        self.retries = retries
+        if type(self.timeout) not in (int, float) or not math.isfinite(self.timeout) or self.timeout <= 0:
+            raise ValueError("parseapi: timeout must be a finite positive number.")
+        if self.retries is not None and (type(self.retries) is not int or self.retries < 0):
+            raise ValueError("parseapi: retries must be a non-negative integer.")
 
     def headers(self) -> Dict[str, str]:
         return {"X-API-Key": self.api_key, "User-Agent": f"parseapi-python/{VERSION}"}
@@ -116,6 +134,9 @@ class ParseAPI:
         self.holiday = _HolidaySync(self)
         self.emoji = _EmojiSync(self)
         self.tariff = _TariffSync(self)
+        self.date = _DateSync(self)
+        self.timezone = _TimezoneSync(self)
+        self.address = _AddressSync(self)
 
     def close(self) -> None:
         self._http.close()
@@ -127,19 +148,20 @@ class ParseAPI:
         self.close()
 
     def _get(self, path: str, params: Optional[Dict[str, Any]] = None, headers: Optional[Dict[str, str]] = None) -> Json:
+        retries = self._config.retries if self._config.retries is not None else _default_retries(path, params)
         attempt = 0
         while True:
             try:
                 response = self._http.get(path, params=_clean(params or {}), headers=headers)
             except httpx.HTTPError:
-                if attempt < self._config.retries:
+                if attempt < retries:
                     time.sleep(_retry_delay(attempt, None))
                     attempt += 1
                     continue
                 raise
             if response.is_success:
                 return response.json()
-            if response.status_code in RETRY_STATUS and attempt < self._config.retries:
+            if response.status_code in RETRY_STATUS and attempt < retries:
                 time.sleep(_retry_delay(attempt, response.headers.get("Retry-After")))
                 attempt += 1
                 continue
@@ -184,6 +206,12 @@ class ParseAPI:
     def domain(self, domain: str, *, deep: bool = False) -> Json:
         return self._get(f"/domain/{_seg(domain)}", {"deep": deep})
 
+    def asn(self, asn: str) -> Json:
+        return self._get(f"/asn/{_seg(asn)}")
+
+    def mac(self, mac: str) -> Json:
+        return self._get(f"/mac/{_seg(mac)}")
+
     def mx(self, domain: str) -> Json:
         return self._get(f"/mx/{_seg(domain)}")
 
@@ -193,8 +221,8 @@ class ParseAPI:
     def vin(self, vin: str, *, deep: bool = False) -> Json:
         return self._get(f"/vin/{_seg(vin)}", {"deep": deep})
 
-    def timezone(self, id: str, *, at: Optional[str] = None) -> Json:
-        return self._get(f"/timezone/{_seg(id)}", {"at": at})
+    def company(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
+        return self._get(f"/company/{_seg(number)}", {"country": country, "deep": deep})
 
     def language(self, code: str) -> Json:
         return self._get(f"/language/{_seg(code)}")
@@ -208,8 +236,8 @@ class ParseAPI:
     def point(self, lat: float, lon: float, *, deep: bool = False) -> Json:
         return self._get("/point", {"lat": lat, "lon": lon, "deep": deep})
 
-    def weather(self, lat: float, lon: float, *, deep: bool = False) -> Json:
-        return self._get("/weather", {"lat": lat, "lon": lon, "deep": deep})
+    def weather(self, lat: float, lon: float, *, deep: bool = False, date: Optional[str] = None) -> Json:
+        return self._get("/weather", {"lat": lat, "lon": lon, "deep": deep, "date": date})
 
 
 class _IpSync:
@@ -279,13 +307,13 @@ class _CitySync:
 
     def search(
         self,
-        q: str,
+        query: str,
         *,
         country: Optional[str] = None,
         state: Optional[str] = None,
         limit: Optional[int] = None,
     ) -> Json:
-        return self._client._get("/city", {"q": q, "country": country, "state": state, "limit": limit})
+        return self._client._get("/city", {"q": query, "country": country, "state": state, "limit": limit})
 
     def nearest(self, lat: float, lon: float) -> Json:
         return self._client._get("/city", {"lat": lat, "lon": lon})
@@ -360,8 +388,8 @@ class _EmojiSync:
     def __call__(self, emoji: str) -> Json:
         return self._client._get(f"/emoji/{_seg(emoji)}")
 
-    def search(self, q: str, *, limit: Optional[int] = None) -> Json:
-        return self._client._get("/emoji", {"q": q, "limit": limit})
+    def search(self, query: str, *, limit: Optional[int] = None) -> Json:
+        return self._client._get("/emoji", {"q": query, "limit": limit})
 
 
 class _TariffSync:
@@ -371,8 +399,8 @@ class _TariffSync:
     def __call__(self, code: str, *, deep: bool = False, origin: Optional[str] = None) -> Json:
         return self._client._get(f"/tariff/{_seg(code)}", {"deep": deep, "origin": origin})
 
-    def search(self, q: str) -> Json:
-        return self._client._get("/tariff", {"q": q})
+    def search(self, query: str) -> Json:
+        return self._client._get("/tariff", {"q": query})
 
 
 class AsyncParseAPI:
@@ -405,6 +433,9 @@ class AsyncParseAPI:
         self.holiday = _HolidayAsync(self)
         self.emoji = _EmojiAsync(self)
         self.tariff = _TariffAsync(self)
+        self.date = _DateAsync(self)
+        self.timezone = _TimezoneAsync(self)
+        self.address = _AddressAsync(self)
 
     async def close(self) -> None:
         await self._http.aclose()
@@ -420,19 +451,20 @@ class AsyncParseAPI:
     ) -> Json:
         import asyncio
 
+        retries = self._config.retries if self._config.retries is not None else _default_retries(path, params)
         attempt = 0
         while True:
             try:
                 response = await self._http.get(path, params=_clean(params or {}), headers=headers)
             except httpx.HTTPError:
-                if attempt < self._config.retries:
+                if attempt < retries:
                     await asyncio.sleep(_retry_delay(attempt, None))
                     attempt += 1
                     continue
                 raise
             if response.is_success:
                 return response.json()
-            if response.status_code in RETRY_STATUS and attempt < self._config.retries:
+            if response.status_code in RETRY_STATUS and attempt < retries:
                 await asyncio.sleep(_retry_delay(attempt, response.headers.get("Retry-After")))
                 attempt += 1
                 continue
@@ -475,6 +507,12 @@ class AsyncParseAPI:
     async def domain(self, domain: str, *, deep: bool = False) -> Json:
         return await self._get(f"/domain/{_seg(domain)}", {"deep": deep})
 
+    async def asn(self, asn: str) -> Json:
+        return await self._get(f"/asn/{_seg(asn)}")
+
+    async def mac(self, mac: str) -> Json:
+        return await self._get(f"/mac/{_seg(mac)}")
+
     async def mx(self, domain: str) -> Json:
         return await self._get(f"/mx/{_seg(domain)}")
 
@@ -484,8 +522,8 @@ class AsyncParseAPI:
     async def vin(self, vin: str, *, deep: bool = False) -> Json:
         return await self._get(f"/vin/{_seg(vin)}", {"deep": deep})
 
-    async def timezone(self, id: str, *, at: Optional[str] = None) -> Json:
-        return await self._get(f"/timezone/{_seg(id)}", {"at": at})
+    async def company(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
+        return await self._get(f"/company/{_seg(number)}", {"country": country, "deep": deep})
 
     async def language(self, code: str) -> Json:
         return await self._get(f"/language/{_seg(code)}")
@@ -499,8 +537,8 @@ class AsyncParseAPI:
     async def point(self, lat: float, lon: float, *, deep: bool = False) -> Json:
         return await self._get("/point", {"lat": lat, "lon": lon, "deep": deep})
 
-    async def weather(self, lat: float, lon: float, *, deep: bool = False) -> Json:
-        return await self._get("/weather", {"lat": lat, "lon": lon, "deep": deep})
+    async def weather(self, lat: float, lon: float, *, deep: bool = False, date: Optional[str] = None) -> Json:
+        return await self._get("/weather", {"lat": lat, "lon": lon, "deep": deep, "date": date})
 
 
 class _IpAsync:
@@ -570,13 +608,13 @@ class _CityAsync:
 
     async def search(
         self,
-        q: str,
+        query: str,
         *,
         country: Optional[str] = None,
         state: Optional[str] = None,
         limit: Optional[int] = None,
     ) -> Json:
-        return await self._client._get("/city", {"q": q, "country": country, "state": state, "limit": limit})
+        return await self._client._get("/city", {"q": query, "country": country, "state": state, "limit": limit})
 
     async def nearest(self, lat: float, lon: float) -> Json:
         return await self._client._get("/city", {"lat": lat, "lon": lon})
@@ -653,8 +691,8 @@ class _EmojiAsync:
     async def __call__(self, emoji: str) -> Json:
         return await self._client._get(f"/emoji/{_seg(emoji)}")
 
-    async def search(self, q: str, *, limit: Optional[int] = None) -> Json:
-        return await self._client._get("/emoji", {"q": q, "limit": limit})
+    async def search(self, query: str, *, limit: Optional[int] = None) -> Json:
+        return await self._client._get("/emoji", {"q": query, "limit": limit})
 
 
 class _TariffAsync:
@@ -664,5 +702,73 @@ class _TariffAsync:
     async def __call__(self, code: str, *, deep: bool = False, origin: Optional[str] = None) -> Json:
         return await self._client._get(f"/tariff/{_seg(code)}", {"deep": deep, "origin": origin})
 
-    async def search(self, q: str) -> Json:
-        return await self._client._get("/tariff", {"q": q})
+    async def search(self, query: str) -> Json:
+        return await self._client._get("/tariff", {"q": query})
+
+
+class _DateSync:
+    def __init__(self, client: ParseAPI):
+        self._client = client
+
+    def __call__(self, date: str, *, format: Optional[str] = None, to: Optional[str] = None) -> Json:
+        return self._client._get(f"/date/{_seg(date)}", {"format": format, "to": to})
+
+    def today(self, *, to: Optional[str] = None) -> Json:
+        return self._client._get("/date", {"to": to})
+
+
+class _DateAsync:
+    def __init__(self, client: AsyncParseAPI):
+        self._client = client
+
+    async def __call__(self, date: str, *, format: Optional[str] = None, to: Optional[str] = None) -> Json:
+        return await self._client._get(f"/date/{_seg(date)}", {"format": format, "to": to})
+
+    async def today(self, *, to: Optional[str] = None) -> Json:
+        return await self._client._get("/date", {"to": to})
+
+
+class _TimezoneSync:
+    def __init__(self, client: ParseAPI):
+        self._client = client
+
+    def __call__(self, id: str, *, at: Optional[str] = None, to: Optional[str] = None) -> Json:
+        return self._client._get(f"/timezone/{_seg(id)}", {"at": at, "to": to})
+
+    def at(self, lat: float, lon: float, *, at: Optional[str] = None) -> Json:
+        return self._client._get("/timezone", {"lat": lat, "lon": lon, "at": at})
+
+
+class _AddressSync:
+    def __init__(self, client: ParseAPI):
+        self._client = client
+
+    def __call__(self, address: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
+        return self._client._get(f"/address/{_seg(address)}", {"country": country, "deep": deep})
+
+    def search(self, query: str, *, country: Optional[str] = None, postal: Optional[str] = None,
+        city: Optional[str] = None, state: Optional[str] = None, ip: Optional[str] = None) -> Json:
+        return self._client._get("/address", {"q": query, "country": country, "postal": postal, "city": city, "state": state, "ip": ip})
+
+
+class _TimezoneAsync:
+    def __init__(self, client: AsyncParseAPI):
+        self._client = client
+
+    async def __call__(self, id: str, *, at: Optional[str] = None, to: Optional[str] = None) -> Json:
+        return await self._client._get(f"/timezone/{_seg(id)}", {"at": at, "to": to})
+
+    async def at(self, lat: float, lon: float, *, at: Optional[str] = None) -> Json:
+        return await self._client._get("/timezone", {"lat": lat, "lon": lon, "at": at})
+
+
+class _AddressAsync:
+    def __init__(self, client: AsyncParseAPI):
+        self._client = client
+
+    async def __call__(self, address: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
+        return await self._client._get(f"/address/{_seg(address)}", {"country": country, "deep": deep})
+
+    async def search(self, query: str, *, country: Optional[str] = None, postal: Optional[str] = None,
+        city: Optional[str] = None, state: Optional[str] = None, ip: Optional[str] = None) -> Json:
+        return await self._client._get("/address", {"q": query, "country": country, "postal": postal, "city": city, "state": state, "ip": ip})
