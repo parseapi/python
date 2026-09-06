@@ -1,6 +1,6 @@
 # parseapi
 
-Official parseAPI client for Python.
+Official ParseAPI client for Python.
 
 ```bash
 pip install parseapi

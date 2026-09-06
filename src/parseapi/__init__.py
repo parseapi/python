@@ -1,4 +1,4 @@
-"""Official parseAPI client for Python."""
+"""Official ParseAPI client for Python."""
 
 from ._client import AsyncParseAPI, ParseAPI, ParseAPIError
 
