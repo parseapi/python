@@ -24,6 +24,10 @@ def ok(body=None):
 
 URL_TABLE = [
     (lambda p: p.name("Andrea / Smith", country="IT"), "https://api.parseapi.com/name/Andrea%20%2F%20Smith?country=IT"),
+    (lambda p: p.measure("5 ft 11 in", to="cm", locale="en-US", system="us"), "https://api.parseapi.com/measure/5%20ft%2011%20in?to=cm&locale=en-US&system=us"),
+    (lambda p: p.measure("1 kg/m^3", to="g/L"), "https://api.parseapi.com/measure/1%20kg%2Fm%5E3?to=g%2FL"),
+    (lambda p: p.measure.units(query="US gallon", type="volume", unit="L"), "https://api.parseapi.com/measure/units?q=US+gallon&type=volume&unit=L"),
+    (lambda p: p.measure.units(), "https://api.parseapi.com/measure/units"),
     (lambda p: p.address("10 rue / Paris", country="FR"),
      "https://api.parseapi.com/address/10%20rue%20%2F%20Paris?country=FR"),
     (lambda p: p.address.search("10 rue", country="FR", postal="75001"),
@@ -377,3 +381,26 @@ def test_async_cancellation_does_not_retry():
                 await task
         assert len(calls) == 1
     asyncio.run(run())
+
+
+def test_measure_decimal_and_unknown_results():
+    for body in [
+        {"measure": "0 m", "valid": True, "type": "future-type", "amount": "0", "unit": "m", "reason": None, "choices": [], "future": None},
+        {"measure": "1 gallon", "valid": False, "type": None, "amount": None, "unit": None, "reason": "ambiguous_unit", "choices": [{"unit": "us_gal", "name": "US liquid gallon"}]},
+    ]:
+        client, _ = make_client(ok(body))
+        with client:
+            assert client.measure(body["measure"]) == body
+        async def check():
+            async with AsyncParseAPI("test_key", transport=httpx.MockTransport(ok(body))) as client:
+                assert await client.measure(body["measure"]) == body
+        asyncio.run(check())
+
+
+def test_measure_invalid_target_preserves_error_without_retry():
+    client, calls = make_client(lambda request: httpx.Response(400, json={"code": "bad_request", "message": "Incompatible units", "request_id": "req_measure"}), retries=None)
+    with client, pytest.raises(ParseAPIError) as raised:
+        client.measure("1 m", to="kg")
+    assert raised.value.code == "bad_request"
+    assert raised.value.request_id == "req_measure"
+    assert len(calls) == 1

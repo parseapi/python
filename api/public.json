@@ -651,6 +651,59 @@
       ],
       "returns": "Json"
     },
+    "measure": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "measure",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "to",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "locale",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "system",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "measure.units": {
+      "async": true,
+      "parameters": [
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "query",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "type",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "unit",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
     "mx": {
       "async": true,
       "parameters": [
@@ -1662,6 +1715,59 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "mac",
           "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "measure": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "measure",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "to",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "locale",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "system",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "measure.units": {
+      "async": false,
+      "parameters": [
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "query",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "type",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "unit",
+          "type": "Optional[str]"
         }
       ],
       "returns": "Json"

@@ -110,6 +110,8 @@ expect_ok("hlr junk free", lambda: parse.hlr("555-0100"), lambda r: None if r["v
 expect_ok("domain", lambda: parse.domain("gmail.com"), lambda r: None if r["available"] is False else "gmail available?")
 expect_ok("asn", lambda: parse.asn("AS13335"), lambda r: None if r["asn"] == 13335 else "wrong ASN")
 expect_ok("mac", lambda: parse.mac("00:1B:63:84:45:E6"), lambda r: None if r["valid"] and r["mac"] == "00:1B:63:84:45:E6" and r["local"] is False and r["multicast"] is False else "wrong MAC")
+expect_ok("measure", lambda: parse.measure("5 ft 11 in", to="cm"), lambda r: None if r["valid"] and r["amount"] == "180.34" and r["unit"] == "cm" else "wrong conversion")
+expect_ok("measure.units", lambda: parse.measure.units(unit="m"), lambda r: None if any(unit["unit"] == "m" for unit in r["units"]) else "missing metre")
 expect_ok("mx", lambda: parse.mx("gmail.com"), lambda r: None if r["mx"] else "no mx")
 expect_ok("useragent", lambda: parse.useragent(UA), lambda r: None if r["browser"] == "Chrome" else f"browser {r['browser']}")
 expect_ok(

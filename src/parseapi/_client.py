@@ -135,6 +135,7 @@ class ParseAPI:
         self.emoji = _EmojiSync(self)
         self.tariff = _TariffSync(self)
         self.date = _DateSync(self)
+        self.measure = _MeasureSync(self)
         self.timezone = _TimezoneSync(self)
         self.address = _AddressSync(self)
 
@@ -463,6 +464,7 @@ class AsyncParseAPI:
         self.emoji = _EmojiAsync(self)
         self.tariff = _TariffAsync(self)
         self.date = _DateAsync(self)
+        self.measure = _MeasureAsync(self)
         self.timezone = _TimezoneAsync(self)
         self.address = _AddressAsync(self)
 
@@ -830,3 +832,35 @@ class _AddressAsync:
     async def search(self, query: str, *, country: Optional[str] = None, postal: Optional[str] = None,
         city: Optional[str] = None, state: Optional[str] = None, ip: Optional[str] = None) -> Json:
         return await self._client._get("/address", {"q": query, "country": country, "postal": postal, "city": city, "state": state, "ip": ip})
+
+
+class _MeasureSync:
+    def __init__(self, client: ParseAPI):
+        self._client = client
+
+    def __call__(self, measure: str, *, to: Optional[str] = None, locale: Optional[str] = None, system: Optional[str] = None) -> Json:
+        """Parse or convert a measurement. Amount is a decimal string. Without to, use the
+        type's canonical unit. Locale and system (us or imperial) resolve explicit ambiguity.
+        Invalid measurements return valid=False and a reason. Invalid targets raise an API error.
+        """
+        return self._client._get(f"/measure/{_seg(measure)}", {"to": to, "locale": locale, "system": system})
+
+    def units(self, *, query: Optional[str] = None, type: Optional[str] = None, unit: Optional[str] = None) -> Json:
+        """Discover reviewed units. unit filters compatible conversion targets."""
+        return self._client._get("/measure/units", {"q": query, "type": type, "unit": unit})
+
+
+class _MeasureAsync:
+    def __init__(self, client: AsyncParseAPI):
+        self._client = client
+
+    async def __call__(self, measure: str, *, to: Optional[str] = None, locale: Optional[str] = None, system: Optional[str] = None) -> Json:
+        """Parse or convert a measurement. Amount is a decimal string. Without to, use the
+        type's canonical unit. Locale and system (us or imperial) resolve explicit ambiguity.
+        Invalid measurements return valid=False and a reason. Invalid targets raise an API error.
+        """
+        return await self._client._get(f"/measure/{_seg(measure)}", {"to": to, "locale": locale, "system": system})
+
+    async def units(self, *, query: Optional[str] = None, type: Optional[str] = None, unit: Optional[str] = None) -> Json:
+        """Discover reviewed units. unit filters compatible conversion targets."""
+        return await self._client._get("/measure/units", {"q": query, "type": type, "unit": unit})
