@@ -23,6 +23,7 @@ def ok(body=None):
 
 
 URL_TABLE = [
+    (lambda p: p.name("Andrea / Smith", country="IT"), "https://api.parseapi.com/name/Andrea%20%2F%20Smith?country=IT"),
     (lambda p: p.address("10 rue / Paris", country="FR"),
      "https://api.parseapi.com/address/10%20rue%20%2F%20Paris?country=FR"),
     (lambda p: p.address.search("10 rue", country="FR", postal="75001"),
@@ -125,6 +126,13 @@ def test_url_mapping(invoke, expected):
     client, calls = make_client(ok())
     invoke(client)
     assert str(calls[0].url) == expected
+
+
+def test_name_known_does_not_require_gender():
+    body = {"name": "王", "valid": True, "known": True, "countries": ["CN", "TW"], "gender": None, "future": True}
+    client, calls = make_client(ok(body))
+    assert client.name("王", country="CN") == body
+    assert str(calls[0].url).endswith("?country=CN")
 
 
 def test_headers():

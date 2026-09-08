@@ -245,8 +245,9 @@ class ParseAPI:
     def language(self, code: str) -> Json:
         return self._get(f"/language/{_seg(code)}")
 
-    def name(self, name: str) -> Json:
-        return self._get(f"/name/{_seg(name)}")
+    def name(self, name: str, *, country: Optional[str] = None) -> Json:
+        """Parse a name. Country is an ISO2 gender context, not nationality."""
+        return self._get(f"/name/{_seg(name)}", {"country": country})
 
     def elevation(self, lat: float, lon: float) -> Json:
         return self._get("/elevation", {"lat": lat, "lon": lon})
@@ -574,8 +575,9 @@ class AsyncParseAPI:
     async def language(self, code: str) -> Json:
         return await self._get(f"/language/{_seg(code)}")
 
-    async def name(self, name: str) -> Json:
-        return await self._get(f"/name/{_seg(name)}")
+    async def name(self, name: str, *, country: Optional[str] = None) -> Json:
+        """Parse a name. Country is an ISO2 gender context, not nationality."""
+        return await self._get(f"/name/{_seg(name)}", {"country": country})
 
     async def elevation(self, lat: float, lon: float) -> Json:
         return await self._get("/elevation", {"lat": lat, "lon": lon})

@@ -669,6 +669,12 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "name",
           "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
         }
       ],
       "returns": "Json"
@@ -1678,6 +1684,12 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "name",
           "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
         }
       ],
       "returns": "Json"
