@@ -455,6 +455,23 @@
       ],
       "returns": "Json"
     },
+    "dns": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "domain",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "type",
+          "type": "str | None"
+        }
+      ],
+      "returns": "Json"
+    },
     "domain": {
       "async": true,
       "parameters": [
@@ -1519,6 +1536,23 @@
           "kind": "KEYWORD_ONLY",
           "name": "state",
           "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "dns": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "domain",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "type",
+          "type": "str | None"
         }
       ],
       "returns": "Json"

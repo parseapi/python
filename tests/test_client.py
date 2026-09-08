@@ -23,6 +23,8 @@ def ok(body=None):
 
 
 URL_TABLE = [
+    (lambda p: p.dns("example.com"), "https://api.parseapi.com/dns/example.com"),
+    (lambda p: p.dns("_dmarc.bücher.example.", type="txt"), "https://api.parseapi.com/dns/_dmarc.b%C3%BCcher.example.?type=txt"),
     (lambda p: p.name("Andrea / Smith", country="IT"), "https://api.parseapi.com/name/Andrea%20%2F%20Smith?country=IT"),
     (lambda p: p.measure("5 ft 11 in", to="cm", locale="en-US", system="us"), "https://api.parseapi.com/measure/5%20ft%2011%20in?to=cm&locale=en-US&system=us"),
     (lambda p: p.measure("1 kg/m^3", to="g/L"), "https://api.parseapi.com/measure/1%20kg%2Fm%5E3?to=g%2FL"),
@@ -404,3 +406,14 @@ def test_measure_invalid_target_preserves_error_without_retry():
     assert raised.value.code == "bad_request"
     assert raised.value.request_id == "req_measure"
     assert len(calls) == 1
+
+
+def test_dns_preserves_presentation_and_empty_records_sync_and_async():
+    async def run(body):
+        async with AsyncParseAPI("test_key", transport=httpx.MockTransport(ok(body))) as client:
+            assert await client.dns("example.com", type="TXT") == body
+    for records in [[], [{"name": "example.com.", "type": "TXT", "ttl": 0, "value": '\"one\" \"two\"', "future": None}]]:
+        body = {"domain": "example.com", "records": records, "future": True}
+        client, _ = make_client(ok(body))
+        assert client.dns("example.com", type="TXT") == body
+        asyncio.run(run(body))

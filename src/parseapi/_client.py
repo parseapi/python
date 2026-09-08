@@ -231,6 +231,14 @@ class ParseAPI:
     def mac(self, mac: str) -> Json:
         return self._get(f"/mac/{_seg(mac)}")
 
+    def dns(self, domain: str, *, type: str | None = None) -> Json:
+        """Published DNS records with TTLs. Omit type to check all supported types.
+
+        Type selects the question and may include its CNAME chain. Values retain
+        DNS presentation syntax, including TXT quoting. Pooled on every plan.
+        """
+        return self._get(f"/dns/{_seg(domain)}", {"type": type})
+
     def mx(self, domain: str) -> Json:
         return self._get(f"/mx/{_seg(domain)}")
 
@@ -561,6 +569,14 @@ class AsyncParseAPI:
 
     async def mac(self, mac: str) -> Json:
         return await self._get(f"/mac/{_seg(mac)}")
+
+    async def dns(self, domain: str, *, type: str | None = None) -> Json:
+        """Published DNS records with TTLs. Omit type to check all supported types.
+
+        Type selects the question and may include its CNAME chain. Values retain
+        DNS presentation syntax, including TXT quoting. Pooled on every plan.
+        """
+        return await self._get(f"/dns/{_seg(domain)}", {"type": type})
 
     async def mx(self, domain: str) -> Json:
         return await self._get(f"/mx/{_seg(domain)}")

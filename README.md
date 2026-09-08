@@ -91,6 +91,8 @@ parse.domain("example.com")
 parse.asn("AS13335")
 parse.mac("00:1B:63:84:45:E6")
 parse.mx("example.com")
+parse.dns("example.com")
+parse.dns("_dmarc.example.com", type="TXT")
 parse.useragent(ua_string)
 parse.vin("1HGCM82633A004352")
 parse.tariff("8471.30.01.00")
@@ -111,6 +113,8 @@ from parseapi import AsyncParseAPI
 async with AsyncParseAPI("your-api-key") as parse:
     country = await parse.country("US")
 ```
+
+DNS uses pooled requests on every plan. Omit `type` to check A, AAAA, CNAME, MX, NS, TXT, SOA, CAA, SRV and PTR. Records contain `name`, `type`, `ttl` in seconds and a DNS presentation `value`. TXT values retain quoting and chunk boundaries. A selected question can include its CNAME chain. Empty records mean no records. Lookup failures remain errors.
 
 ## Measurements
 
