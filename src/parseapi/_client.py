@@ -173,6 +173,10 @@ class ParseAPI:
         return self._get(f"/district/{_seg(code)}", {"country": country, "state": state})
 
     def email(self, email: str, *, deep: bool = False) -> Json:
+        """Parse an email and check its format and domain. Deep explicitly requests a metered
+        deliverability check. Deep checks use one attempt by default. An explicit retry
+        count can repeat paid usage.
+        """
         return self._get(f"/email/{_seg(email)}", {"deep": deep})
 
     def vat(
@@ -183,6 +187,10 @@ class ParseAPI:
         deep: bool = False,
         from_vat: Optional[str] = None,
     ) -> Json:
+        """Check VAT format and checksum. Deep requests a metered registry check where supported. Deep
+        checks use one attempt by default. Supply your own VAT number for a consultation
+        reference when supported.
+        """
         return self._get(f"/vat/{_seg(number)}", {"country": country, "deep": deep, "from": from_vat})
 
     def iban(self, iban: str, *, country: Optional[str] = None) -> Json:
@@ -192,15 +200,25 @@ class ParseAPI:
         return self._get(f"/npi/{_seg(npi)}", {"deep": deep})
 
     def phone(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
+        """Parse a phone number and its formats. Pass country for national numbers when needed. Deep
+        returns an empty object. Carrier, caller, and HLR are separate metered lookups.
+        """
         return self._get(f"/phone/{_seg(number)}", {"country": country, "deep": deep})
 
     def carrier(self, number: str, *, country: Optional[str] = None) -> Json:
+        """Request a metered carrier lookup. No automatic retries by default.
+        """
         return self._get(f"/carrier/{_seg(number)}", {"country": country})
 
     def caller(self, number: str, *, country: Optional[str] = None) -> Json:
+        """Request a metered caller-name lookup for a NANP number. No automatic retries by default.
+        """
         return self._get(f"/caller/{_seg(number)}", {"country": country})
 
     def hlr(self, number: str, *, country: Optional[str] = None) -> Json:
+        """Request a metered live-status lookup. None status means unconfirmed. No automatic retries by
+        default.
+        """
         return self._get(f"/hlr/{_seg(number)}", {"country": country})
 
     def domain(self, domain: str, *, deep: bool = False) -> Json:
@@ -237,6 +255,9 @@ class ParseAPI:
         return self._get("/point", {"lat": lat, "lon": lon, "deep": deep})
 
     def weather(self, lat: float, lon: float, *, deep: bool = False, date: Optional[str] = None) -> Json:
+        """Get weather for a point. Both unit systems are returned. Pass known coordinates from a
+        postal, city, or location result.
+        """
         return self._get("/weather", {"lat": lat, "lon": lon, "deep": deep, "date": date})
 
 
@@ -245,9 +266,13 @@ class _IpSync:
         self._client = client
 
     def __call__(self, ip: str, *, deep: bool = False) -> Json:
+        """Look up an IP. Deep enrichment is included with a paid plan, without a separate check meter.
+        """
         return self._client._get(f"/ip/{_seg(ip)}", {"deep": deep})
 
     def self(self, *, deep: bool = False) -> Json:
+        """Look up the public IP making this request. On a server, this is the server's IP.
+        """
         return self._client._get("/ip", {"deep": deep})
 
 
@@ -339,6 +364,9 @@ class _PostalSync:
         self._client = client
 
     def __call__(self, code: str, *, country: Optional[str] = None) -> Json:
+        """Look up a postal area. Pass country when known. Check nullable coordinates before another
+        location lookup.
+        """
         return self._client._get(f"/postal/{_seg(code)}", {"country": country})
 
     def nearby(
@@ -474,6 +502,10 @@ class AsyncParseAPI:
         return await self._get(f"/district/{_seg(code)}", {"country": country, "state": state})
 
     async def email(self, email: str, *, deep: bool = False) -> Json:
+        """Parse an email and check its format and domain. Deep explicitly requests a metered
+        deliverability check. Deep checks use one attempt by default. An explicit retry
+        count can repeat paid usage.
+        """
         return await self._get(f"/email/{_seg(email)}", {"deep": deep})
 
     async def vat(
@@ -484,6 +516,10 @@ class AsyncParseAPI:
         deep: bool = False,
         from_vat: Optional[str] = None,
     ) -> Json:
+        """Check VAT format and checksum. Deep requests a metered registry check where supported. Deep
+        checks use one attempt by default. Supply your own VAT number for a consultation
+        reference when supported.
+        """
         return await self._get(f"/vat/{_seg(number)}", {"country": country, "deep": deep, "from": from_vat})
 
     async def iban(self, iban: str, *, country: Optional[str] = None) -> Json:
@@ -493,15 +529,25 @@ class AsyncParseAPI:
         return await self._get(f"/npi/{_seg(npi)}", {"deep": deep})
 
     async def phone(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
+        """Parse a phone number and its formats. Pass country for national numbers when needed. Deep
+        returns an empty object. Carrier, caller, and HLR are separate metered lookups.
+        """
         return await self._get(f"/phone/{_seg(number)}", {"country": country, "deep": deep})
 
     async def carrier(self, number: str, *, country: Optional[str] = None) -> Json:
+        """Request a metered carrier lookup. No automatic retries by default.
+        """
         return await self._get(f"/carrier/{_seg(number)}", {"country": country})
 
     async def caller(self, number: str, *, country: Optional[str] = None) -> Json:
+        """Request a metered caller-name lookup for a NANP number. No automatic retries by default.
+        """
         return await self._get(f"/caller/{_seg(number)}", {"country": country})
 
     async def hlr(self, number: str, *, country: Optional[str] = None) -> Json:
+        """Request a metered live-status lookup. None status means unconfirmed. No automatic retries by
+        default.
+        """
         return await self._get(f"/hlr/{_seg(number)}", {"country": country})
 
     async def domain(self, domain: str, *, deep: bool = False) -> Json:
@@ -538,6 +584,9 @@ class AsyncParseAPI:
         return await self._get("/point", {"lat": lat, "lon": lon, "deep": deep})
 
     async def weather(self, lat: float, lon: float, *, deep: bool = False, date: Optional[str] = None) -> Json:
+        """Get weather for a point. Both unit systems are returned. Pass known coordinates from a
+        postal, city, or location result.
+        """
         return await self._get("/weather", {"lat": lat, "lon": lon, "deep": deep, "date": date})
 
 
@@ -546,9 +595,13 @@ class _IpAsync:
         self._client = client
 
     async def __call__(self, ip: str, *, deep: bool = False) -> Json:
+        """Look up an IP. Deep enrichment is included with a paid plan, without a separate check meter.
+        """
         return await self._client._get(f"/ip/{_seg(ip)}", {"deep": deep})
 
     async def self(self, *, deep: bool = False) -> Json:
+        """Look up the public IP making this request. On a server, this is the server's IP.
+        """
         return await self._client._get("/ip", {"deep": deep})
 
 
@@ -640,6 +693,9 @@ class _PostalAsync:
         self._client = client
 
     async def __call__(self, code: str, *, country: Optional[str] = None) -> Json:
+        """Look up a postal area. Pass country when known. Check nullable coordinates before another
+        location lookup.
+        """
         return await self._client._get(f"/postal/{_seg(code)}", {"country": country})
 
     async def nearby(

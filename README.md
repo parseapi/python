@@ -15,6 +15,26 @@ country = parse.country("US")
 
 Get a key at [parseapi.com](https://parseapi.com). The client also reads `PARSEAPI_KEY` from the environment.
 
+## Weather from a postal code
+
+Start with the postal code, then pass its coordinates to weather. Reuse the client from the example above.
+
+```python
+place = parse.postal("28202", country="US")
+lat, lon = place["latitude"], place["longitude"]
+if lat is not None and lon is not None:
+    weather = parse.weather(lat, lon)
+    print(weather)
+```
+
+The coordinates represent the postal area. Weather is for that point. Missing coordinates skip the weather lookup. This composition performs two ordinary lookups when coordinates are available, with the retry policy below.
+
+## Supply the context you know
+
+Pass `country` when a postal code or national phone number needs disambiguation. A complete international phone number already carries its country context. For a numeric date such as `03/04/2026`, supply the intended `format`. Defaults resolve what the input establishes. Ambiguous input needs your context.
+
+Results are plain data. Pass a returned code or coordinate to another operation when the task needs it. Check nullable values before composing the next call.
+
 ## Calls
 
 One method per endpoint, named after the route.
@@ -93,11 +113,22 @@ async with AsyncParseAPI("your-api-key") as parse:
 
 ## Deep
 
-Pass `deep=True` to include the nested `deep` object with richer fields.
+Choose enrichment for the question you need answered.
+
+| Operation | What `deep` requests |
+|---|---|
+| IP | Richer IP fields included with a paid plan. No separate check meter. |
+| Email | A metered deliverability check, using included email checks or enabled on-demand usage. |
+| VAT | A metered registry check where supported, using included VAT checks or enabled on-demand usage. |
+| Phone | An empty object. Number parsing and formats are already in the core response. |
+
+Carrier, caller, and HLR are separate metered operations. Choose them explicitly when you need their answers. Ordinary lookups retry twice by default. Metered checks use one attempt by default. Setting retries explicitly can repeat paid usage.
+
+Without `deep`, the response omits that key. When requested, it is an empty object if access is locked or the operation has no deep fields. Otherwise it contains the available fields. A missing or null field means unknown.
 
 ```python
 ip = parse.ip("52.94.76.10", deep=True)
-ip["deep"]["datacenter"]  # True
+ip.get("deep", {}).get("datacenter")  # True, False, or None
 ```
 
 ## Errors
