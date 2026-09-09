@@ -958,6 +958,17 @@
       ],
       "returns": "Json"
     },
+    "swift": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
     "tariff": {
       "async": true,
       "parameters": [
@@ -2136,6 +2147,17 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "swift": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
         }
       ],
       "returns": "Json"

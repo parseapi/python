@@ -28,6 +28,8 @@ URL_TABLE = [
     (lambda p: p.time(), "https://api.parseapi.com/time"),
     (lambda p: p.time("America/New_York", at="2026-09-05T15:00:00", to="Asia/Tokyo"), "https://api.parseapi.com/time/America%2FNew_York?at=2026-09-05T15%3A00%3A00&to=Asia%2FTokyo"),
     (lambda p: p.time.at(0, 0, at="1970-01-01T00:00:00Z", to="UTC"), "https://api.parseapi.com/time?lat=0&lon=0&at=1970-01-01T00%3A00%3A00Z&to=UTC"),
+    (lambda p: p.swift("BOFAUS3N"), "https://api.parseapi.com/swift/BOFAUS3N"),
+    (lambda p: p.swift(" bofa/us3n? "), "https://api.parseapi.com/swift/%20bofa%2Fus3n%3F%20"),
     (lambda p: p.naics("31-33"), "https://api.parseapi.com/naics/31-33"),
     (lambda p: p.naics("54/11"), "https://api.parseapi.com/naics/54%2F11"),
     (lambda p: p.naics.search("coffee & tea", limit=5), "https://api.parseapi.com/naics?q=coffee+%26+tea&limit=5"),
