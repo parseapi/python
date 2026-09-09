@@ -35,6 +35,8 @@ Pass `country` when a postal code or national phone number needs disambiguation.
 
 Results are plain data. Pass a returned code or coordinate to another operation when the task needs it. Check nullable values before composing the next call.
 
+Use `parse.postal("28202", country="US", deep=True)` for US ZIP tax references. `deep.tax` names the levy and `deep.tax_rate` is a percentage, so `7.9` means 7.9%. The state, county, city and special components explain that combined rate. An exact address can differ. Country and state lookups provide their own geographic reference rates, which should not be added to the ZIP rate. `None` means unknown and `0` means known zero. Country `deep.tax_id_format` and `deep.tax_id_regex` describe registration-number format only. Use `vat` for a metered registration check with `deep` explicitly enabled.
+
 ## Calls
 
 One method per endpoint, named after the route.
@@ -78,7 +80,7 @@ parse.currency("USD")
 parse.currency.rate("USD", "EUR")
 parse.language("en")
 parse.name("BILLY OSHALL")
-parse.name("Andrea", country="IT")
+parse.name("Andrea", country="IT", deep=True)
 parse.time()  # UTC now
 parse.time("America/New_York")
 parse.time("America/New_York", at="2026-09-05T15:00:00", to="Europe/London")
@@ -106,7 +108,7 @@ parse.emoji("rocket")
 parse.emoji.search("fire")
 ```
 
-NAICS records include classification `exclusions`, each with a description and linked codes. Generic exclusions can have no linked codes. Omitted or null exclusions in older responses remain unknown. Search results also include `match`: the matched `field` (`name`, `term` or `naics`) and `text`, plus `corrections` with `from` and `to` tokens for typo fallback. Corrections are empty for exact, plural and prefix matches. Direct code lookups omit `match`. Older responses may omit it.
+NAICS paid deep records include classification `deep.exclusions`, each with a description and linked codes. Generic exclusions can have no linked codes. Omitted or null exclusions in older responses remain unknown. Search results also include `match`: the matched `field` (`name`, `term` or `naics`) and `text`, plus `corrections` with `from` and `to` tokens for typo fallback. Corrections are empty for exact, plural and prefix matches. Direct code lookups omit `match`. Older responses may omit it.
 
 Responses are plain dicts, exactly the JSON the API returns. `country.states("US")` requests states directly; it does not fetch a country first. Required inputs are positional and optional behavior uses keyword arguments, leaving room for new options without changing existing calls. Reuse a client across calls. Use `with ParseAPI(...) as parse:` or call `parse.close()` when finished.
 
@@ -125,7 +127,7 @@ DNS uses pooled requests on every plan. Omit `type` to check A, AAAA, CNAME, MX,
 
 ## Time
 
-`time` returns local ISO `at` with its UTC offset and integer Unix seconds in `unix`. `offset_seconds` is the exact offset, while `offset_minutes` is whole minutes. Historical offsets and ISO times can include offset seconds. Omitted `at` means now. With `to`, an offsetless `at` is source wall time. Otherwise it is UTC. Include an offset for repeated local times around a clock change. Current time and conversion use pooled requests on every plan. Coordinate clock fields can be null when the timezone is unknown. Existing `timezone` methods remain supported.
+`time` returns local ISO `at` with its UTC offset and integer Unix seconds in `unix`. The core `offset` preserves exact precision. Optional `deep.offset_seconds` gives the numeric offset, while `deep.offset_minutes` gives whole minutes. Historical offsets and ISO times can include offset seconds. Omitted `at` means now. With `to`, an offsetless `at` is source wall time. Otherwise it is UTC. Include an offset for repeated local times around a clock change. Current time and conversion use pooled requests on every plan. Coordinate clock fields can be null when the timezone is unknown. Existing `timezone` methods remain supported.
 
 ## Measurements
 
@@ -145,9 +147,15 @@ Choose enrichment for the question you need answered.
 | Operation | What `deep` requests |
 |---|---|
 | IP | Richer IP fields included with a paid plan. No separate check meter. |
+| Domain | Registration dates, registrar, status and DNSSEC, included with a paid plan. Use `dns` for DNS records and `mx` for mail routing. |
 | Email | A metered deliverability check, using included email checks or enabled on-demand usage. |
 | VAT | A metered registry check where supported, using included VAT checks or enabled on-demand usage. |
-| Phone | An empty object. Number parsing and formats are already in the core response. |
+| Phone, Time, Date, Currency, Language, Emoji, IBAN, Point | Optional detail in the same pooled request on every plan. |
+| Country, State, District, City, Postal | The place profile on paid plans, including demographic and tax facts where held. |
+| Name, NAICS | Name evidence or the industry definition profile on paid plans. |
+| VIN, NPI, Tariff, Company | The complete product detail bag on paid plans. |
+| Weather | Specialist current measurements and the existing forecast, alert, air and history bag on paid plans. |
+| Carrier, HLR | Optional diagnostic detail within the same metered core unit, including Free allowance units. No second gate or additional check. |
 
 Carrier, caller, and HLR are separate metered operations. Choose them explicitly when you need their answers. Ordinary lookups retry twice by default. Metered checks use one attempt by default. Setting retries explicitly can repeat paid usage.
 
@@ -194,3 +202,14 @@ An explicit client `retries` setting overrides those defaults; `retries=0` alway
 Full field reference for every endpoint: [parseapi.com/docs](https://parseapi.com/docs)
 
 BIN lookup accepts 6-11 digits as a string, including leading zeros. Spaces and hyphens are accepted. `prefix` is the actual longest match and can be shorter than the input. Unknown reference fields are null. `deep` adds an empty object on every plan.
+
+
+## Optional detail
+
+The default response answers the common task. Ask for `deep` when you need more detail about that same result. Core fields stay equal. City, NAICS and Emoji searches put detail inside each result. Postal nearby and distance put metropolitan detail beside the entity it describes. Time conversion keeps target detail in `to.deep`; only the source has `deep.next_dst`.
+
+```python
+basic = parse.time("America/New_York")
+detail = parse.time("America/New_York", deep=True)
+print(basic["at"], detail.get("deep", {}).get("next_dst"))
+```

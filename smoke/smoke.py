@@ -132,12 +132,12 @@ expect_ok(
 expect_ok(
     "name",
     lambda: parse.name("BILLY O'SHALL"),
-    lambda r: None if r["name"] == "Billy O'Shall" and r["valid"] is True and r["gender"] == "male" else "wrong name",
+    lambda r: None if r["name"] == "Billy O'Shall" and r["valid"] is True else "wrong name",
 )
 expect_ok(
     "timezone",
     lambda: parse.timezone("America/New_York"),
-    lambda r: None if r["offset_minutes"] in (-240, -300) else f"offset {r['offset_minutes']}",
+    lambda r: None if r["offset"] in ("-04:00", "-05:00") else f"offset {r['offset']}",
 )
 expect_ok("timezone.at", lambda: parse.timezone.at(39.77, -104.9), lambda r: None if r["timezone"] == "America/Denver" else "wrong timezone")
 expect_ok("date", lambda: parse.date("03/04/2026", format="mdy"), lambda r: None if r["date"] == "2026-03-04" else "wrong date")

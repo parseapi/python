@@ -460,3 +460,30 @@ def test_bin_reference_null_false_and_error():
         client.bin("bad/input")
     assert err.value.status == 400
     assert len(calls) == 1
+
+
+ADP_CASES = [('country', ['US'], {}), ('state', ['NC'], {'country': 'US'}), ('state.districts', ['NC'], {'country': 'US'}), ('district', ['37081'], {'country': 'US', 'state': 'NC'}), ('city', ['Charlotte'], {'country': 'US', 'state': 'NC'}), ('city.id', ['city_test'], {}), ('city.search', ['Charlotte'], {'country': 'US', 'state': 'NC', 'limit': 2}), ('city.nearest', [0, 0], {}), ('city.nearby', ['Charlotte'], {'radius': 0, 'unit': 'km', 'country': 'US', 'state': 'NC', 'limit': 2}), ('postal', ['28202'], {'country': 'US'}), ('postal.nearby', ['28202'], {'country': 'US', 'radius': 0, 'unit': 'km'}), ('postal.distance', ['28202', '10001'], {'country': 'US'}), ('iban', ['DE89370400440532013000'], {'country': 'DE'}), ('carrier', ['+14155552671'], {'country': 'US'}), ('hlr', ['+447712345678'], {'country': 'GB'}), ('naics', ['31-33'], {}), ('naics.search', ['coffee'], {'limit': 2}), ('currency', ['USD'], {}), ('language', ['ar'], {}), ('name', ['Andrea'], {'country': 'IT'}), ('time', [], {'at': '2026-09-08', 'to': 'UTC'}), ('time.at', [0, 0], {'at': '2026-09-08', 'to': 'UTC'}), ('timezone', ['UTC'], {'at': '2026-09-08', 'to': 'UTC'}), ('timezone.at', [0, 0], {'at': '2026-09-08'}), ('date', ['03/04/2026'], {'format': 'dmy', 'to': '2026-09-08'}), ('date.today', [], {'to': '2026-09-08'}), ('emoji', ['fire'], {}), ('emoji.search', ['fire'], {'limit': 2})]
+
+@pytest.mark.parametrize("method,args,options", ADP_CASES)
+@pytest.mark.parametrize("async_mode", [False, True])
+def test_adp_optional_depth_same_operation(method, args, options, async_mode):
+    calls = []
+    data = {"deep": {"zero": 0, "missing": None, "empty": [], "future": True}}
+    def reply(request):
+        calls.append(request)
+        return httpx.Response(200, json=data)
+    async def run():
+        client = (AsyncParseAPI if async_mode else ParseAPI)("k", transport=httpx.MockTransport(reply))
+        fn = client
+        for part in method.split("."):
+            fn = getattr(fn, part)
+        try:
+            for extra in ({}, {"deep": True}):
+                result = fn(*args, **options, **extra)
+                assert (await result if async_mode else result) == data
+        finally:
+            if async_mode: await client.close()
+            else: client.close()
+    asyncio.run(run())
+    assert calls[0].url.path == calls[1].url.path
+    assert dict(calls[1].url.params) == {**dict(calls[0].url.params), "deep": "true"}

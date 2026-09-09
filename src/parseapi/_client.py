@@ -172,8 +172,8 @@ class ParseAPI:
 
     # Plain methods (no subresources)
 
-    def district(self, code: str, *, country: Optional[str] = None, state: Optional[str] = None) -> Json:
-        return self._get(f"/district/{_seg(code)}", {"country": country, "state": state})
+    def district(self, code: str, *, country: Optional[str] = None, state: Optional[str] = None, deep: bool = False) -> Json:
+        return self._get(f"/district/{_seg(code)}", {"country": country, "state": state, "deep": deep})
 
     def email(self, email: str, *, deep: bool = False) -> Json:
         """Parse an email and check its format and domain. Deep explicitly requests a metered
@@ -200,8 +200,8 @@ class ParseAPI:
         """Check BIC syntax and find a known institution. A null name means unknown."""
         return self._get(f"/swift/{_seg(code)}")
 
-    def iban(self, iban: str, *, country: Optional[str] = None) -> Json:
-        return self._get(f"/iban/{_seg(iban)}", {"country": country})
+    def iban(self, iban: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
+        return self._get(f"/iban/{_seg(iban)}", {"country": country, "deep": deep})
 
     def bin(self, bin: str, *, deep: bool = False) -> Json:
         """Look up a 6-11 digit card prefix, preserving leading zeros."""
@@ -212,27 +212,28 @@ class ParseAPI:
 
     def phone(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         """Parse a phone number and its formats. Pass country for national numbers when needed. Deep
-        returns an empty object. Carrier, caller, and HLR are separate metered lookups.
+        adds numbering-plan geography on every plan. Carrier, caller, and HLR are separate metered lookups.
         """
         return self._get(f"/phone/{_seg(number)}", {"country": country, "deep": deep})
 
-    def carrier(self, number: str, *, country: Optional[str] = None) -> Json:
+    def carrier(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         """Request a metered carrier lookup. No automatic retries by default.
         """
-        return self._get(f"/carrier/{_seg(number)}", {"country": country})
+        return self._get(f"/carrier/{_seg(number)}", {"country": country, "deep": deep})
 
     def caller(self, number: str, *, country: Optional[str] = None) -> Json:
         """Request a metered caller-name lookup for a NANP number. No automatic retries by default.
         """
         return self._get(f"/caller/{_seg(number)}", {"country": country})
 
-    def hlr(self, number: str, *, country: Optional[str] = None) -> Json:
+    def hlr(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         """Request a metered live-status lookup. None status means unconfirmed. No automatic retries by
         default.
         """
-        return self._get(f"/hlr/{_seg(number)}", {"country": country})
+        return self._get(f"/hlr/{_seg(number)}", {"country": country, "deep": deep})
 
     def domain(self, domain: str, *, deep: bool = False) -> Json:
+        """Check whether a domain is registered. Deep adds registration dates, registrar, status and DNSSEC on paid plans."""
         return self._get(f"/domain/{_seg(domain)}", {"deep": deep})
 
     def asn(self, asn: str) -> Json:
@@ -261,12 +262,12 @@ class ParseAPI:
     def company(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         return self._get(f"/company/{_seg(number)}", {"country": country, "deep": deep})
 
-    def language(self, code: str) -> Json:
-        return self._get(f"/language/{_seg(code)}")
+    def language(self, code: str, *, deep: bool = False) -> Json:
+        return self._get(f"/language/{_seg(code)}", {"deep": deep})
 
-    def name(self, name: str, *, country: Optional[str] = None) -> Json:
+    def name(self, name: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         """Parse a name. Country is an ISO2 gender context, not nationality."""
-        return self._get(f"/name/{_seg(name)}", {"country": country})
+        return self._get(f"/name/{_seg(name)}", {"country": country, "deep": deep})
 
     def elevation(self, lat: float, lon: float) -> Json:
         return self._get("/elevation", {"lat": lat, "lon": lon})
@@ -322,8 +323,8 @@ class _CountrySync:
     def __init__(self, client: ParseAPI):
         self._client = client
 
-    def __call__(self, code: str) -> Json:
-        return self._client._get(f"/country/{_seg(code)}")
+    def __call__(self, code: str, *, deep: bool = False) -> Json:
+        return self._client._get(f"/country/{_seg(code)}", {"deep": deep})
 
     def states(self, code: str) -> Json:
         return self._client._get(f"/country/{_seg(code)}/states")
@@ -333,22 +334,22 @@ class _StateSync:
     def __init__(self, client: ParseAPI):
         self._client = client
 
-    def __call__(self, code: str, *, country: Optional[str] = None) -> Json:
-        return self._client._get(f"/state/{_seg(code)}", {"country": country})
+    def __call__(self, code: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
+        return self._client._get(f"/state/{_seg(code)}", {"country": country, "deep": deep})
 
-    def districts(self, code: str, *, country: Optional[str] = None) -> Json:
-        return self._client._get(f"/state/{_seg(code)}/districts", {"country": country})
+    def districts(self, code: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
+        return self._client._get(f"/state/{_seg(code)}/districts", {"country": country, "deep": deep})
 
 
 class _CitySync:
     def __init__(self, client: ParseAPI):
         self._client = client
 
-    def __call__(self, name: str, *, country: Optional[str] = None, state: Optional[str] = None) -> Json:
-        return self._client._get(f"/city/{_seg(name)}", {"country": country, "state": state})
+    def __call__(self, name: str, *, country: Optional[str] = None, state: Optional[str] = None, deep: bool = False) -> Json:
+        return self._client._get(f"/city/{_seg(name)}", {"country": country, "state": state, "deep": deep})
 
-    def id(self, id: str) -> Json:
-        return self._client._get(f"/city/id/{_seg(id)}")
+    def id(self, id: str, *, deep: bool = False) -> Json:
+        return self._client._get(f"/city/id/{_seg(id)}", {"deep": deep})
 
     def search(
         self,
@@ -357,11 +358,12 @@ class _CitySync:
         country: Optional[str] = None,
         state: Optional[str] = None,
         limit: Optional[int] = None,
+        deep: bool = False,
     ) -> Json:
-        return self._client._get("/city", {"q": query, "country": country, "state": state, "limit": limit})
+        return self._client._get("/city", {"q": query, "country": country, "state": state, "limit": limit, "deep": deep})
 
-    def nearest(self, lat: float, lon: float) -> Json:
-        return self._client._get("/city", {"lat": lat, "lon": lon})
+    def nearest(self, lat: float, lon: float, *, deep: bool = False) -> Json:
+        return self._client._get("/city", {"lat": lat, "lon": lon, "deep": deep})
 
     def nearby(
         self,
@@ -372,10 +374,11 @@ class _CitySync:
         country: Optional[str] = None,
         state: Optional[str] = None,
         limit: Optional[int] = None,
+        deep: bool = False,
     ) -> Json:
         return self._client._get(
             f"/city/{_seg(name)}/nearby",
-            {"radius": radius, "unit": unit, "country": country, "state": state, "limit": limit},
+            {"radius": radius, "unit": unit, "country": country, "state": state, "limit": limit, "deep": deep},
         )
 
 
@@ -383,11 +386,11 @@ class _PostalSync:
     def __init__(self, client: ParseAPI):
         self._client = client
 
-    def __call__(self, code: str, *, country: Optional[str] = None) -> Json:
+    def __call__(self, code: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         """Look up a postal area. Pass country when known. Check nullable coordinates before another
         location lookup.
         """
-        return self._client._get(f"/postal/{_seg(code)}", {"country": country})
+        return self._client._get(f"/postal/{_seg(code)}", {"country": country, "deep": deep})
 
     def nearby(
         self,
@@ -396,19 +399,20 @@ class _PostalSync:
         country: Optional[str] = None,
         radius: Optional[float] = None,
         unit: Optional[str] = None,
+        deep: bool = False,
     ) -> Json:
-        return self._client._get(f"/postal/{_seg(code)}/nearby", {"country": country, "radius": radius, "unit": unit})
+        return self._client._get(f"/postal/{_seg(code)}/nearby", {"country": country, "radius": radius, "unit": unit, "deep": deep})
 
-    def distance(self, from_postal: str, to_postal: str, *, country: Optional[str] = None) -> Json:
-        return self._client._get(f"/postal/{_seg(from_postal)}/distance/{_seg(to_postal)}", {"country": country})
+    def distance(self, from_postal: str, to_postal: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
+        return self._client._get(f"/postal/{_seg(from_postal)}/distance/{_seg(to_postal)}", {"country": country, "deep": deep})
 
 
 class _CurrencySync:
     def __init__(self, client: ParseAPI):
         self._client = client
 
-    def __call__(self, code: str) -> Json:
-        return self._client._get(f"/currency/{_seg(code)}")
+    def __call__(self, code: str, *, deep: bool = False) -> Json:
+        return self._client._get(f"/currency/{_seg(code)}", {"deep": deep})
 
     def rate(
         self, base: str, quote_currency: str, *, date: Optional[str] = None, amount: Optional[float] = None
@@ -433,24 +437,24 @@ class _EmojiSync:
     def __init__(self, client: ParseAPI):
         self._client = client
 
-    def __call__(self, emoji: str) -> Json:
-        return self._client._get(f"/emoji/{_seg(emoji)}")
+    def __call__(self, emoji: str, *, deep: bool = False) -> Json:
+        return self._client._get(f"/emoji/{_seg(emoji)}", {"deep": deep})
 
-    def search(self, query: str, *, limit: Optional[int] = None) -> Json:
-        return self._client._get("/emoji", {"q": query, "limit": limit})
+    def search(self, query: str, *, limit: Optional[int] = None, deep: bool = False) -> Json:
+        return self._client._get("/emoji", {"q": query, "limit": limit, "deep": deep})
 
 
 class _NaicsSync:
     def __init__(self, client: ParseAPI):
         self._client = client
 
-    def __call__(self, code: str) -> Json:
+    def __call__(self, code: str, *, deep: bool = False) -> Json:
         """Look up a US NAICS 2022 code and its hierarchy."""
-        return self._client._get(f"/naics/{_seg(code)}")
+        return self._client._get(f"/naics/{_seg(code)}", {"deep": deep})
 
-    def search(self, query: str, *, limit: Optional[int] = None) -> Json:
+    def search(self, query: str, *, limit: Optional[int] = None, deep: bool = False) -> Json:
         """Search industry keywords. Limit defaults to 10 and accepts 1-50."""
-        return self._client._get("/naics", {"q": query, "limit": limit})
+        return self._client._get("/naics", {"q": query, "limit": limit, "deep": deep})
 
 
 class _TariffSync:
@@ -534,8 +538,8 @@ class AsyncParseAPI:
                 continue
             raise _error_from(response)
 
-    async def district(self, code: str, *, country: Optional[str] = None, state: Optional[str] = None) -> Json:
-        return await self._get(f"/district/{_seg(code)}", {"country": country, "state": state})
+    async def district(self, code: str, *, country: Optional[str] = None, state: Optional[str] = None, deep: bool = False) -> Json:
+        return await self._get(f"/district/{_seg(code)}", {"country": country, "state": state, "deep": deep})
 
     async def email(self, email: str, *, deep: bool = False) -> Json:
         """Parse an email and check its format and domain. Deep explicitly requests a metered
@@ -562,8 +566,8 @@ class AsyncParseAPI:
         """Check BIC syntax and find a known institution. A null name means unknown."""
         return await self._get(f"/swift/{_seg(code)}")
 
-    async def iban(self, iban: str, *, country: Optional[str] = None) -> Json:
-        return await self._get(f"/iban/{_seg(iban)}", {"country": country})
+    async def iban(self, iban: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
+        return await self._get(f"/iban/{_seg(iban)}", {"country": country, "deep": deep})
 
     async def bin(self, bin: str, *, deep: bool = False) -> Json:
         """Look up a 6-11 digit card prefix, preserving leading zeros."""
@@ -574,27 +578,28 @@ class AsyncParseAPI:
 
     async def phone(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         """Parse a phone number and its formats. Pass country for national numbers when needed. Deep
-        returns an empty object. Carrier, caller, and HLR are separate metered lookups.
+        adds numbering-plan geography on every plan. Carrier, caller, and HLR are separate metered lookups.
         """
         return await self._get(f"/phone/{_seg(number)}", {"country": country, "deep": deep})
 
-    async def carrier(self, number: str, *, country: Optional[str] = None) -> Json:
+    async def carrier(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         """Request a metered carrier lookup. No automatic retries by default.
         """
-        return await self._get(f"/carrier/{_seg(number)}", {"country": country})
+        return await self._get(f"/carrier/{_seg(number)}", {"country": country, "deep": deep})
 
     async def caller(self, number: str, *, country: Optional[str] = None) -> Json:
         """Request a metered caller-name lookup for a NANP number. No automatic retries by default.
         """
         return await self._get(f"/caller/{_seg(number)}", {"country": country})
 
-    async def hlr(self, number: str, *, country: Optional[str] = None) -> Json:
+    async def hlr(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         """Request a metered live-status lookup. None status means unconfirmed. No automatic retries by
         default.
         """
-        return await self._get(f"/hlr/{_seg(number)}", {"country": country})
+        return await self._get(f"/hlr/{_seg(number)}", {"country": country, "deep": deep})
 
     async def domain(self, domain: str, *, deep: bool = False) -> Json:
+        """Check whether a domain is registered. Deep adds registration dates, registrar, status and DNSSEC on paid plans."""
         return await self._get(f"/domain/{_seg(domain)}", {"deep": deep})
 
     async def asn(self, asn: str) -> Json:
@@ -623,12 +628,12 @@ class AsyncParseAPI:
     async def company(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         return await self._get(f"/company/{_seg(number)}", {"country": country, "deep": deep})
 
-    async def language(self, code: str) -> Json:
-        return await self._get(f"/language/{_seg(code)}")
+    async def language(self, code: str, *, deep: bool = False) -> Json:
+        return await self._get(f"/language/{_seg(code)}", {"deep": deep})
 
-    async def name(self, name: str, *, country: Optional[str] = None) -> Json:
+    async def name(self, name: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         """Parse a name. Country is an ISO2 gender context, not nationality."""
-        return await self._get(f"/name/{_seg(name)}", {"country": country})
+        return await self._get(f"/name/{_seg(name)}", {"country": country, "deep": deep})
 
     async def elevation(self, lat: float, lon: float) -> Json:
         return await self._get("/elevation", {"lat": lat, "lon": lon})
@@ -684,8 +689,8 @@ class _CountryAsync:
     def __init__(self, client: AsyncParseAPI):
         self._client = client
 
-    async def __call__(self, code: str) -> Json:
-        return await self._client._get(f"/country/{_seg(code)}")
+    async def __call__(self, code: str, *, deep: bool = False) -> Json:
+        return await self._client._get(f"/country/{_seg(code)}", {"deep": deep})
 
     async def states(self, code: str) -> Json:
         return await self._client._get(f"/country/{_seg(code)}/states")
@@ -695,22 +700,22 @@ class _StateAsync:
     def __init__(self, client: AsyncParseAPI):
         self._client = client
 
-    async def __call__(self, code: str, *, country: Optional[str] = None) -> Json:
-        return await self._client._get(f"/state/{_seg(code)}", {"country": country})
+    async def __call__(self, code: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
+        return await self._client._get(f"/state/{_seg(code)}", {"country": country, "deep": deep})
 
-    async def districts(self, code: str, *, country: Optional[str] = None) -> Json:
-        return await self._client._get(f"/state/{_seg(code)}/districts", {"country": country})
+    async def districts(self, code: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
+        return await self._client._get(f"/state/{_seg(code)}/districts", {"country": country, "deep": deep})
 
 
 class _CityAsync:
     def __init__(self, client: AsyncParseAPI):
         self._client = client
 
-    async def __call__(self, name: str, *, country: Optional[str] = None, state: Optional[str] = None) -> Json:
-        return await self._client._get(f"/city/{_seg(name)}", {"country": country, "state": state})
+    async def __call__(self, name: str, *, country: Optional[str] = None, state: Optional[str] = None, deep: bool = False) -> Json:
+        return await self._client._get(f"/city/{_seg(name)}", {"country": country, "state": state, "deep": deep})
 
-    async def id(self, id: str) -> Json:
-        return await self._client._get(f"/city/id/{_seg(id)}")
+    async def id(self, id: str, *, deep: bool = False) -> Json:
+        return await self._client._get(f"/city/id/{_seg(id)}", {"deep": deep})
 
     async def search(
         self,
@@ -719,11 +724,12 @@ class _CityAsync:
         country: Optional[str] = None,
         state: Optional[str] = None,
         limit: Optional[int] = None,
+        deep: bool = False,
     ) -> Json:
-        return await self._client._get("/city", {"q": query, "country": country, "state": state, "limit": limit})
+        return await self._client._get("/city", {"q": query, "country": country, "state": state, "limit": limit, "deep": deep})
 
-    async def nearest(self, lat: float, lon: float) -> Json:
-        return await self._client._get("/city", {"lat": lat, "lon": lon})
+    async def nearest(self, lat: float, lon: float, *, deep: bool = False) -> Json:
+        return await self._client._get("/city", {"lat": lat, "lon": lon, "deep": deep})
 
     async def nearby(
         self,
@@ -734,10 +740,11 @@ class _CityAsync:
         country: Optional[str] = None,
         state: Optional[str] = None,
         limit: Optional[int] = None,
+        deep: bool = False,
     ) -> Json:
         return await self._client._get(
             f"/city/{_seg(name)}/nearby",
-            {"radius": radius, "unit": unit, "country": country, "state": state, "limit": limit},
+            {"radius": radius, "unit": unit, "country": country, "state": state, "limit": limit, "deep": deep},
         )
 
 
@@ -745,11 +752,11 @@ class _PostalAsync:
     def __init__(self, client: AsyncParseAPI):
         self._client = client
 
-    async def __call__(self, code: str, *, country: Optional[str] = None) -> Json:
+    async def __call__(self, code: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         """Look up a postal area. Pass country when known. Check nullable coordinates before another
         location lookup.
         """
-        return await self._client._get(f"/postal/{_seg(code)}", {"country": country})
+        return await self._client._get(f"/postal/{_seg(code)}", {"country": country, "deep": deep})
 
     async def nearby(
         self,
@@ -758,21 +765,22 @@ class _PostalAsync:
         country: Optional[str] = None,
         radius: Optional[float] = None,
         unit: Optional[str] = None,
+        deep: bool = False,
     ) -> Json:
         return await self._client._get(
-            f"/postal/{_seg(code)}/nearby", {"country": country, "radius": radius, "unit": unit}
+            f"/postal/{_seg(code)}/nearby", {"country": country, "radius": radius, "unit": unit, "deep": deep}
         )
 
-    async def distance(self, from_postal: str, to_postal: str, *, country: Optional[str] = None) -> Json:
-        return await self._client._get(f"/postal/{_seg(from_postal)}/distance/{_seg(to_postal)}", {"country": country})
+    async def distance(self, from_postal: str, to_postal: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
+        return await self._client._get(f"/postal/{_seg(from_postal)}/distance/{_seg(to_postal)}", {"country": country, "deep": deep})
 
 
 class _CurrencyAsync:
     def __init__(self, client: AsyncParseAPI):
         self._client = client
 
-    async def __call__(self, code: str) -> Json:
-        return await self._client._get(f"/currency/{_seg(code)}")
+    async def __call__(self, code: str, *, deep: bool = False) -> Json:
+        return await self._client._get(f"/currency/{_seg(code)}", {"deep": deep})
 
     async def rate(
         self, base: str, quote_currency: str, *, date: Optional[str] = None, amount: Optional[float] = None
@@ -797,24 +805,24 @@ class _EmojiAsync:
     def __init__(self, client: AsyncParseAPI):
         self._client = client
 
-    async def __call__(self, emoji: str) -> Json:
-        return await self._client._get(f"/emoji/{_seg(emoji)}")
+    async def __call__(self, emoji: str, *, deep: bool = False) -> Json:
+        return await self._client._get(f"/emoji/{_seg(emoji)}", {"deep": deep})
 
-    async def search(self, query: str, *, limit: Optional[int] = None) -> Json:
-        return await self._client._get("/emoji", {"q": query, "limit": limit})
+    async def search(self, query: str, *, limit: Optional[int] = None, deep: bool = False) -> Json:
+        return await self._client._get("/emoji", {"q": query, "limit": limit, "deep": deep})
 
 
 class _NaicsAsync:
     def __init__(self, client: AsyncParseAPI):
         self._client = client
 
-    async def __call__(self, code: str) -> Json:
+    async def __call__(self, code: str, *, deep: bool = False) -> Json:
         """Look up a US NAICS 2022 code and its hierarchy."""
-        return await self._client._get(f"/naics/{_seg(code)}")
+        return await self._client._get(f"/naics/{_seg(code)}", {"deep": deep})
 
-    async def search(self, query: str, *, limit: Optional[int] = None) -> Json:
+    async def search(self, query: str, *, limit: Optional[int] = None, deep: bool = False) -> Json:
         """Search industry keywords. Limit defaults to 10 and accepts 1-50."""
-        return await self._client._get("/naics", {"q": query, "limit": limit})
+        return await self._client._get("/naics", {"q": query, "limit": limit, "deep": deep})
 
 
 class _TariffAsync:
@@ -832,46 +840,46 @@ class _DateSync:
     def __init__(self, client: ParseAPI):
         self._client = client
 
-    def __call__(self, date: str, *, format: Optional[str] = None, to: Optional[str] = None) -> Json:
-        return self._client._get(f"/date/{_seg(date)}", {"format": format, "to": to})
+    def __call__(self, date: str, *, format: Optional[str] = None, to: Optional[str] = None, deep: bool = False) -> Json:
+        return self._client._get(f"/date/{_seg(date)}", {"format": format, "to": to, "deep": deep})
 
-    def today(self, *, to: Optional[str] = None) -> Json:
-        return self._client._get("/date", {"to": to})
+    def today(self, *, to: Optional[str] = None, deep: bool = False) -> Json:
+        return self._client._get("/date", {"to": to, "deep": deep})
 
 
 class _DateAsync:
     def __init__(self, client: AsyncParseAPI):
         self._client = client
 
-    async def __call__(self, date: str, *, format: Optional[str] = None, to: Optional[str] = None) -> Json:
-        return await self._client._get(f"/date/{_seg(date)}", {"format": format, "to": to})
+    async def __call__(self, date: str, *, format: Optional[str] = None, to: Optional[str] = None, deep: bool = False) -> Json:
+        return await self._client._get(f"/date/{_seg(date)}", {"format": format, "to": to, "deep": deep})
 
-    async def today(self, *, to: Optional[str] = None) -> Json:
-        return await self._client._get("/date", {"to": to})
+    async def today(self, *, to: Optional[str] = None, deep: bool = False) -> Json:
+        return await self._client._get("/date", {"to": to, "deep": deep})
 
 
 class _TimeSync:
     def __init__(self, client: ParseAPI):
         self._client = client
 
-    def __call__(self, timezone: Optional[str] = None, *, at: Optional[str] = None, to: Optional[str] = None) -> Json:
+    def __call__(self, timezone: Optional[str] = None, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False) -> Json:
         """Current local time, UTC by default. With to, offsetless at is source wall time."""
         path = "/time" if timezone is None else f"/time/{_seg(timezone)}"
-        return self._client._get(path, {"at": at, "to": to})
+        return self._client._get(path, {"at": at, "to": to, "deep": deep})
 
-    def at(self, lat: float, lon: float, *, at: Optional[str] = None, to: Optional[str] = None) -> Json:
-        return self._client._get("/time", {"lat": lat, "lon": lon, "at": at, "to": to})
+    def at(self, lat: float, lon: float, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False) -> Json:
+        return self._client._get("/time", {"lat": lat, "lon": lon, "at": at, "to": to, "deep": deep})
 
 
 class _TimezoneSync:
     def __init__(self, client: ParseAPI):
         self._client = client
 
-    def __call__(self, id: str, *, at: Optional[str] = None, to: Optional[str] = None) -> Json:
-        return self._client._get(f"/timezone/{_seg(id)}", {"at": at, "to": to})
+    def __call__(self, id: str, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False) -> Json:
+        return self._client._get(f"/timezone/{_seg(id)}", {"at": at, "to": to, "deep": deep})
 
-    def at(self, lat: float, lon: float, *, at: Optional[str] = None) -> Json:
-        return self._client._get("/timezone", {"lat": lat, "lon": lon, "at": at})
+    def at(self, lat: float, lon: float, *, at: Optional[str] = None, deep: bool = False) -> Json:
+        return self._client._get("/timezone", {"lat": lat, "lon": lon, "at": at, "deep": deep})
 
 
 class _AddressSync:
@@ -890,24 +898,24 @@ class _TimeAsync:
     def __init__(self, client: AsyncParseAPI):
         self._client = client
 
-    async def __call__(self, timezone: Optional[str] = None, *, at: Optional[str] = None, to: Optional[str] = None) -> Json:
+    async def __call__(self, timezone: Optional[str] = None, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False) -> Json:
         """Current local time, UTC by default. With to, offsetless at is source wall time."""
         path = "/time" if timezone is None else f"/time/{_seg(timezone)}"
-        return await self._client._get(path, {"at": at, "to": to})
+        return await self._client._get(path, {"at": at, "to": to, "deep": deep})
 
-    async def at(self, lat: float, lon: float, *, at: Optional[str] = None, to: Optional[str] = None) -> Json:
-        return await self._client._get("/time", {"lat": lat, "lon": lon, "at": at, "to": to})
+    async def at(self, lat: float, lon: float, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False) -> Json:
+        return await self._client._get("/time", {"lat": lat, "lon": lon, "at": at, "to": to, "deep": deep})
 
 
 class _TimezoneAsync:
     def __init__(self, client: AsyncParseAPI):
         self._client = client
 
-    async def __call__(self, id: str, *, at: Optional[str] = None, to: Optional[str] = None) -> Json:
-        return await self._client._get(f"/timezone/{_seg(id)}", {"at": at, "to": to})
+    async def __call__(self, id: str, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False) -> Json:
+        return await self._client._get(f"/timezone/{_seg(id)}", {"at": at, "to": to, "deep": deep})
 
-    async def at(self, lat: float, lon: float, *, at: Optional[str] = None) -> Json:
-        return await self._client._get("/timezone", {"lat": lat, "lon": lon, "at": at})
+    async def at(self, lat: float, lon: float, *, at: Optional[str] = None, deep: bool = False) -> Json:
+        return await self._client._get("/timezone", {"lat": lat, "lon": lon, "at": at, "deep": deep})
 
 
 class _AddressAsync:

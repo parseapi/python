@@ -144,6 +144,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -167,6 +173,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "state",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -178,6 +190,12 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "id",
           "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -219,6 +237,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "limit",
           "type": "Optional[int]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -235,6 +259,12 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "lon",
           "type": "float"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -264,6 +294,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "limit",
           "type": "Optional[int]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -360,6 +396,12 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "code",
           "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -382,6 +424,12 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "code",
           "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -433,6 +481,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "to",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -445,6 +499,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "to",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -468,6 +528,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "state",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -546,6 +612,12 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "emoji",
           "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -563,6 +635,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "limit",
           "type": "Optional[int]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -580,6 +658,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -630,6 +714,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -670,6 +760,12 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "code",
           "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -756,6 +852,12 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "code",
           "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -773,6 +875,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "limit",
           "type": "Optional[int]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -790,6 +898,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -869,6 +983,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -891,6 +1011,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -920,6 +1046,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "unit",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -937,6 +1069,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -954,6 +1092,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1023,6 +1167,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "to",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1051,6 +1201,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "to",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1074,6 +1230,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "to",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1096,6 +1258,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "at",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1337,6 +1505,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1360,6 +1534,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "state",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1371,6 +1551,12 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "id",
           "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1412,6 +1598,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "limit",
           "type": "Optional[int]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1428,6 +1620,12 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "lon",
           "type": "float"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1457,6 +1655,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "limit",
           "type": "Optional[int]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1553,6 +1757,12 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "code",
           "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1575,6 +1785,12 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "code",
           "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1626,6 +1842,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "to",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1638,6 +1860,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "to",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1661,6 +1889,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "state",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1739,6 +1973,12 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "emoji",
           "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1756,6 +1996,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "limit",
           "type": "Optional[int]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1773,6 +2019,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1823,6 +2075,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1863,6 +2121,12 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "code",
           "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1949,6 +2213,12 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "code",
           "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1966,6 +2236,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "limit",
           "type": "Optional[int]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1983,6 +2259,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -2062,6 +2344,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -2084,6 +2372,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -2113,6 +2407,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "unit",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -2130,6 +2430,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -2147,6 +2453,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -2216,6 +2528,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "to",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -2244,6 +2562,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "to",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -2267,6 +2591,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "to",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -2289,6 +2619,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "at",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
