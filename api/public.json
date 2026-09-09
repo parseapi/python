@@ -732,6 +732,34 @@
       ],
       "returns": "Json"
     },
+    "naics": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "naics.search": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "query",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        }
+      ],
+      "returns": "Json"
+    },
     "name": {
       "async": true,
       "parameters": [
@@ -1813,6 +1841,34 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "domain",
           "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "naics": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "naics.search": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "query",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
         }
       ],
       "returns": "Json"

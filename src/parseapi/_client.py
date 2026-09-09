@@ -133,6 +133,7 @@ class ParseAPI:
         self.currency = _CurrencySync(self)
         self.holiday = _HolidaySync(self)
         self.emoji = _EmojiSync(self)
+        self.naics = _NaicsSync(self)
         self.tariff = _TariffSync(self)
         self.date = _DateSync(self)
         self.measure = _MeasureSync(self)
@@ -430,6 +431,19 @@ class _EmojiSync:
         return self._client._get("/emoji", {"q": query, "limit": limit})
 
 
+class _NaicsSync:
+    def __init__(self, client: ParseAPI):
+        self._client = client
+
+    def __call__(self, code: str) -> Json:
+        """Look up a US NAICS 2022 code and its hierarchy."""
+        return self._client._get(f"/naics/{_seg(code)}")
+
+    def search(self, query: str, *, limit: Optional[int] = None) -> Json:
+        """Search industry keywords. Limit defaults to 10 and accepts 1-50."""
+        return self._client._get("/naics", {"q": query, "limit": limit})
+
+
 class _TariffSync:
     def __init__(self, client: ParseAPI):
         self._client = client
@@ -470,6 +484,7 @@ class AsyncParseAPI:
         self.currency = _CurrencyAsync(self)
         self.holiday = _HolidayAsync(self)
         self.emoji = _EmojiAsync(self)
+        self.naics = _NaicsAsync(self)
         self.tariff = _TariffAsync(self)
         self.date = _DateAsync(self)
         self.measure = _MeasureAsync(self)
@@ -769,6 +784,19 @@ class _EmojiAsync:
 
     async def search(self, query: str, *, limit: Optional[int] = None) -> Json:
         return await self._client._get("/emoji", {"q": query, "limit": limit})
+
+
+class _NaicsAsync:
+    def __init__(self, client: AsyncParseAPI):
+        self._client = client
+
+    async def __call__(self, code: str) -> Json:
+        """Look up a US NAICS 2022 code and its hierarchy."""
+        return await self._client._get(f"/naics/{_seg(code)}")
+
+    async def search(self, query: str, *, limit: Optional[int] = None) -> Json:
+        """Search industry keywords. Limit defaults to 10 and accepts 1-50."""
+        return await self._client._get("/naics", {"q": query, "limit": limit})
 
 
 class _TariffAsync:
