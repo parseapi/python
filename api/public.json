@@ -975,6 +975,58 @@
       ],
       "returns": "Json"
     },
+    "time": {
+      "async": true,
+      "parameters": [
+        {
+          "default": null,
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "timezone",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "at",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "to",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "time.at": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lat",
+          "type": "float"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lon",
+          "type": "float"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "at",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "to",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
     "timezone": {
       "async": true,
       "parameters": [
@@ -2084,6 +2136,58 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "query",
           "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "time": {
+      "async": false,
+      "parameters": [
+        {
+          "default": null,
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "timezone",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "at",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "to",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "time.at": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lat",
+          "type": "float"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lon",
+          "type": "float"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "at",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "to",
+          "type": "Optional[str]"
         }
       ],
       "returns": "Json"

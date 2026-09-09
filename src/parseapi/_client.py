@@ -137,6 +137,7 @@ class ParseAPI:
         self.tariff = _TariffSync(self)
         self.date = _DateSync(self)
         self.measure = _MeasureSync(self)
+        self.time = _TimeSync(self)
         self.timezone = _TimezoneSync(self)
         self.address = _AddressSync(self)
 
@@ -488,6 +489,7 @@ class AsyncParseAPI:
         self.tariff = _TariffAsync(self)
         self.date = _DateAsync(self)
         self.measure = _MeasureAsync(self)
+        self.time = _TimeAsync(self)
         self.timezone = _TimezoneAsync(self)
         self.address = _AddressAsync(self)
 
@@ -832,6 +834,19 @@ class _DateAsync:
         return await self._client._get("/date", {"to": to})
 
 
+class _TimeSync:
+    def __init__(self, client: ParseAPI):
+        self._client = client
+
+    def __call__(self, timezone: Optional[str] = None, *, at: Optional[str] = None, to: Optional[str] = None) -> Json:
+        """Current local time, UTC by default. With to, offsetless at is source wall time."""
+        path = "/time" if timezone is None else f"/time/{_seg(timezone)}"
+        return self._client._get(path, {"at": at, "to": to})
+
+    def at(self, lat: float, lon: float, *, at: Optional[str] = None, to: Optional[str] = None) -> Json:
+        return self._client._get("/time", {"lat": lat, "lon": lon, "at": at, "to": to})
+
+
 class _TimezoneSync:
     def __init__(self, client: ParseAPI):
         self._client = client
@@ -853,6 +868,19 @@ class _AddressSync:
     def search(self, query: str, *, country: Optional[str] = None, postal: Optional[str] = None,
         city: Optional[str] = None, state: Optional[str] = None, ip: Optional[str] = None) -> Json:
         return self._client._get("/address", {"q": query, "country": country, "postal": postal, "city": city, "state": state, "ip": ip})
+
+
+class _TimeAsync:
+    def __init__(self, client: AsyncParseAPI):
+        self._client = client
+
+    async def __call__(self, timezone: Optional[str] = None, *, at: Optional[str] = None, to: Optional[str] = None) -> Json:
+        """Current local time, UTC by default. With to, offsetless at is source wall time."""
+        path = "/time" if timezone is None else f"/time/{_seg(timezone)}"
+        return await self._client._get(path, {"at": at, "to": to})
+
+    async def at(self, lat: float, lon: float, *, at: Optional[str] = None, to: Optional[str] = None) -> Json:
+        return await self._client._get("/time", {"lat": lat, "lon": lon, "at": at, "to": to})
 
 
 class _TimezoneAsync:
