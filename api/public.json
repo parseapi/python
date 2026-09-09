@@ -75,6 +75,23 @@
       ],
       "returns": "Json"
     },
+    "bin": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "bin",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
     "bloc": {
       "async": true,
       "parameters": [
@@ -1236,6 +1253,23 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "asn",
           "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "bin": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "bin",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"

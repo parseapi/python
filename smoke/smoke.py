@@ -90,6 +90,7 @@ expect_ok(
     lambda: parse.vat("DE136695976"),
     lambda r: None if r.get("valid") is True and r.get("country") == "DE" else "not valid DE",
 )
+expect_ok("bin", lambda: parse.bin("00 0000", deep=True), lambda r: None if r.get("bin") == "000000" and r.get("deep") == {} else "BIN echo or deep mismatch")
 expect_ok(
     "iban",
     lambda: parse.iban("DE89370400440532013000"),

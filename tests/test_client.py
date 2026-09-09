@@ -23,6 +23,8 @@ def ok(body=None):
 
 
 URL_TABLE = [
+    (lambda p: p.bin("001234"), "https://api.parseapi.com/bin/001234"),
+    (lambda p: p.bin("00 1234-56", deep=True), "https://api.parseapi.com/bin/00%201234-56?deep=true"),
     (lambda p: p.time(), "https://api.parseapi.com/time"),
     (lambda p: p.time("America/New_York", at="2026-09-05T15:00:00", to="Asia/Tokyo"), "https://api.parseapi.com/time/America%2FNew_York?at=2026-09-05T15%3A00%3A00&to=Asia%2FTokyo"),
     (lambda p: p.time.at(0, 0, at="1970-01-01T00:00:00Z", to="UTC"), "https://api.parseapi.com/time?lat=0&lon=0&at=1970-01-01T00%3A00%3A00Z&to=UTC"),
@@ -441,3 +443,18 @@ def test_async_naics_exclusions_and_match_pass_through():
         async with AsyncParseAPI("test_key", transport=httpx.MockTransport(ok(body))) as client:
             assert await client.naics.search("sofware") == body
     asyncio.run(run())
+
+def test_bin_reference_null_false_and_error():
+    body = {"bin": "00123456", "prefix": "001234", "country": None, "issuer": "Fixture Bank", "brand": "future-brand", "type": None, "prepaid": False, "deep": {}, "future": True}
+    client, calls = make_client(ok(body))
+    assert client.bin("00 1234-56", deep=True) == body
+    assert str(calls[0].url) == "https://api.parseapi.com/bin/00%201234-56?deep=true"
+    async def check_async():
+        async with AsyncParseAPI("test_key", transport=httpx.MockTransport(ok(body))) as client:
+            assert await client.bin("00123456", deep=True) == body
+    asyncio.run(check_async())
+    client, calls = make_client(lambda request: httpx.Response(400, json={"code": "invalid_input", "message": "Expected 6-11 digits"}))
+    with pytest.raises(ParseAPIError) as err:
+        client.bin("bad/input")
+    assert err.value.status == 400
+    assert len(calls) == 1

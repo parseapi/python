@@ -199,6 +199,10 @@ class ParseAPI:
     def iban(self, iban: str, *, country: Optional[str] = None) -> Json:
         return self._get(f"/iban/{_seg(iban)}", {"country": country})
 
+    def bin(self, bin: str, *, deep: bool = False) -> Json:
+        """Look up a 6-11 digit card prefix, preserving leading zeros."""
+        return self._get(f"/bin/{_seg(bin)}", {"deep": deep})
+
     def npi(self, npi: str, *, deep: bool = False) -> Json:
         return self._get(f"/npi/{_seg(npi)}", {"deep": deep})
 
@@ -552,6 +556,10 @@ class AsyncParseAPI:
 
     async def iban(self, iban: str, *, country: Optional[str] = None) -> Json:
         return await self._get(f"/iban/{_seg(iban)}", {"country": country})
+
+    async def bin(self, bin: str, *, deep: bool = False) -> Json:
+        """Look up a 6-11 digit card prefix, preserving leading zeros."""
+        return await self._get(f"/bin/{_seg(bin)}", {"deep": deep})
 
     async def npi(self, npi: str, *, deep: bool = False) -> Json:
         return await self._get(f"/npi/{_seg(npi)}", {"deep": deep})
