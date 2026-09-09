@@ -197,10 +197,6 @@ class ParseAPI:
         """
         return self._get(f"/vat/{_seg(number)}", {"country": country, "deep": deep, "from": from_vat})
 
-    def swift(self, code: str) -> Json:
-        """Check BIC syntax and find a known institution. A null name means unknown."""
-        return self._get(f"/swift/{_seg(code)}")
-
     def iban(self, iban: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         return self._get(f"/iban/{_seg(iban)}", {"country": country, "deep": deep})
 
@@ -569,10 +565,6 @@ class AsyncParseAPI:
         reference when supported.
         """
         return await self._get(f"/vat/{_seg(number)}", {"country": country, "deep": deep, "from": from_vat})
-
-    async def swift(self, code: str) -> Json:
-        """Check BIC syntax and find a known institution. A null name means unknown."""
-        return await self._get(f"/swift/{_seg(code)}")
 
     async def iban(self, iban: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         return await self._get(f"/iban/{_seg(iban)}", {"country": country, "deep": deep})
