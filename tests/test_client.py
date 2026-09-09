@@ -28,12 +28,12 @@ URL_TABLE = [
     (lambda p: p.time(), "https://api.parseapi.com/time"),
     (lambda p: p.time("America/New_York", at="2026-09-05T15:00:00", to="Asia/Tokyo"), "https://api.parseapi.com/time/America%2FNew_York?at=2026-09-05T15%3A00%3A00&to=Asia%2FTokyo"),
     (lambda p: p.time.at(0, 0, at="1970-01-01T00:00:00Z", to="UTC"), "https://api.parseapi.com/time?lat=0&lon=0&at=1970-01-01T00%3A00%3A00Z&to=UTC"),
+    (lambda p: p.dns("example.com"), "https://api.parseapi.com/dns/example.com"),
+    (lambda p: p.dns("_dmarc.bücher.example.", type="txt"), "https://api.parseapi.com/dns/_dmarc.b%C3%BCcher.example.?type=txt"),
     (lambda p: p.naics("31-33"), "https://api.parseapi.com/naics/31-33"),
     (lambda p: p.naics("54/11"), "https://api.parseapi.com/naics/54%2F11"),
     (lambda p: p.naics.search("coffee & tea", limit=5), "https://api.parseapi.com/naics?q=coffee+%26+tea&limit=5"),
     (lambda p: p.naics.search("plumbing"), "https://api.parseapi.com/naics?q=plumbing"),
-    (lambda p: p.dns("example.com"), "https://api.parseapi.com/dns/example.com"),
-    (lambda p: p.dns("_dmarc.bücher.example.", type="txt"), "https://api.parseapi.com/dns/_dmarc.b%C3%BCcher.example.?type=txt"),
     (lambda p: p.name("Andrea / Smith", country="IT"), "https://api.parseapi.com/name/Andrea%20%2F%20Smith?country=IT"),
     (lambda p: p.measure("5 ft 11 in", to="cm", locale="en-US", system="us"), "https://api.parseapi.com/measure/5%20ft%2011%20in?to=cm&locale=en-US&system=us"),
     (lambda p: p.measure("1 kg/m^3", to="g/L"), "https://api.parseapi.com/measure/1%20kg%2Fm%5E3?to=g%2FL"),
@@ -443,6 +443,7 @@ def test_async_naics_exclusions_and_match_pass_through():
         async with AsyncParseAPI("test_key", transport=httpx.MockTransport(ok(body))) as client:
             assert await client.naics.search("sofware") == body
     asyncio.run(run())
+
 
 def test_bin_reference_null_false_and_error():
     body = {"bin": "00123456", "prefix": "001234", "country": None, "issuer": "Fixture Bank", "brand": "future-brand", "type": None, "prepaid": False, "deep": {}, "future": True}

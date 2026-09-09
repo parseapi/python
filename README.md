@@ -111,6 +111,8 @@ NAICS paid deep records include classification `deep.exclusions`, each with a de
 
 Responses are plain dicts, exactly the JSON the API returns. `country.states("US")` requests states directly; it does not fetch a country first. Required inputs are positional and optional behavior uses keyword arguments, leaving room for new options without changing existing calls. Reuse a client across calls. Use `with ParseAPI(...) as parse:` or call `parse.close()` when finished.
 
+DNS uses pooled requests on every plan. Omit `type` to check A, AAAA, CNAME, MX, NS, TXT, SOA, CAA, SRV and PTR. Records contain `name`, `type`, `ttl` in seconds and a DNS presentation `value`. TXT values retain quoting and chunk boundaries. A selected question can include its CNAME chain. Empty records mean no records. Lookup failures remain errors.
+
 ## Async
 
 Same lookup methods and keyword arguments, with `await`. Use a context manager to close the client when the work is done.
@@ -121,8 +123,6 @@ from parseapi import AsyncParseAPI
 async with AsyncParseAPI("your-api-key") as parse:
     country = await parse.country("US")
 ```
-
-DNS uses pooled requests on every plan. Omit `type` to check A, AAAA, CNAME, MX, NS, TXT, SOA, CAA, SRV and PTR. Records contain `name`, `type`, `ttl` in seconds and a DNS presentation `value`. TXT values retain quoting and chunk boundaries. A selected question can include its CNAME chain. Empty records mean no records. Lookup failures remain errors.
 
 ## Time
 
