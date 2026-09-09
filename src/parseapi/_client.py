@@ -227,9 +227,9 @@ class ParseAPI:
         return self._get(f"/caller/{_seg(number)}", {"country": country})
 
     def hlr(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
-        """Request a metered live-status lookup. None status means unconfirmed. No automatic retries by
-        default.
-        """
+        """Look up phone status at the last check. Live means assigned and connected means reachable
+        at that check. Cached results may be returned. Null means unconfirmed. Deep adds network
+        diagnostics within the same metered lookup. No automatic retries by default."""
         return self._get(f"/hlr/{_seg(number)}", {"country": country, "deep": deep})
 
     def domain(self, domain: str, *, deep: bool = False) -> Json:
@@ -273,12 +273,15 @@ class ParseAPI:
         return self._get("/elevation", {"lat": lat, "lon": lon})
 
     def point(self, lat: float, lon: float, *, deep: bool = False) -> Json:
+        """Resolve the country, state, district and timezone at coordinates. Deep adds terrain and
+        compact nearest-city context on every plan. The timezone ID stays in core. The nearest
+        city is null when none is within 200 km."""
         return self._get("/point", {"lat": lat, "lon": lon, "deep": deep})
 
     def weather(self, lat: float, lon: float, *, deep: bool = False, date: Optional[str] = None) -> Json:
-        """Get weather for a point. Both unit systems are returned. Pass known coordinates from a
-        postal, city, or location result.
-        """
+        """Get current conditions in metric and imperial units. Paid deep adds specialist current
+        measurements, forecasts and related detail. With deep, date selects a past UTC day (YYYY-
+        MM-DD) in deep.history alongside current conditions. Date alone does not request history."""
         return self._get("/weather", {"lat": lat, "lon": lon, "deep": deep, "date": date})
 
 
@@ -462,6 +465,10 @@ class _TariffSync:
         self._client = client
 
     def __call__(self, code: str, *, deep: bool = False, origin: Optional[str] = None) -> Json:
+        """Look up the general US duty schedule line. Paid deep adds units and the special and other
+        schedule columns. Add origin with deep to resolve country-specific measures. Without
+        origin, schedule detail remains available and origin-dependent fields are null. A null
+        effective rate is not a zero rate."""
         return self._client._get(f"/tariff/{_seg(code)}", {"deep": deep, "origin": origin})
 
     def search(self, query: str) -> Json:
@@ -593,9 +600,9 @@ class AsyncParseAPI:
         return await self._get(f"/caller/{_seg(number)}", {"country": country})
 
     async def hlr(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
-        """Request a metered live-status lookup. None status means unconfirmed. No automatic retries by
-        default.
-        """
+        """Look up phone status at the last check. Live means assigned and connected means reachable
+        at that check. Cached results may be returned. Null means unconfirmed. Deep adds network
+        diagnostics within the same metered lookup. No automatic retries by default."""
         return await self._get(f"/hlr/{_seg(number)}", {"country": country, "deep": deep})
 
     async def domain(self, domain: str, *, deep: bool = False) -> Json:
@@ -639,12 +646,15 @@ class AsyncParseAPI:
         return await self._get("/elevation", {"lat": lat, "lon": lon})
 
     async def point(self, lat: float, lon: float, *, deep: bool = False) -> Json:
+        """Resolve the country, state, district and timezone at coordinates. Deep adds terrain and
+        compact nearest-city context on every plan. The timezone ID stays in core. The nearest
+        city is null when none is within 200 km."""
         return await self._get("/point", {"lat": lat, "lon": lon, "deep": deep})
 
     async def weather(self, lat: float, lon: float, *, deep: bool = False, date: Optional[str] = None) -> Json:
-        """Get weather for a point. Both unit systems are returned. Pass known coordinates from a
-        postal, city, or location result.
-        """
+        """Get current conditions in metric and imperial units. Paid deep adds specialist current
+        measurements, forecasts and related detail. With deep, date selects a past UTC day (YYYY-
+        MM-DD) in deep.history alongside current conditions. Date alone does not request history."""
         return await self._get("/weather", {"lat": lat, "lon": lon, "deep": deep, "date": date})
 
 
@@ -830,6 +840,10 @@ class _TariffAsync:
         self._client = client
 
     async def __call__(self, code: str, *, deep: bool = False, origin: Optional[str] = None) -> Json:
+        """Look up the general US duty schedule line. Paid deep adds units and the special and other
+        schedule columns. Add origin with deep to resolve country-specific measures. Without
+        origin, schedule detail remains available and origin-dependent fields are null. A null
+        effective rate is not a zero rate."""
         return await self._client._get(f"/tariff/{_seg(code)}", {"deep": deep, "origin": origin})
 
     async def search(self, query: str) -> Json:
@@ -891,6 +905,10 @@ class _AddressSync:
 
     def search(self, query: str, *, country: Optional[str] = None, postal: Optional[str] = None,
         city: Optional[str] = None, state: Optional[str] = None, ip: Optional[str] = None) -> Json:
+        """Find address suggestions using the context supplied. Prefer postal, or city and state,
+        from the form. ip is an optional end-user locality hint for server-side calls. An empty
+        result has reason more_input, missing_context or no_matches. Suggestions have reason null.
+        Operational failures are errors."""
         return self._client._get("/address", {"q": query, "country": country, "postal": postal, "city": city, "state": state, "ip": ip})
 
 
@@ -927,6 +945,10 @@ class _AddressAsync:
 
     async def search(self, query: str, *, country: Optional[str] = None, postal: Optional[str] = None,
         city: Optional[str] = None, state: Optional[str] = None, ip: Optional[str] = None) -> Json:
+        """Find address suggestions using the context supplied. Prefer postal, or city and state,
+        from the form. ip is an optional end-user locality hint for server-side calls. An empty
+        result has reason more_input, missing_context or no_matches. Suggestions have reason null.
+        Operational failures are errors."""
         return await self._client._get("/address", {"q": query, "country": country, "postal": postal, "city": city, "state": state, "ip": ip})
 
 
