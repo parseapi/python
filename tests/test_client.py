@@ -485,3 +485,24 @@ def test_adp_optional_depth_same_operation(method, args, options, async_mode):
     asyncio.run(run())
     assert calls[0].url.path == calls[1].url.path
     assert dict(calls[1].url.params) == {**dict(calls[0].url.params), "deep": "true"}
+
+
+@pytest.mark.parametrize("name_local", ["München", None])
+def test_name_local_preserved_sync_and_async(name_local):
+    record = {"name": "Munich", "name_local": name_local}
+    cases = [
+        (lambda p: p.country("DE"), record),
+        (lambda p: p.state("BY"), record),
+        (lambda p: p.city("Munich"), record),
+        (lambda p: p.language("de"), record),
+        (lambda p: p.holiday("DE"), {"holidays": [record]}),
+        (lambda p: p.point(48, 11, deep=True), {"deep": {"city": record}}),
+    ]
+    for invoke, body in cases:
+        client, _ = make_client(ok(body))
+        with client:
+            assert invoke(client) == body
+        async def check():
+            async with AsyncParseAPI("test_key", transport=httpx.MockTransport(ok(body))) as client:
+                assert await invoke(client) == body
+        asyncio.run(check())
