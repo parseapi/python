@@ -424,3 +424,20 @@ def test_dns_preserves_presentation_and_empty_records_sync_and_async():
         client, _ = make_client(ok(body))
         assert client.dns("example.com", type="TXT") == body
         asyncio.run(run(body))
+
+
+@pytest.mark.parametrize("record", json.loads(r'''[{"naics":"541511","name":"Custom Computer Programming Services","description":null,"level":6,"parent":"54151","parent_name":"Computer Systems Design and Related Services","children":[],"year":2022,"country":"US"},{"naics":"541511","name":"Custom Computer Programming Services","description":null,"level":6,"parent":"54151","parent_name":"Computer Systems Design and Related Services","children":[],"year":2022,"country":"US","exclusions":null,"match":null},{"naics":"541511","name":"Custom Computer Programming Services","description":null,"level":6,"parent":"54151","parent_name":"Computer Systems Design and Related Services","children":[],"year":2022,"country":"US","exclusions":[],"match":{"field":"future-field","text":"Future matching evidence","corrections":[],"future":true}},{"naics":"541511","name":"Custom Computer Programming Services","description":null,"level":6,"parent":"54151","parent_name":"Computer Systems Design and Related Services","children":[],"year":2022,"country":"US","exclusions":[{"description":"Designing integrated computer systems","codes":[{"naics":"541512","name":"Computer Systems Design Services"}]},{"description":"Activities classified elsewhere","codes":[]}],"match":{"field":"term","text":"Computer software programming services","corrections":[{"from":"sofware","to":"software"}]},"future":true}]'''))
+def test_naics_exclusions_and_match_pass_through(record):
+    body = {"q": "sofware", "year": 2022, "country": "US", "results": [record]}
+    client, calls = make_client(ok(body))
+    assert client.naics.search("sofware") == body
+    assert calls[0].url.params["q"] == "sofware"
+
+
+def test_async_naics_exclusions_and_match_pass_through():
+    async def run():
+        record = json.loads(r'{"naics":"541511","name":"Custom Computer Programming Services","description":null,"level":6,"parent":"54151","parent_name":"Computer Systems Design and Related Services","children":[],"year":2022,"country":"US","exclusions":[{"description":"Designing integrated computer systems","codes":[{"naics":"541512","name":"Computer Systems Design Services"}]},{"description":"Activities classified elsewhere","codes":[]}],"match":{"field":"term","text":"Computer software programming services","corrections":[{"from":"sofware","to":"software"}]},"future":true}''')
+        body = {"q": "sofware", "year": 2022, "country": "US", "results": [record]}
+        async with AsyncParseAPI("test_key", transport=httpx.MockTransport(ok(body))) as client:
+            assert await client.naics.search("sofware") == body
+    asyncio.run(run())
