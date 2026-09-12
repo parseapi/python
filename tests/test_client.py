@@ -144,7 +144,7 @@ def test_url_mapping(invoke, expected):
 
 
 def test_name_known_does_not_require_gender():
-    body = {"name": "王", "valid": True, "known": True, "countries": ["CN", "TW"], "gender": None, "future": True}
+    body = {"name": "王", "valid": True, "known": True, "gender": None, "future": True}
     client, calls = make_client(ok(body))
     assert client.name("王", country="CN") == body
     assert str(calls[0].url).endswith("?country=CN")
