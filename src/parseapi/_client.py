@@ -11,6 +11,7 @@ from urllib.parse import quote
 import httpx
 
 VERSION = "0.5.0"
+_API_VERSION = "2.0.0"
 DEFAULT_BASE_URL = "https://api.parseapi.com"
 DEFAULT_TIMEOUT = 10.0
 DEFAULT_RETRIES = 2
@@ -102,7 +103,7 @@ class _Config:
             raise ValueError("parseapi: retries must be a non-negative integer.")
 
     def headers(self) -> Dict[str, str]:
-        return {"X-API-Key": self.api_key, "User-Agent": f"parseapi-python/{VERSION}"}
+        return {"X-API-Key": self.api_key, "User-Agent": f"parseapi-python/{VERSION}", "Parse-Version": _API_VERSION}
 
 
 class ParseAPI:
