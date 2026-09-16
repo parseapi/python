@@ -143,11 +143,11 @@ def test_url_mapping(invoke, expected):
     assert str(calls[0].url) == expected
 
 
-def test_name_known_does_not_require_gender():
-    body = {"name": "王", "valid": True, "known": True, "gender": None, "future": True}
+def test_name_preserves_nullable_evidence_and_future_fields():
+    body = {"name": "王", "valid": True, "deep": {"gender": None, "salutation": None}, "future": True}
     client, calls = make_client(ok(body))
-    assert client.name("王", country="CN") == body
-    assert str(calls[0].url).endswith("?country=CN")
+    assert client.name("王", country="CN", deep=True) == body
+    assert str(calls[0].url).endswith("?country=CN&deep=true")
 
 
 def test_headers():

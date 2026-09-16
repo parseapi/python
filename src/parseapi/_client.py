@@ -262,9 +262,9 @@ class ParseAPI:
     def language(self, code: str, *, deep: bool = False) -> Json:
         return self._get(f"/language/{_seg(code)}", {"deep": deep})
 
-    def name(self, name: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
-        """Parse a name. Country is an ISO2 gender context, not nationality."""
-        return self._get(f"/name/{_seg(name)}", {"country": country, "deep": deep})
+    def name(self, name: str, *, country: Optional[str] = None, deep: bool = False, name_locale: Optional[str] = None) -> Json:
+        """Parse a name. Country scopes gender. Name locale selects CLDR formatting, default en, without changing parsing."""
+        return self._get(f"/name/{_seg(name)}", {"country": country, "deep": deep, "name_locale": name_locale})
 
     def elevation(self, lat: float, lon: float) -> Json:
         return self._get("/elevation", {"lat": lat, "lon": lon})
@@ -631,9 +631,9 @@ class AsyncParseAPI:
     async def language(self, code: str, *, deep: bool = False) -> Json:
         return await self._get(f"/language/{_seg(code)}", {"deep": deep})
 
-    async def name(self, name: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
-        """Parse a name. Country is an ISO2 gender context, not nationality."""
-        return await self._get(f"/name/{_seg(name)}", {"country": country, "deep": deep})
+    async def name(self, name: str, *, country: Optional[str] = None, deep: bool = False, name_locale: Optional[str] = None) -> Json:
+        """Parse a name. Country scopes gender. Name locale selects CLDR formatting, default en, without changing parsing."""
+        return await self._get(f"/name/{_seg(name)}", {"country": country, "deep": deep, "name_locale": name_locale})
 
     async def elevation(self, lat: float, lon: float) -> Json:
         return await self._get("/elevation", {"lat": lat, "lon": lon})

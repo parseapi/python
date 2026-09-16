@@ -6,6 +6,8 @@ Official ParseAPI client for Python.
 pip install parseapi
 ```
 
+Name paid deep includes flat `short`, `directory`, and `initials` fields beside `gender` and `salutation`. `name_locale` selects CLDR formatting rules and defaults to `en`. It changes formatting only. Country remains gender context, and unavailable formatting is null. Older responses may omit these fields.
+
 ```python
 from parseapi import ParseAPI
 
@@ -88,6 +90,7 @@ parse.currency.rate("USD", "EUR")
 parse.language("en")
 parse.name("BILLY OSHALL")
 parse.name("Andrea", country="IT", deep=True)
+parse.name("Robert James Smith", deep=True, name_locale="en")
 parse.time()  # UTC now
 parse.time("America/New_York")
 parse.time("America/New_York", at="2026-09-05T15:00:00", to="Europe/London")

@@ -904,6 +904,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "deep",
           "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "name_locale",
+          "type": "Optional[str]"
         }
       ],
       "returns": "Json"
@@ -2254,6 +2260,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "deep",
           "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "name_locale",
+          "type": "Optional[str]"
         }
       ],
       "returns": "Json"
