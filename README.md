@@ -17,7 +17,7 @@ Get a key at [parseapi.com](https://parseapi.com). The client also reads `PARSEA
 
 ## API versions
 
-Version 1.0.0 explicitly selects the API contract supported by this SDK. It sends `Parse-Version: 2.0.0` on every lookup so responses match the API contract supported by the package. Your key and the team's saved default stay the same.
+Version 1.1.0 explicitly selects the API contract supported by this SDK. It sends `Parse-Version: 2.0.0` on every lookup so responses match the API contract supported by the package. Your key and the team's saved default stay the same.
 
 Upgrade the dependency in staging, review the [release notes](https://parseapi.com/docs/releases), and test the application before deploying the same code and dependency version to production. Commit your dependency lockfile so the tested package travels with your deployment. Future major SDK upgrades can select a newer API contract.
 
@@ -205,7 +205,7 @@ Choose enrichment for the question you need answered.
 |---|---|
 | IP | Richer IP fields included with a paid plan. No separate check meter. |
 | Domain | Registration dates, registrar, status and DNSSEC, included with a paid plan. Use `dns` for DNS records and `mx` for mail routing. |
-| Email | A metered deliverability check, using included email checks or enabled on-demand usage. |
+| Email | A metered mailbox check with deliverability, catch-all, status, reason and address hints, using included email checks or enabled on-demand usage. |
 | VAT | A metered registry check where supported, using included VAT checks or enabled on-demand usage. |
 | Phone, Time, Date, Currency, Language, Emoji, IBAN, Point | Optional detail in the same pooled request on every plan. |
 | Country, State, District, City, Postal | The place profile on paid plans, including demographic and tax facts where held. |
@@ -213,6 +213,10 @@ Choose enrichment for the question you need answered.
 | VIN, NPI, Tariff, Company | The complete product detail bag on paid plans. |
 | Weather | Specialist current measurements and the existing forecast, alert, air and history bag on paid plans. |
 | Carrier, HLR | Optional diagnostic detail within the same metered core unit, including Free allowance units. No second gate or additional check. |
+
+Email deep includes mailbox status and the reason for the result, plus a suggested first name, no-reply flag, plus-address tag and mail service. The suggested name is not a verified identity. Unavailable details are null.
+
+Reasons include `accepted`, `invalid_format`, `invalid_domain`, `no_mail_server`, `mailbox_not_found`, `mailbox_disabled`, `mailbox_full`, `catchall`, `disposable`, `temporary_failure`, `rejected` and `unconfirmed`.
 
 Carrier, caller, and HLR are separate metered operations. Choose them explicitly when you need their answers. Ordinary lookups retry twice by default. Metered checks use one attempt by default. Setting retries explicitly can repeat paid usage.
 
