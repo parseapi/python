@@ -96,11 +96,15 @@ class _Config:
         self.api_key = key
         self.base_url = (base_url or os.environ.get("PARSEAPI_BASE_URL") or DEFAULT_BASE_URL).rstrip("/")
         self.timeout = DEFAULT_TIMEOUT if timeout is None else timeout
+        self.timeout_explicit = timeout is not None
         self.retries = retries
         if type(self.timeout) not in (int, float) or not math.isfinite(self.timeout) or self.timeout <= 0:
             raise ValueError("parseapi: timeout must be a finite positive number.")
         if self.retries is not None and (type(self.retries) is not int or self.retries < 0):
             raise ValueError("parseapi: retries must be a non-negative integer.")
+
+    def timeout_for(self, path: str) -> float:
+        return 35.0 if not self.timeout_explicit and path.startswith("/stack/") else self.timeout
 
     def headers(self) -> Dict[str, str]:
         return {"X-API-Key": self.api_key, "User-Agent": f"parseapi-python/{VERSION}", "Parse-Version": _API_VERSION}
@@ -157,7 +161,7 @@ class ParseAPI:
         attempt = 0
         while True:
             try:
-                response = self._http.get(path, params=_clean(params or {}), headers=headers)
+                response = self._http.get(path, params=_clean(params or {}), headers=headers, timeout=self._config.timeout_for(path))
             except httpx.HTTPError:
                 if attempt < retries:
                     time.sleep(_retry_delay(attempt, None))
@@ -229,6 +233,15 @@ class ParseAPI:
         at that check. Cached results may be returned. Null means unconfirmed. Deep adds network
         diagnostics within the same metered lookup. No automatic retries by default."""
         return self._get(f"/hlr/{_seg(number)}", {"country": country, "deep": deep})
+
+    def stack(self, domain: str, *, deep: bool = False, pretty: bool = False) -> Json:
+        """Identify website technologies and versions by category.
+
+        All categories are lists. Scope, pages and partial describe bounded coverage.
+        Lists are null when no page could be checked and empty for no matches.
+        Pass a hostname without a URL scheme or path.
+        """
+        return self._get(f"/stack/{_seg(domain)}", {"deep": deep, "pretty": pretty})
 
     def domain(self, domain: str, *, deep: bool = False) -> Json:
         """Check whether a domain is registered. Deep adds registration dates, registrar, status and DNSSEC on paid plans."""
@@ -531,7 +544,7 @@ class AsyncParseAPI:
         attempt = 0
         while True:
             try:
-                response = await self._http.get(path, params=_clean(params or {}), headers=headers)
+                response = await self._http.get(path, params=_clean(params or {}), headers=headers, timeout=self._config.timeout_for(path))
             except httpx.HTTPError:
                 if attempt < retries:
                     await asyncio.sleep(_retry_delay(attempt, None))
@@ -601,6 +614,15 @@ class AsyncParseAPI:
         at that check. Cached results may be returned. Null means unconfirmed. Deep adds network
         diagnostics within the same metered lookup. No automatic retries by default."""
         return await self._get(f"/hlr/{_seg(number)}", {"country": country, "deep": deep})
+
+    async def stack(self, domain: str, *, deep: bool = False, pretty: bool = False) -> Json:
+        """Identify website technologies and versions by category.
+
+        All categories are lists. Scope, pages and partial describe bounded coverage.
+        Lists are null when no page could be checked and empty for no matches.
+        Pass a hostname without a URL scheme or path.
+        """
+        return await self._get(f"/stack/{_seg(domain)}", {"deep": deep, "pretty": pretty})
 
     async def domain(self, domain: str, *, deep: bool = False) -> Json:
         """Check whether a domain is registered. Deep adds registration dates, registrar, status and DNSSEC on paid plans."""

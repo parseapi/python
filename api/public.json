@@ -1224,6 +1224,29 @@
       ],
       "returns": "Json"
     },
+    "stack": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "domain",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "pretty",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
     "state": {
       "async": true,
       "parameters": [
@@ -2774,6 +2797,29 @@
           "kind": "KEYWORD_ONLY",
           "name": "lang",
           "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "stack": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "domain",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "pretty",
+          "type": "bool"
         }
       ],
       "returns": "Json"
