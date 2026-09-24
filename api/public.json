@@ -1324,6 +1324,18 @@
           "kind": "KEYWORD_ONLY",
           "name": "origin",
           "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "edition",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "date",
+          "type": "Optional[str]"
         }
       ],
       "returns": "Json"
@@ -1335,6 +1347,18 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "query",
           "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "edition",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "date",
+          "type": "Optional[str]"
         }
       ],
       "returns": "Json"
@@ -3039,6 +3063,18 @@
           "kind": "KEYWORD_ONLY",
           "name": "origin",
           "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "edition",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "date",
+          "type": "Optional[str]"
         }
       ],
       "returns": "Json"
@@ -3050,6 +3086,18 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "query",
           "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "edition",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "date",
+          "type": "Optional[str]"
         }
       ],
       "returns": "Json"

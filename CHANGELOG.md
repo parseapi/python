@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.0 - 2026-09-24
+
+- Add exact Tariff edition/date selection, answering metadata, contextual search lineage and explanatory null reasons. Explicit selections reject unsupported or mismatched server responses.
+
 ## 1.6.0 - 2026-09-24
 
 Adds Time location inputs and explicit ambiguity candidates, filtered timezone discovery, multiple conversion targets, wall-time disambiguation, and standard/seasonal offset detail. Existing Timezone methods and API 2.0.0 selection remain unchanged.

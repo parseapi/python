@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import re
 import math
 import random
 import time
@@ -10,7 +11,7 @@ from urllib.parse import quote
 
 import httpx
 
-VERSION = "1.6.0"
+VERSION = "1.7.0"
 _API_VERSION = "2.0.0"
 DEFAULT_BASE_URL = "https://api.parseapi.com"
 DEFAULT_TIMEOUT = 10.0
@@ -474,19 +475,30 @@ class _NaicsSync:
         return self._client._get("/naics", {"q": query, "limit": limit, "deep": deep})
 
 
+def _tariff_selection(result: Json, edition: Optional[str], date: Optional[str]) -> Json:
+    if (edition is not None or date is not None) and (
+        not isinstance(result.get("edition"), str) or re.fullmatch(r"[a-f0-9]{64}", result["edition"]) is None
+        or (edition is not None and result.get("edition") != edition)
+        or (result.get("date") != date)
+    ):
+        raise ParseAPIError(0, "tariff_selection_mismatch", "Tariff response did not confirm the requested edition/date. The server may not support this selection.", None, None)
+    return result
+
+
 class _TariffSync:
     def __init__(self, client: ParseAPI):
         self._client = client
 
-    def __call__(self, code: str, *, deep: bool = False, origin: Optional[str] = None) -> Json:
+    def __call__(self, code: str, *, deep: bool = False, origin: Optional[str] = None, edition: Optional[str] = None, date: Optional[str] = None) -> Json:
         """Look up the general US duty schedule line. Paid deep adds units and the special and other
         schedule columns. Add origin with deep to resolve country-specific measures. Without
         origin, schedule detail remains available and origin-dependent fields are null. A null
         effective rate is not a zero rate."""
-        return self._client._get(f"/tariff/{_seg(code)}", {"deep": deep, "origin": origin})
+        return _tariff_selection(self._client._get(f"/tariff/{_seg(code)}", {"deep": deep, "origin": origin, "edition": edition, "date": date}), edition, date)
 
-    def search(self, query: str) -> Json:
-        return self._client._get("/tariff", {"q": query})
+    def search(self, query: str, *, edition: Optional[str] = None, date: Optional[str] = None) -> Json:
+        return _tariff_selection(self._client._get("/tariff", {"q": query, "edition": edition, "date": date}), edition, date)
+
 
 
 class AsyncParseAPI:
@@ -861,15 +873,16 @@ class _TariffAsync:
     def __init__(self, client: AsyncParseAPI):
         self._client = client
 
-    async def __call__(self, code: str, *, deep: bool = False, origin: Optional[str] = None) -> Json:
+    async def __call__(self, code: str, *, deep: bool = False, origin: Optional[str] = None, edition: Optional[str] = None, date: Optional[str] = None) -> Json:
         """Look up the general US duty schedule line. Paid deep adds units and the special and other
         schedule columns. Add origin with deep to resolve country-specific measures. Without
         origin, schedule detail remains available and origin-dependent fields are null. A null
         effective rate is not a zero rate."""
-        return await self._client._get(f"/tariff/{_seg(code)}", {"deep": deep, "origin": origin})
+        return _tariff_selection(await self._client._get(f"/tariff/{_seg(code)}", {"deep": deep, "origin": origin, "edition": edition, "date": date}), edition, date)
 
-    async def search(self, query: str) -> Json:
-        return await self._client._get("/tariff", {"q": query})
+    async def search(self, query: str, *, edition: Optional[str] = None, date: Optional[str] = None) -> Json:
+        return _tariff_selection(await self._client._get("/tariff", {"q": query, "edition": edition, "date": date}), edition, date)
+
 
 
 class _DateSync:
