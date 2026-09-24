@@ -23,6 +23,18 @@ def ok(body=None):
 
 
 URL_TABLE = [
+    (lambda p: p.time("America/New_York", at="2026-11-01T01:30:00", to="UTC", disambiguation="compatible"), "https://api.parseapi.com/time/America%2FNew_York?at=2026-11-01T01%3A30%3A00&to=UTC&disambiguation=compatible"),
+    (lambda p: p.time.at(40.71, -74.01, at="2026-11-01T01:30:00", to="UTC", disambiguation="compatible"), "https://api.parseapi.com/time?lat=40.71&lon=-74.01&at=2026-11-01T01%3A30%3A00&to=UTC&disambiguation=compatible"),
+    (lambda p: p.time("America/New_York", at="2026-11-01T01:30:00", to="UTC", disambiguation="earlier"), "https://api.parseapi.com/time/America%2FNew_York?at=2026-11-01T01%3A30%3A00&to=UTC&disambiguation=earlier"),
+    (lambda p: p.time.at(40.71, -74.01, at="2026-11-01T01:30:00", to="UTC", disambiguation="earlier"), "https://api.parseapi.com/time?lat=40.71&lon=-74.01&at=2026-11-01T01%3A30%3A00&to=UTC&disambiguation=earlier"),
+    (lambda p: p.time("America/New_York", at="2026-11-01T01:30:00", to="UTC", disambiguation="later"), "https://api.parseapi.com/time/America%2FNew_York?at=2026-11-01T01%3A30%3A00&to=UTC&disambiguation=later"),
+    (lambda p: p.time.at(40.71, -74.01, at="2026-11-01T01:30:00", to="UTC", disambiguation="later"), "https://api.parseapi.com/time?lat=40.71&lon=-74.01&at=2026-11-01T01%3A30%3A00&to=UTC&disambiguation=later"),
+    (lambda p: p.time("America/New_York", at="2026-11-01T01:30:00", to="UTC", disambiguation="reject"), "https://api.parseapi.com/time/America%2FNew_York?at=2026-11-01T01%3A30%3A00&to=UTC&disambiguation=reject"),
+    (lambda p: p.time.at(40.71, -74.01, at="2026-11-01T01:30:00", to="UTC", disambiguation="reject"), "https://api.parseapi.com/time?lat=40.71&lon=-74.01&at=2026-11-01T01%3A30%3A00&to=UTC&disambiguation=reject"),
+    (lambda p: p.time.zones(), "https://api.parseapi.com/time/zones"),
+    (lambda p: p.time.zones('Europe'), "https://api.parseapi.com/time/zones?q=Europe"),
+    (lambda p: p.time('UTC', targets=['UTC', 'Asia/Tokyo', 'UTC']), "https://api.parseapi.com/time/UTC?targets=UTC%2CAsia%2FTokyo%2CUTC"),
+    (lambda p: p.time.at(0, 0, targets=['UTC', 'Asia/Tokyo', 'UTC']), "https://api.parseapi.com/time?lat=0&lon=0&targets=UTC%2CAsia%2FTokyo%2CUTC"),
     (lambda p: p.bin("001234"), "https://api.parseapi.com/bin/001234"),
     (lambda p: p.bin("00 1234-56", deep=True), "https://api.parseapi.com/bin/00%201234-56?deep=true"),
     (lambda p: p.time(), "https://api.parseapi.com/time"),

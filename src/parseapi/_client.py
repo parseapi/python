@@ -10,7 +10,7 @@ from urllib.parse import quote
 
 import httpx
 
-VERSION = "1.4.0"
+VERSION = "1.6.0"
 _API_VERSION = "2.0.0"
 DEFAULT_BASE_URL = "https://api.parseapi.com"
 DEFAULT_TIMEOUT = 10.0
@@ -898,13 +898,21 @@ class _TimeSync:
     def __init__(self, client: ParseAPI):
         self._client = client
 
-    def __call__(self, timezone: Optional[str] = None, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
-        """Current local time, UTC by default. With to, offsetless at is source wall time."""
-        path = "/time" if timezone is None else f"/time/{_seg(timezone)}"
-        return self._client._get(path, {"at": at, "to": to, "deep": deep, "lang": lang})
+    def __call__(self, timezone: Optional[str] = None, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False, lang: Optional[str] = None, disambiguation: Optional[str] = None, targets: Optional[list[str]] = None, ip: Optional[str] = None, city: Optional[str] = None, country: Optional[str] = None, state: Optional[str] = None, iata: Optional[str] = None, icao: Optional[str] = None, unlocode: Optional[str] = None, address: Optional[str] = None) -> Json:
+        """Current local time, UTC by default. With to or targets, offsetless at is source wall time.
+        disambiguation selects compatible (default), earlier, later, or reject at clock changes.
+        Explicit offsets select the instant directly."""
+        source = _time_source(timezone, ip=ip, city=city, country=country, state=state, iata=iata, icao=icao, unlocode=unlocode, address=address)
+        path = _time_path(timezone)
+        return self._client._get(path, {**source, "at": at, "to": to, "deep": deep, "lang": lang, "disambiguation": disambiguation, "targets": _time_targets(targets, to)})
 
-    def at(self, lat: float, lon: float, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return self._client._get("/time", {"lat": lat, "lon": lon, "at": at, "to": to, "deep": deep, "lang": lang})
+    def at(self, lat: float, lon: float, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False, lang: Optional[str] = None, disambiguation: Optional[str] = None, targets: Optional[list[str]] = None) -> Json:
+        return self._client._get("/time", {"lat": lat, "lon": lon, "at": at, "to": to, "deep": deep, "lang": lang, "disambiguation": disambiguation, "targets": _time_targets(targets, to)})
+
+
+    def zones(self, query: Optional[str] = None, *, country: Optional[str] = None, area: Optional[str] = None, offset: Optional[str] = None, abbreviation: Optional[str] = None, dst: Optional[bool] = None, observes_dst: Optional[bool] = None, at: Optional[str] = None, details: bool = False, sort: Optional[str] = None) -> Json:
+        """Search serving timezone IDs. Omit query to list all."""
+        return self._client._get("/time/zones", {"q": query, "country": country, "area": area, "offset": offset, "abbreviation": abbreviation, "dst": None if dst is None else str(dst).lower(), "observes_dst": None if observes_dst is None else str(observes_dst).lower(), "at": at, "details": details, "sort": sort})
 
 
 class _TimezoneSync:
@@ -938,13 +946,21 @@ class _TimeAsync:
     def __init__(self, client: AsyncParseAPI):
         self._client = client
 
-    async def __call__(self, timezone: Optional[str] = None, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
-        """Current local time, UTC by default. With to, offsetless at is source wall time."""
-        path = "/time" if timezone is None else f"/time/{_seg(timezone)}"
-        return await self._client._get(path, {"at": at, "to": to, "deep": deep, "lang": lang})
+    async def __call__(self, timezone: Optional[str] = None, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False, lang: Optional[str] = None, disambiguation: Optional[str] = None, targets: Optional[list[str]] = None, ip: Optional[str] = None, city: Optional[str] = None, country: Optional[str] = None, state: Optional[str] = None, iata: Optional[str] = None, icao: Optional[str] = None, unlocode: Optional[str] = None, address: Optional[str] = None) -> Json:
+        """Current local time, UTC by default. With to or targets, offsetless at is source wall time.
+        disambiguation selects compatible (default), earlier, later, or reject at clock changes.
+        Explicit offsets select the instant directly."""
+        source = _time_source(timezone, ip=ip, city=city, country=country, state=state, iata=iata, icao=icao, unlocode=unlocode, address=address)
+        path = _time_path(timezone)
+        return await self._client._get(path, {**source, "at": at, "to": to, "deep": deep, "lang": lang, "disambiguation": disambiguation, "targets": _time_targets(targets, to)})
 
-    async def at(self, lat: float, lon: float, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return await self._client._get("/time", {"lat": lat, "lon": lon, "at": at, "to": to, "deep": deep, "lang": lang})
+    async def at(self, lat: float, lon: float, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False, lang: Optional[str] = None, disambiguation: Optional[str] = None, targets: Optional[list[str]] = None) -> Json:
+        return await self._client._get("/time", {"lat": lat, "lon": lon, "at": at, "to": to, "deep": deep, "lang": lang, "disambiguation": disambiguation, "targets": _time_targets(targets, to)})
+
+
+    async def zones(self, query: Optional[str] = None, *, country: Optional[str] = None, area: Optional[str] = None, offset: Optional[str] = None, abbreviation: Optional[str] = None, dst: Optional[bool] = None, observes_dst: Optional[bool] = None, at: Optional[str] = None, details: bool = False, sort: Optional[str] = None) -> Json:
+        """Search serving timezone IDs. Omit query to list all."""
+        return await self._client._get("/time/zones", {"q": query, "country": country, "area": area, "offset": offset, "abbreviation": abbreviation, "dst": None if dst is None else str(dst).lower(), "observes_dst": None if observes_dst is None else str(observes_dst).lower(), "at": at, "details": details, "sort": sort})
 
 
 class _TimezoneAsync:
@@ -1004,3 +1020,28 @@ class _MeasureAsync:
     async def units(self, *, query: Optional[str] = None, type: Optional[str] = None, unit: Optional[str] = None, lang: Optional[str] = None) -> Json:
         """Discover reviewed units. unit filters compatible conversion targets."""
         return await self._client._get("/measure/units", {"q": query, "type": type, "unit": unit, "lang": lang})
+
+def _time_source(timezone, **values):
+    primary = [values.get(key) for key in ("ip", "city", "iata", "icao", "unlocode", "address") if values.get(key) is not None]
+    present = any(value is not None for value in values.values())
+    if (any(value is not None and (not isinstance(value, str) or not value.strip()) for value in values.values())
+        or (timezone is not None and present) or len(primary) > 1
+        or (values.get("country") is not None and primary and values.get("city") is None and values.get("address") is None)
+        or (values.get("state") is not None and ((values.get("city") is None and values.get("address") is None) or values.get("country") is None))
+        or (values.get("address") is not None and values.get("country") is None)):
+        raise ValueError('Pass one Time source, using country only with city or address and state only with city or address and country.')
+    return values
+
+
+def _time_path(timezone: Optional[str]) -> str:
+    if timezone is not None and timezone.strip().lower() in ("zones", "help"):
+        raise ValueError("Time source must be an IANA timezone ID. Use timezone discovery to list IDs.")
+    return "/time" if timezone is None else f"/time/{_seg(timezone)}"
+
+
+def _time_targets(targets: Optional[list[str]], to: Optional[str]) -> Optional[str]:
+    if targets is None:
+        return None
+    if to is not None or not isinstance(targets, (list, tuple)) or not 1 <= len(targets) <= 10 or any(not isinstance(zone, str) or not zone.strip() or ',' in zone for zone in targets):
+        raise ValueError("Time targets requires 1 to 10 timezone IDs and cannot be combined with to.")
+    return ','.join(targets)
