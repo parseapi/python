@@ -92,11 +92,11 @@ expect_ok(
 )
 expect_ok("card", lambda: parse.card("00 0000"), lambda r: None if r.get("bin") == "000000" and r.get("prefix") is None else "BIN echo or prefix mismatch")
 expect_ok(
-    "iban",
-    lambda: parse.iban("DE89370400440532013000"),
+    "bank",
+    lambda: parse.bank("DE89370400440532013000"),
     lambda r: None if r.get("valid") is True and r.get("country") == "DE" and r.get("bank") == "37040044" else "not valid DE",
 )
-expect_ok("iban junk", lambda: parse.iban("hello"), lambda r: None if r.get("valid") is False else "expected invalid")
+expect_ok("bank junk", lambda: parse.bank("hello"), lambda r: None if r.get("valid") is False else "expected invalid")
 expect_ok(
     "npi",
     lambda: parse.npi("1881018208"),
