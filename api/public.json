@@ -81,23 +81,6 @@
       ],
       "returns": "Json"
     },
-    "bin": {
-      "async": true,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "bin",
-          "type": "str"
-        },
-        {
-          "default": false,
-          "kind": "KEYWORD_ONLY",
-          "name": "deep",
-          "type": "bool"
-        }
-      ],
-      "returns": "Json"
-    },
     "bloc": {
       "async": true,
       "parameters": [
@@ -139,6 +122,17 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "card": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "bin",
+          "type": "str"
         }
       ],
       "returns": "Json"
@@ -1658,23 +1652,6 @@
       ],
       "returns": "Json"
     },
-    "bin": {
-      "async": false,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "bin",
-          "type": "str"
-        },
-        {
-          "default": false,
-          "kind": "KEYWORD_ONLY",
-          "name": "deep",
-          "type": "bool"
-        }
-      ],
-      "returns": "Json"
-    },
     "bloc": {
       "async": false,
       "parameters": [
@@ -1716,6 +1693,17 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "card": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "bin",
+          "type": "str"
         }
       ],
       "returns": "Json"
@@ -3179,6 +3167,12 @@
       {
         "kind": "POSITIONAL_OR_KEYWORD",
         "name": "request_id",
+        "type": "Optional[str]"
+      },
+      {
+        "default": null,
+        "kind": "POSITIONAL_OR_KEYWORD",
+        "name": "retry_after",
         "type": "Optional[str]"
       }
     ]

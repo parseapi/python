@@ -3,9 +3,10 @@ from __future__ import annotations
 import os
 import math
 import random
+import re
 import time
 from email.utils import parsedate_to_datetime
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, overload
 from urllib.parse import quote
 
 import httpx
@@ -24,32 +25,48 @@ Json = Dict[str, Any]
 class ParseAPIError(Exception):
     """Every non-2xx response from the API. Branch on `code`, never on the message."""
 
-    def __init__(self, status: int, code: str, message: str, docs: Optional[str], request_id: Optional[str]):
+    def __init__(self, status: int, code: str, message: str, docs: Optional[str], request_id: Optional[str], retry_after: Optional[str] = None):
         super().__init__(message)
         self.status = status
         self.code = code
         self.docs = docs
         self.request_id = request_id
+        self.retry_after = retry_after
 
 
 def _seg(value: Any) -> str:
     return quote(str(value), safe="")
 
 
-def _retry_delay(attempt: int, retry_after: Optional[str]) -> float:
+def _card_prefix(value: str) -> str:
+    if not isinstance(value, str) or len(value) > 64 or re.fullmatch(r'[0-9]{6,11}', re.sub(r'[ \t\r\n-]', '', value)) is None:
+        raise ValueError('parseapi: Card requires a string containing 6 to 11 digits. Send a prefix only.')
+    return value
+
+
+@overload
+def _retry_delay(attempt: int, retry_after: None) -> float: ...
+
+
+@overload
+def _retry_delay(attempt: int, retry_after: Optional[str]) -> Optional[float]: ...
+
+
+def _retry_delay(attempt: int, retry_after: Optional[str]) -> Optional[float]:
     if retry_after:
-        try:
-            seconds = float(retry_after)
-            if math.isfinite(seconds) and seconds >= 0:
-                return min(seconds, RETRY_AFTER_CAP)
-        except ValueError:
+        value = retry_after.strip()
+        if re.fullmatch(r'[0-9]+(?:\.[0-9]+)?', value):
+            seconds = float(value)
+            return None if seconds > RETRY_AFTER_CAP else seconds
+        if re.match(r'^[A-Za-z]{3,9},? ', value):
             try:
-                parsed = parsedate_to_datetime(retry_after)
+                parsed = parsedate_to_datetime(value)
                 if parsed.tzinfo is not None:
-                    return min(max(parsed.timestamp() - time.time(), 0), RETRY_AFTER_CAP)
+                    delay = max(parsed.timestamp() - time.time(), 0)
+                    return None if delay > RETRY_AFTER_CAP else delay
             except (ValueError, TypeError, OverflowError):
                 pass
-    return random.random() * 0.25 * (2**attempt)
+    return random.random() * min(0.25 * (2**min(attempt, 16)), RETRY_AFTER_CAP)
 
 
 def _error_from(response: httpx.Response) -> ParseAPIError:
@@ -67,6 +84,7 @@ def _error_from(response: httpx.Response) -> ParseAPIError:
         else f"Request failed with status {response.status_code}",
         docs=body.get("docs") if isinstance(body.get("docs"), str) else None,
         request_id=body.get("request_id") if isinstance(body.get("request_id"), str) else None,
+        retry_after=response.headers.get("Retry-After"),
     )
 
 
@@ -171,9 +189,11 @@ class ParseAPI:
             if response.is_success:
                 return response.json()
             if response.status_code in RETRY_STATUS and attempt < retries:
-                time.sleep(_retry_delay(attempt, response.headers.get("Retry-After")))
-                attempt += 1
-                continue
+                delay = _retry_delay(attempt, response.headers.get("Retry-After"))
+                if delay is not None:
+                    time.sleep(delay)
+                    attempt += 1
+                    continue
             raise _error_from(response)
 
     # Plain methods (no subresources)
@@ -205,9 +225,9 @@ class ParseAPI:
     def iban(self, iban: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         return self._get(f"/iban/{_seg(iban)}", {"country": country, "deep": deep})
 
-    def bin(self, bin: str, *, deep: bool = False) -> Json:
+    def card(self, bin: str) -> Json:
         """Look up a 6-11 digit card prefix, preserving leading zeros."""
-        return self._get(f"/bin/{_seg(bin)}", {"deep": deep})
+        return self._get(f"/card/{_seg(_card_prefix(bin))}")
 
     def npi(self, npi: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
         return self._get(f"/npi/{_seg(npi)}", {"deep": deep, "lang": lang})
@@ -554,9 +574,11 @@ class AsyncParseAPI:
             if response.is_success:
                 return response.json()
             if response.status_code in RETRY_STATUS and attempt < retries:
-                await asyncio.sleep(_retry_delay(attempt, response.headers.get("Retry-After")))
-                attempt += 1
-                continue
+                delay = _retry_delay(attempt, response.headers.get("Retry-After"))
+                if delay is not None:
+                    await asyncio.sleep(delay)
+                    attempt += 1
+                    continue
             raise _error_from(response)
 
     async def district(self, code: str, *, country: Optional[str] = None, state: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
@@ -586,9 +608,9 @@ class AsyncParseAPI:
     async def iban(self, iban: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         return await self._get(f"/iban/{_seg(iban)}", {"country": country, "deep": deep})
 
-    async def bin(self, bin: str, *, deep: bool = False) -> Json:
+    async def card(self, bin: str) -> Json:
         """Look up a 6-11 digit card prefix, preserving leading zeros."""
-        return await self._get(f"/bin/{_seg(bin)}", {"deep": deep})
+        return await self._get(f"/card/{_seg(_card_prefix(bin))}")
 
     async def npi(self, npi: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
         return await self._get(f"/npi/{_seg(npi)}", {"deep": deep, "lang": lang})

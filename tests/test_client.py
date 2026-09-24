@@ -23,8 +23,8 @@ def ok(body=None):
 
 
 URL_TABLE = [
-    (lambda p: p.bin("001234"), "https://api.parseapi.com/bin/001234"),
-    (lambda p: p.bin("00 1234-56", deep=True), "https://api.parseapi.com/bin/00%201234-56?deep=true"),
+    (lambda p: p.card("001234"), "https://api.parseapi.com/card/001234"),
+    (lambda p: p.card("00 1234-56"), "https://api.parseapi.com/card/00%201234-56"),
     (lambda p: p.time(), "https://api.parseapi.com/time"),
     (lambda p: p.time("America/New_York", at="2026-09-05T15:00:00", to="Asia/Tokyo"), "https://api.parseapi.com/time/America%2FNew_York?at=2026-09-05T15%3A00%3A00&to=Asia%2FTokyo"),
     (lambda p: p.time.at(0, 0, at="1970-01-01T00:00:00Z", to="UTC"), "https://api.parseapi.com/time?lat=0&lon=0&at=1970-01-01T00%3A00%3A00Z&to=UTC"),
@@ -306,7 +306,7 @@ def test_retry_after_http_date(monkeypatch):
     from parseapi import _client
     monkeypatch.setattr(_client.time, "time", lambda: 1788566400.0)
     assert _client._retry_delay(0, "Sat, 05 Sep 2026 00:00:02 GMT") == 2.0
-    assert _client._retry_delay(0, "Sat, 05 Sep 2026 00:01:00 GMT") == 5.0
+    assert _client._retry_delay(0, "Sat, 05 Sep 2026 00:01:00 GMT") is None
     assert _client._retry_delay(0, "Fri, 04 Sep 2026 00:00:00 GMT") == 0.0
 
 
@@ -445,20 +445,19 @@ def test_async_naics_exclusions_and_match_pass_through():
     asyncio.run(run())
 
 
-def test_bin_reference_null_false_and_error():
+def test_card_reference_null_false_and_error():
     body = {"bin": "00123456", "prefix": "001234", "country": None, "issuer": "Fixture Bank", "brand": "future-brand", "type": None, "prepaid": False, "deep": {}, "future": True}
     client, calls = make_client(ok(body))
-    assert client.bin("00 1234-56", deep=True) == body
-    assert str(calls[0].url) == "https://api.parseapi.com/bin/00%201234-56?deep=true"
+    assert client.card("00 1234-56") == body
+    assert str(calls[0].url) == "https://api.parseapi.com/card/00%201234-56"
     async def check_async():
         async with AsyncParseAPI("test_key", transport=httpx.MockTransport(ok(body))) as client:
-            assert await client.bin("00123456", deep=True) == body
+            assert await client.card("00123456") == body
     asyncio.run(check_async())
     client, calls = make_client(lambda request: httpx.Response(400, json={"code": "invalid_input", "message": "Expected 6-11 digits"}))
-    with pytest.raises(ParseAPIError) as err:
-        client.bin("bad/input")
-    assert err.value.status == 400
-    assert len(calls) == 1
+    with pytest.raises(ValueError):
+        client.card("bad/input")
+    assert len(calls) == 0
 
 
 ADP_CASES = [('country', ['US'], {}), ('state', ['NC'], {'country': 'US'}), ('state.districts', ['NC'], {'country': 'US'}), ('district', ['37081'], {'country': 'US', 'state': 'NC'}), ('city', ['Charlotte'], {'country': 'US', 'state': 'NC'}), ('city.id', ['city_test'], {}), ('city.search', ['Charlotte'], {'country': 'US', 'state': 'NC', 'limit': 2}), ('city.nearest', [0, 0], {}), ('city.nearby', ['Charlotte'], {'radius': 0, 'unit': 'km', 'country': 'US', 'state': 'NC', 'limit': 2}), ('postal', ['28202'], {'country': 'US'}), ('postal.nearby', ['28202'], {'country': 'US', 'radius': 0, 'unit': 'km'}), ('postal.distance', ['28202', '10001'], {'country': 'US'}), ('iban', ['DE89370400440532013000'], {'country': 'DE'}), ('carrier', ['+14155552671'], {'country': 'US'}), ('hlr', ['+447712345678'], {'country': 'GB'}), ('naics', ['31-33'], {}), ('naics.search', ['coffee'], {'limit': 2}), ('currency', ['USD'], {}), ('language', ['ar'], {}), ('name', ['Andrea'], {'country': 'IT'}), ('time', [], {'at': '2026-09-08', 'to': 'UTC'}), ('time.at', [0, 0], {'at': '2026-09-08', 'to': 'UTC'}), ('timezone', ['UTC'], {'at': '2026-09-08', 'to': 'UTC'}), ('timezone.at', [0, 0], {'at': '2026-09-08'}), ('date', ['03/04/2026'], {'format': 'dmy', 'to': '2026-09-08'}), ('date.today', [], {'to': '2026-09-08'}), ('emoji', ['fire'], {}), ('emoji.search', ['fire'], {'limit': 2})]

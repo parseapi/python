@@ -57,7 +57,7 @@ parse.ip.self()
 parse.email("hello@gmail.com")
 parse.vat("DE136695976")
 parse.iban("DE89370400440532013000")
-parse.bin("424242")
+parse.card("424242")
 parse.npi("1881018208")
 parse.phone("+14155552671")
 parse.carrier("+14155552671")
@@ -260,11 +260,34 @@ Ordinary lookups retry network failures, 429, and 500/502/503/504 responses twic
 
 An explicit client `retries` setting overrides those defaults; `retries=0` always makes one attempt. Another attempt can consume additional usage if the earlier response was lost. Cancelling an async task stops the call and any retry wait. Automatic redirects are disabled.
 
+Automatic retries wait at most five seconds per attempt. A longer valid `Retry-After` returns the original API error immediately without retrying early. Read `retry_after` on the error for the original header, or null when absent.
+
 ## Docs
 
 Full field reference for every endpoint: [parseapi.com/docs](https://parseapi.com/docs)
 
-BIN lookup accepts 6-11 digits as a string, including leading zeros. Spaces and hyphens are accepted. `prefix` is the actual longest match and can be shorter than the input. Unknown reference fields are null. `deep` adds an empty object on every plan.
+## Card
+
+Card looks up issuer, network and type from a BIN/IIN. It accepts 6-11 digits as a string, including leading zeros. Spaces and hyphens are accepted. `prefix` is the actual longest match and can be shorter than the input. Unknown reference fields are null. The client rejects malformed or full card numbers before sending a request. Valid input is forwarded unchanged.
+
+Compare `prefix` with the normalized response `bin`. A matched row can still have all metadata unknown. Keep unknown prepaid status separate from true and false.
+
+```python
+card = parse.card("4242 42-99")
+if card["prefix"] is None:
+    match = "No reference match"
+elif card["prefix"] == card["bin"]:
+    match = "Exact prefix match"
+else:
+    match = "Broader prefix match"
+if card["prepaid"] is None:
+    prepaid = "Unknown prepaid status"
+elif card["prepaid"] is True:
+    prepaid = "Prepaid"
+else:
+    prepaid = "Not prepaid"
+print(match, prepaid)
+```
 
 
 ## Optional detail
