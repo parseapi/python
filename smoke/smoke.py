@@ -90,19 +90,19 @@ expect_ok(
     lambda: parse.vat("DE136695976"),
     lambda r: None if r.get("valid") is True and r.get("country") == "DE" else "not valid DE",
 )
-expect_ok("bin", lambda: parse.bin("00 0000", deep=True), lambda r: None if r.get("bin") == "000000" and r.get("deep") == {} else "BIN echo or deep mismatch")
+expect_ok("card", lambda: parse.card("00 0000"), lambda r: None if r.get("bin") == "000000" and r.get("brand") is None and r.get("logo") == "https://cdn.parseapi.com/card/generic.svg" else "BIN echo or prefix mismatch")
 expect_ok(
-    "iban",
-    lambda: parse.iban("DE89370400440532013000"),
+    "bank",
+    lambda: parse.bank("DE89370400440532013000"),
     lambda r: None if r.get("valid") is True and r.get("country") == "DE" and r.get("bank") == "37040044" else "not valid DE",
 )
-expect_ok("iban junk", lambda: parse.iban("hello"), lambda r: None if r.get("valid") is False else "expected invalid")
+expect_ok("bank junk", lambda: parse.bank("hello"), lambda r: None if r.get("valid") is False else "expected invalid")
 expect_ok(
     "npi",
-    lambda: parse.npi("1881018208"),
+    lambda: parse.provider("1881018208"),
     lambda r: None if r.get("valid") is True and r.get("registered") is True else "not registered",
 )
-expect_ok("npi junk", lambda: parse.npi("hello"), lambda r: None if r.get("valid") is False else "expected invalid")
+expect_ok("npi junk", lambda: parse.provider("hello"), lambda r: None if r.get("valid") is False else "expected invalid")
 expect_ok("phone", lambda: parse.phone("+14155552671"), lambda r: None if r["phone"] == "+14155552671" else "wrong phone")
 # Metered core siblings: junk numbers answer 200 valid false, free, no vendor dip.
 expect_ok("carrier junk free", lambda: parse.carrier("555-0100"), lambda r: None if r["valid"] is False else "expected invalid")

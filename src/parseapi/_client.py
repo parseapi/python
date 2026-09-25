@@ -4,14 +4,15 @@ import os
 import re
 import math
 import random
+import re
 import time
 from email.utils import parsedate_to_datetime
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, overload
 from urllib.parse import quote
 
 import httpx
 
-VERSION = "1.7.0"
+VERSION = "1.8.0"
 _API_VERSION = "2.0.0"
 DEFAULT_BASE_URL = "https://api.parseapi.com"
 DEFAULT_TIMEOUT = 10.0
@@ -25,32 +26,48 @@ Json = Dict[str, Any]
 class ParseAPIError(Exception):
     """Every non-2xx response from the API. Branch on `code`, never on the message."""
 
-    def __init__(self, status: int, code: str, message: str, docs: Optional[str], request_id: Optional[str]):
+    def __init__(self, status: int, code: str, message: str, docs: Optional[str], request_id: Optional[str], retry_after: Optional[str] = None):
         super().__init__(message)
         self.status = status
         self.code = code
         self.docs = docs
         self.request_id = request_id
+        self.retry_after = retry_after
 
 
 def _seg(value: Any) -> str:
     return quote(str(value), safe="")
 
 
-def _retry_delay(attempt: int, retry_after: Optional[str]) -> float:
+def _card_prefix(value: str) -> str:
+    if not isinstance(value, str) or len(value) > 64 or re.fullmatch(r'[0-9]{2,11}', re.sub(r'[ \t\r\n-]', '', value)) is None:
+        raise ValueError('parseapi: Card requires a string containing 2 to 11 digits. Send a prefix only.')
+    return value
+
+
+@overload
+def _retry_delay(attempt: int, retry_after: None) -> float: ...
+
+
+@overload
+def _retry_delay(attempt: int, retry_after: Optional[str]) -> Optional[float]: ...
+
+
+def _retry_delay(attempt: int, retry_after: Optional[str]) -> Optional[float]:
     if retry_after:
-        try:
-            seconds = float(retry_after)
-            if math.isfinite(seconds) and seconds >= 0:
-                return min(seconds, RETRY_AFTER_CAP)
-        except ValueError:
+        value = retry_after.strip()
+        if re.fullmatch(r'[0-9]+(?:\.[0-9]+)?', value):
+            seconds = float(value)
+            return None if seconds > RETRY_AFTER_CAP else seconds
+        if re.match(r'^[A-Za-z]{3,9},? ', value):
             try:
-                parsed = parsedate_to_datetime(retry_after)
+                parsed = parsedate_to_datetime(value)
                 if parsed.tzinfo is not None:
-                    return min(max(parsed.timestamp() - time.time(), 0), RETRY_AFTER_CAP)
+                    delay = max(parsed.timestamp() - time.time(), 0)
+                    return None if delay > RETRY_AFTER_CAP else delay
             except (ValueError, TypeError, OverflowError):
                 pass
-    return random.random() * 0.25 * (2**attempt)
+    return random.random() * min(0.25 * (2**min(attempt, 16)), RETRY_AFTER_CAP)
 
 
 def _error_from(response: httpx.Response) -> ParseAPIError:
@@ -68,6 +85,7 @@ def _error_from(response: httpx.Response) -> ParseAPIError:
         else f"Request failed with status {response.status_code}",
         docs=body.get("docs") if isinstance(body.get("docs"), str) else None,
         request_id=body.get("request_id") if isinstance(body.get("request_id"), str) else None,
+        retry_after=response.headers.get("Retry-After"),
     )
 
 
@@ -140,7 +158,8 @@ class ParseAPI:
         self.currency = _CurrencySync(self)
         self.holiday = _HolidaySync(self)
         self.emoji = _EmojiSync(self)
-        self.naics = _NaicsSync(self)
+        self.industry = _IndustrySync(self)
+        self.naics = self.industry
         self.tariff = _TariffSync(self)
         self.date = _DateSync(self)
         self.measure = _MeasureSync(self)
@@ -157,12 +176,12 @@ class ParseAPI:
     def __exit__(self, *exc: Any) -> None:
         self.close()
 
-    def _get(self, path: str, params: Optional[Dict[str, Any]] = None, headers: Optional[Dict[str, str]] = None) -> Json:
+    def _get(self, path: str, params: Optional[Dict[str, Any]] = None, headers: Optional[Dict[str, str]] = None, *, json: Optional[Dict[str, Any]] = None) -> Json:
         retries = self._config.retries if self._config.retries is not None else _default_retries(path, params)
         attempt = 0
         while True:
             try:
-                response = self._http.get(path, params=_clean(params or {}), headers=headers, timeout=self._config.timeout_for(path))
+                response = self._http.request("GET" if json is None else "POST", path, params=_clean(params or {}), headers=headers, json=json, timeout=self._config.timeout_for(path))
             except httpx.HTTPError:
                 if attempt < retries:
                     time.sleep(_retry_delay(attempt, None))
@@ -172,9 +191,11 @@ class ParseAPI:
             if response.is_success:
                 return response.json()
             if response.status_code in RETRY_STATUS and attempt < retries:
-                time.sleep(_retry_delay(attempt, response.headers.get("Retry-After")))
-                attempt += 1
-                continue
+                delay = _retry_delay(attempt, response.headers.get("Retry-After"))
+                if delay is not None:
+                    time.sleep(delay)
+                    attempt += 1
+                    continue
             raise _error_from(response)
 
     # Plain methods (no subresources)
@@ -206,12 +227,33 @@ class ParseAPI:
     def iban(self, iban: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         return self._get(f"/iban/{_seg(iban)}", {"country": country, "deep": deep})
 
+
     def bin(self, bin: str, *, deep: bool = False) -> Json:
         """Look up a 6-11 digit card prefix, preserving leading zeros."""
         return self._get(f"/bin/{_seg(bin)}", {"deep": deep})
 
+
     def npi(self, npi: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
         return self._get(f"/npi/{_seg(npi)}", {"deep": deep, "lang": lang})
+
+
+    def bank(self, iban: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
+        return self._get("/bank", json={"iban": iban, **({"country": country} if country is not None else {}), "deep": deep})
+
+    def bank_us_ach(self, *, routing: str, account: str) -> Json:
+        """Check US routing/account syntax via POST; no account or ACH eligibility verification."""
+        return self._get("/bank", json={"format": "us_ach", "country": "US", "routing": routing, "account": account})
+
+    def bank_requirements(self, country: str, *, format: Optional[str] = None) -> Json:
+        """Describe accepted fields and check scope, not directory completeness."""
+        return self._get("/bank/requirements", {"country": country, "format": format})
+
+    def card(self, bin: str, *, deep: bool = False) -> Json:
+        """Look up a 2-11 digit card prefix, preserving leading zeros."""
+        return self._get(f"/card/{_seg(_card_prefix(bin))}", {"deep": deep})
+
+    def provider(self, npi: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
+        return self._get(f"/provider/{_seg(npi)}", {"deep": deep, "lang": lang})
 
     def phone(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         """Parse a phone number and its formats. Pass country for national numbers when needed. Deep
@@ -267,6 +309,9 @@ class ParseAPI:
 
     def useragent(self, ua: str, *, deep: bool = False) -> Json:
         return self._get("/useragent", {"deep": deep}, headers={"User-Agent": ua})
+
+    def vehicle(self, vin: str, *, deep: bool = False) -> Json:
+        return self._get(f"/vehicle/{_seg(vin)}", {"deep": deep})
 
     def vin(self, vin: str, *, deep: bool = False) -> Json:
         return self._get(f"/vin/{_seg(vin)}", {"deep": deep})
@@ -462,17 +507,17 @@ class _EmojiSync:
         return self._client._get("/emoji", {"q": query, "limit": limit, "deep": deep, "lang": lang})
 
 
-class _NaicsSync:
+class _IndustrySync:
     def __init__(self, client: ParseAPI):
         self._client = client
 
     def __call__(self, code: str, *, deep: bool = False) -> Json:
         """Look up a US NAICS 2022 code and its hierarchy."""
-        return self._client._get(f"/naics/{_seg(code)}", {"deep": deep})
+        return self._client._get(f"/industry/{_seg(code)}", {"deep": deep})
 
     def search(self, query: str, *, limit: Optional[int] = None, deep: bool = False) -> Json:
         """Search industry keywords. Limit defaults to 10 and accepts 1-50."""
-        return self._client._get("/naics", {"q": query, "limit": limit, "deep": deep})
+        return self._client._get("/industry", {"q": query, "limit": limit, "deep": deep})
 
 
 def _tariff_selection(result: Json, edition: Optional[str], date: Optional[str]) -> Json:
@@ -530,7 +575,8 @@ class AsyncParseAPI:
         self.currency = _CurrencyAsync(self)
         self.holiday = _HolidayAsync(self)
         self.emoji = _EmojiAsync(self)
-        self.naics = _NaicsAsync(self)
+        self.industry = _IndustryAsync(self)
+        self.naics = self.industry
         self.tariff = _TariffAsync(self)
         self.date = _DateAsync(self)
         self.measure = _MeasureAsync(self)
@@ -548,7 +594,7 @@ class AsyncParseAPI:
         await self.close()
 
     async def _get(
-        self, path: str, params: Optional[Dict[str, Any]] = None, headers: Optional[Dict[str, str]] = None
+        self, path: str, params: Optional[Dict[str, Any]] = None, headers: Optional[Dict[str, str]] = None, *, json: Optional[Dict[str, Any]] = None
     ) -> Json:
         import asyncio
 
@@ -556,7 +602,7 @@ class AsyncParseAPI:
         attempt = 0
         while True:
             try:
-                response = await self._http.get(path, params=_clean(params or {}), headers=headers, timeout=self._config.timeout_for(path))
+                response = await self._http.request("GET" if json is None else "POST", path, params=_clean(params or {}), headers=headers, json=json, timeout=self._config.timeout_for(path))
             except httpx.HTTPError:
                 if attempt < retries:
                     await asyncio.sleep(_retry_delay(attempt, None))
@@ -566,9 +612,11 @@ class AsyncParseAPI:
             if response.is_success:
                 return response.json()
             if response.status_code in RETRY_STATUS and attempt < retries:
-                await asyncio.sleep(_retry_delay(attempt, response.headers.get("Retry-After")))
-                attempt += 1
-                continue
+                delay = _retry_delay(attempt, response.headers.get("Retry-After"))
+                if delay is not None:
+                    await asyncio.sleep(delay)
+                    attempt += 1
+                    continue
             raise _error_from(response)
 
     async def district(self, code: str, *, country: Optional[str] = None, state: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
@@ -598,12 +646,33 @@ class AsyncParseAPI:
     async def iban(self, iban: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         return await self._get(f"/iban/{_seg(iban)}", {"country": country, "deep": deep})
 
+
     async def bin(self, bin: str, *, deep: bool = False) -> Json:
         """Look up a 6-11 digit card prefix, preserving leading zeros."""
         return await self._get(f"/bin/{_seg(bin)}", {"deep": deep})
 
+
     async def npi(self, npi: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
         return await self._get(f"/npi/{_seg(npi)}", {"deep": deep, "lang": lang})
+
+
+    async def bank(self, iban: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
+        return await self._get("/bank", json={"iban": iban, **({"country": country} if country is not None else {}), "deep": deep})
+
+    async def bank_us_ach(self, *, routing: str, account: str) -> Json:
+        """Check US routing/account syntax via POST; no account or ACH eligibility verification."""
+        return await self._get("/bank", json={"format": "us_ach", "country": "US", "routing": routing, "account": account})
+
+    async def bank_requirements(self, country: str, *, format: Optional[str] = None) -> Json:
+        """Describe accepted fields and check scope, not directory completeness."""
+        return await self._get("/bank/requirements", {"country": country, "format": format})
+
+    async def card(self, bin: str, *, deep: bool = False) -> Json:
+        """Look up a 2-11 digit card prefix, preserving leading zeros."""
+        return await self._get(f"/card/{_seg(_card_prefix(bin))}", {"deep": deep})
+
+    async def provider(self, npi: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
+        return await self._get(f"/provider/{_seg(npi)}", {"deep": deep, "lang": lang})
 
     async def phone(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         """Parse a phone number and its formats. Pass country for national numbers when needed. Deep
@@ -659,6 +728,9 @@ class AsyncParseAPI:
 
     async def useragent(self, ua: str, *, deep: bool = False) -> Json:
         return await self._get("/useragent", {"deep": deep}, headers={"User-Agent": ua})
+
+    async def vehicle(self, vin: str, *, deep: bool = False) -> Json:
+        return await self._get(f"/vehicle/{_seg(vin)}", {"deep": deep})
 
     async def vin(self, vin: str, *, deep: bool = False) -> Json:
         return await self._get(f"/vin/{_seg(vin)}", {"deep": deep})
@@ -856,17 +928,17 @@ class _EmojiAsync:
         return await self._client._get("/emoji", {"q": query, "limit": limit, "deep": deep, "lang": lang})
 
 
-class _NaicsAsync:
+class _IndustryAsync:
     def __init__(self, client: AsyncParseAPI):
         self._client = client
 
     async def __call__(self, code: str, *, deep: bool = False) -> Json:
         """Look up a US NAICS 2022 code and its hierarchy."""
-        return await self._client._get(f"/naics/{_seg(code)}", {"deep": deep})
+        return await self._client._get(f"/industry/{_seg(code)}", {"deep": deep})
 
     async def search(self, query: str, *, limit: Optional[int] = None, deep: bool = False) -> Json:
         """Search industry keywords. Limit defaults to 10 and accepts 1-50."""
-        return await self._client._get("/naics", {"q": query, "limit": limit, "deep": deep})
+        return await self._client._get("/industry", {"q": query, "limit": limit, "deep": deep})
 
 
 class _TariffAsync:

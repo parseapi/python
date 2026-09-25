@@ -81,6 +81,62 @@
       ],
       "returns": "Json"
     },
+    "bank": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "iban",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "bank_requirements": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "country",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "format",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "bank_us_ach": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "KEYWORD_ONLY",
+          "name": "routing",
+          "type": "str"
+        },
+        {
+          "kind": "KEYWORD_ONLY",
+          "name": "account",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
     "bin": {
       "async": true,
       "parameters": [
@@ -139,6 +195,23 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "card": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "bin",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -832,6 +905,46 @@
       ],
       "returns": "Json"
     },
+    "industry": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "industry.search": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "query",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
     "ip": {
       "async": true,
       "parameters": [
@@ -1208,6 +1321,29 @@
           "kind": "KEYWORD_ONLY",
           "name": "unit",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "provider": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "npi",
+          "type": "str"
         },
         {
           "default": false,
@@ -1692,6 +1828,23 @@
       ],
       "returns": "Json"
     },
+    "vehicle": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "vin",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
     "vin": {
       "async": true,
       "parameters": [
@@ -1820,6 +1973,62 @@
       ],
       "returns": "Json"
     },
+    "bank": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "iban",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "bank_requirements": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "country",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "format",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "bank_us_ach": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "KEYWORD_ONLY",
+          "name": "routing",
+          "type": "str"
+        },
+        {
+          "kind": "KEYWORD_ONLY",
+          "name": "account",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
     "bin": {
       "async": false,
       "parameters": [
@@ -1878,6 +2087,23 @@
           "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "card": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "bin",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -2571,6 +2797,46 @@
       ],
       "returns": "Json"
     },
+    "industry": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "industry.search": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "query",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
     "ip": {
       "async": false,
       "parameters": [
@@ -2947,6 +3213,29 @@
           "kind": "KEYWORD_ONLY",
           "name": "unit",
           "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "provider": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "npi",
+          "type": "str"
         },
         {
           "default": false,
@@ -3431,6 +3720,23 @@
       ],
       "returns": "Json"
     },
+    "vehicle": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "vin",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
     "vin": {
       "async": false,
       "parameters": [
@@ -3503,6 +3809,12 @@
       {
         "kind": "POSITIONAL_OR_KEYWORD",
         "name": "request_id",
+        "type": "Optional[str]"
+      },
+      {
+        "default": null,
+        "kind": "POSITIONAL_OR_KEYWORD",
+        "name": "retry_after",
         "type": "Optional[str]"
       }
     ]

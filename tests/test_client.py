@@ -37,15 +37,17 @@ URL_TABLE = [
     (lambda p: p.time.at(0, 0, targets=['UTC', 'Asia/Tokyo', 'UTC']), "https://api.parseapi.com/time?lat=0&lon=0&targets=UTC%2CAsia%2FTokyo%2CUTC"),
     (lambda p: p.bin("001234"), "https://api.parseapi.com/bin/001234"),
     (lambda p: p.bin("00 1234-56", deep=True), "https://api.parseapi.com/bin/00%201234-56?deep=true"),
+    (lambda p: p.card("001234"), "https://api.parseapi.com/card/001234"),
+    (lambda p: p.card("00 1234-56"), "https://api.parseapi.com/card/00%201234-56"),
     (lambda p: p.time(), "https://api.parseapi.com/time"),
     (lambda p: p.time("America/New_York", at="2026-09-05T15:00:00", to="Asia/Tokyo"), "https://api.parseapi.com/time/America%2FNew_York?at=2026-09-05T15%3A00%3A00&to=Asia%2FTokyo"),
     (lambda p: p.time.at(0, 0, at="1970-01-01T00:00:00Z", to="UTC"), "https://api.parseapi.com/time?lat=0&lon=0&at=1970-01-01T00%3A00%3A00Z&to=UTC"),
     (lambda p: p.dns("example.com"), "https://api.parseapi.com/dns/example.com"),
     (lambda p: p.dns("_dmarc.bücher.example.", type="txt"), "https://api.parseapi.com/dns/_dmarc.b%C3%BCcher.example.?type=txt"),
-    (lambda p: p.naics("31-33"), "https://api.parseapi.com/naics/31-33"),
-    (lambda p: p.naics("54/11"), "https://api.parseapi.com/naics/54%2F11"),
-    (lambda p: p.naics.search("coffee & tea", limit=5), "https://api.parseapi.com/naics?q=coffee+%26+tea&limit=5"),
-    (lambda p: p.naics.search("plumbing"), "https://api.parseapi.com/naics?q=plumbing"),
+    (lambda p: p.industry("31-33"), "https://api.parseapi.com/industry/31-33"),
+    (lambda p: p.industry("54/11"), "https://api.parseapi.com/industry/54%2F11"),
+    (lambda p: p.industry.search("coffee & tea", limit=5), "https://api.parseapi.com/industry?q=coffee+%26+tea&limit=5"),
+    (lambda p: p.industry.search("plumbing"), "https://api.parseapi.com/industry?q=plumbing"),
     (lambda p: p.name("Andrea / Smith", country="IT"), "https://api.parseapi.com/name/Andrea%20%2F%20Smith?country=IT"),
     (lambda p: p.measure("5 ft 11 in", to="cm", locale="en-US", system="us"), "https://api.parseapi.com/measure/5%20ft%2011%20in?to=cm&locale=en-US&system=us"),
     (lambda p: p.measure("1 kg/m^3", to="g/L"), "https://api.parseapi.com/measure/1%20kg%2Fm%5E3?to=g%2FL"),
@@ -102,15 +104,15 @@ URL_TABLE = [
         "https://api.parseapi.com/vat/DE136695976?deep=true&from=IE6388047V",
     ),
     (
-        lambda p: p.iban("DE89370400440532013000"),
-        "https://api.parseapi.com/iban/DE89370400440532013000",
+        lambda p: p.bank("DE89370400440532013000"),
+        "https://api.parseapi.com/bank",
     ),
     (
-        lambda p: p.iban("89370400440532013000", country="DE"),
-        "https://api.parseapi.com/iban/89370400440532013000?country=DE",
+        lambda p: p.bank("89370400440532013000", country="DE"),
+        "https://api.parseapi.com/bank",
     ),
-    (lambda p: p.npi("1881018208"), "https://api.parseapi.com/npi/1881018208"),
-    (lambda p: p.npi("1881018208", deep=True), "https://api.parseapi.com/npi/1881018208?deep=true"),
+    (lambda p: p.provider("1881018208"), "https://api.parseapi.com/provider/1881018208"),
+    (lambda p: p.provider("1881018208", deep=True), "https://api.parseapi.com/provider/1881018208?deep=true"),
     (lambda p: p.phone("+14155552671", deep=True), "https://api.parseapi.com/phone/%2B14155552671?deep=true"),
     (lambda p: p.carrier("+14155552671"), "https://api.parseapi.com/carrier/%2B14155552671"),
     (lambda p: p.caller("4155552671", country="US"), "https://api.parseapi.com/caller/4155552671?country=US"),
@@ -121,6 +123,11 @@ URL_TABLE = [
     (lambda p: p.mac("00:1B:63:84:45:E6"), "https://api.parseapi.com/mac/00%3A1B%3A63%3A84%3A45%3AE6"),
     (lambda p: p.mx("example.com"), "https://api.parseapi.com/mx/example.com"),
     (lambda p: p.useragent("TestUA/1.0"), "https://api.parseapi.com/useragent"),
+    (lambda p: p.vehicle("1HGCM82633A004352"), "https://api.parseapi.com/vehicle/1HGCM82633A004352"),
+    (
+        lambda p: p.vehicle("1HGCM82633A004352", deep=True),
+        "https://api.parseapi.com/vehicle/1HGCM82633A004352?deep=true",
+    ),
     (lambda p: p.vin("1HGCM82633A004352"), "https://api.parseapi.com/vin/1HGCM82633A004352"),
     (
         lambda p: p.vin("1HGCM82633A004352", deep=True),
@@ -318,7 +325,7 @@ def test_retry_after_http_date(monkeypatch):
     from parseapi import _client
     monkeypatch.setattr(_client.time, "time", lambda: 1788566400.0)
     assert _client._retry_delay(0, "Sat, 05 Sep 2026 00:00:02 GMT") == 2.0
-    assert _client._retry_delay(0, "Sat, 05 Sep 2026 00:01:00 GMT") == 5.0
+    assert _client._retry_delay(0, "Sat, 05 Sep 2026 00:01:00 GMT") is None
     assert _client._retry_delay(0, "Fri, 04 Sep 2026 00:00:00 GMT") == 0.0
 
 
@@ -444,7 +451,7 @@ def test_dns_preserves_presentation_and_empty_records_sync_and_async():
 def test_naics_exclusions_and_match_pass_through(record):
     body = {"q": "sofware", "year": 2022, "country": "US", "results": [record]}
     client, calls = make_client(ok(body))
-    assert client.naics.search("sofware") == body
+    assert client.industry.search("sofware") == body
     assert calls[0].url.params["q"] == "sofware"
 
 
@@ -453,27 +460,26 @@ def test_async_naics_exclusions_and_match_pass_through():
         record = json.loads(r'{"naics":"541511","name":"Custom Computer Programming Services","description":null,"level":6,"parent":"54151","parent_name":"Computer Systems Design and Related Services","children":[],"year":2022,"country":"US","exclusions":[{"description":"Designing integrated computer systems","codes":[{"naics":"541512","name":"Computer Systems Design Services"}]},{"description":"Activities classified elsewhere","codes":[]}],"match":{"field":"term","text":"Computer software programming services","corrections":[{"from":"sofware","to":"software"}]},"future":true}''')
         body = {"q": "sofware", "year": 2022, "country": "US", "results": [record]}
         async with AsyncParseAPI("test_key", transport=httpx.MockTransport(ok(body))) as client:
-            assert await client.naics.search("sofware") == body
+            assert await client.industry.search("sofware") == body
     asyncio.run(run())
 
 
-def test_bin_reference_null_false_and_error():
+def test_card_reference_null_false_and_error():
     body = {"bin": "00123456", "prefix": "001234", "country": None, "issuer": "Fixture Bank", "brand": "future-brand", "type": None, "prepaid": False, "deep": {}, "future": True}
     client, calls = make_client(ok(body))
-    assert client.bin("00 1234-56", deep=True) == body
-    assert str(calls[0].url) == "https://api.parseapi.com/bin/00%201234-56?deep=true"
+    assert client.card("00 1234-56") == body
+    assert str(calls[0].url) == "https://api.parseapi.com/card/00%201234-56"
     async def check_async():
         async with AsyncParseAPI("test_key", transport=httpx.MockTransport(ok(body))) as client:
-            assert await client.bin("00123456", deep=True) == body
+            assert await client.card("00123456") == body
     asyncio.run(check_async())
     client, calls = make_client(lambda request: httpx.Response(400, json={"code": "invalid_input", "message": "Expected 6-11 digits"}))
-    with pytest.raises(ParseAPIError) as err:
-        client.bin("bad/input")
-    assert err.value.status == 400
-    assert len(calls) == 1
+    with pytest.raises(ValueError):
+        client.card("bad/input")
+    assert len(calls) == 0
 
 
-ADP_CASES = [('country', ['US'], {}), ('state', ['NC'], {'country': 'US'}), ('state.districts', ['NC'], {'country': 'US'}), ('district', ['37081'], {'country': 'US', 'state': 'NC'}), ('city', ['Charlotte'], {'country': 'US', 'state': 'NC'}), ('city.id', ['city_test'], {}), ('city.search', ['Charlotte'], {'country': 'US', 'state': 'NC', 'limit': 2}), ('city.nearest', [0, 0], {}), ('city.nearby', ['Charlotte'], {'radius': 0, 'unit': 'km', 'country': 'US', 'state': 'NC', 'limit': 2}), ('postal', ['28202'], {'country': 'US'}), ('postal.nearby', ['28202'], {'country': 'US', 'radius': 0, 'unit': 'km'}), ('postal.distance', ['28202', '10001'], {'country': 'US'}), ('iban', ['DE89370400440532013000'], {'country': 'DE'}), ('carrier', ['+14155552671'], {'country': 'US'}), ('hlr', ['+447712345678'], {'country': 'GB'}), ('naics', ['31-33'], {}), ('naics.search', ['coffee'], {'limit': 2}), ('currency', ['USD'], {}), ('language', ['ar'], {}), ('name', ['Andrea'], {'country': 'IT'}), ('time', [], {'at': '2026-09-08', 'to': 'UTC'}), ('time.at', [0, 0], {'at': '2026-09-08', 'to': 'UTC'}), ('timezone', ['UTC'], {'at': '2026-09-08', 'to': 'UTC'}), ('timezone.at', [0, 0], {'at': '2026-09-08'}), ('date', ['03/04/2026'], {'format': 'dmy', 'to': '2026-09-08'}), ('date.today', [], {'to': '2026-09-08'}), ('emoji', ['fire'], {}), ('emoji.search', ['fire'], {'limit': 2})]
+ADP_CASES = [('country', ['US'], {}), ('state', ['NC'], {'country': 'US'}), ('state.districts', ['NC'], {'country': 'US'}), ('district', ['37081'], {'country': 'US', 'state': 'NC'}), ('city', ['Charlotte'], {'country': 'US', 'state': 'NC'}), ('city.id', ['city_test'], {}), ('city.search', ['Charlotte'], {'country': 'US', 'state': 'NC', 'limit': 2}), ('city.nearest', [0, 0], {}), ('city.nearby', ['Charlotte'], {'radius': 0, 'unit': 'km', 'country': 'US', 'state': 'NC', 'limit': 2}), ('postal', ['28202'], {'country': 'US'}), ('postal.nearby', ['28202'], {'country': 'US', 'radius': 0, 'unit': 'km'}), ('postal.distance', ['28202', '10001'], {'country': 'US'}), ('bank', ['DE89370400440532013000'], {'country': 'DE'}), ('carrier', ['+14155552671'], {'country': 'US'}), ('hlr', ['+447712345678'], {'country': 'GB'}), ('naics', ['31-33'], {}), ('naics.search', ['coffee'], {'limit': 2}), ('currency', ['USD'], {}), ('language', ['ar'], {}), ('name', ['Andrea'], {'country': 'IT'}), ('time', [], {'at': '2026-09-08', 'to': 'UTC'}), ('time.at', [0, 0], {'at': '2026-09-08', 'to': 'UTC'}), ('timezone', ['UTC'], {'at': '2026-09-08', 'to': 'UTC'}), ('timezone.at', [0, 0], {'at': '2026-09-08'}), ('date', ['03/04/2026'], {'format': 'dmy', 'to': '2026-09-08'}), ('date.today', [], {'to': '2026-09-08'}), ('emoji', ['fire'], {}), ('emoji.search', ['fire'], {'limit': 2})]
 
 @pytest.mark.parametrize("method,args,options", ADP_CASES)
 @pytest.mark.parametrize("async_mode", [False, True])
@@ -497,7 +503,11 @@ def test_adp_optional_depth_same_operation(method, args, options, async_mode):
             else: client.close()
     asyncio.run(run())
     assert calls[0].url.path == calls[1].url.path
-    assert dict(calls[1].url.params) == {**dict(calls[0].url.params), "deep": "true"}
+    if method == "bank":
+        assert json.loads(calls[1].content) == {**json.loads(calls[0].content), "deep": True}
+        assert not calls[1].url.query
+    else:
+        assert dict(calls[1].url.params) == {**dict(calls[0].url.params), "deep": "true"}
 
 
 @pytest.mark.parametrize("name_local", ["München", None])
