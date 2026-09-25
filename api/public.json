@@ -1603,6 +1603,23 @@
       ],
       "returns": "Json"
     },
+    "vehicle": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "vin",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
     "vin": {
       "async": true,
       "parameters": [
@@ -3249,6 +3266,23 @@
           "kind": "KEYWORD_ONLY",
           "name": "from_vat",
           "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "vehicle": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "vin",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"

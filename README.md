@@ -109,7 +109,7 @@ parse.mx("example.com")
 parse.dns("example.com")
 parse.dns("_dmarc.example.com", type="TXT")
 parse.useragent(ua_string)
-parse.vin("1HGCM82633A004352")
+parse.vehicle("1HGCM82633A004352")
 parse.industry("541511")
 parse.industry.search("coffee shop", limit=5)
 parse.tariff("8471.30.01.00")
@@ -241,7 +241,7 @@ Choose enrichment for the question you need answered.
 | Country, State, District, City, Postal | The place profile on paid plans, including demographic and tax facts where held. |
 | Name, Industry | Name evidence or the industry definition profile on paid plans. |
 | NPI | Deactivation date, Medicare enrollment, opt-out and enrollment rows from stored sources on paid plans. Exclusion evidence stays core. |
-| VIN, Tariff, Company | The complete product detail bag on paid plans. |
+| Vehicle, Tariff, Company | The complete product detail bag on paid plans. |
 | Weather | Specialist current measurements and the existing forecast, alert, air and history bag on paid plans. |
 | Carrier, HLR | Optional diagnostic detail within the same metered core unit, including Free allowance units. No second gate or additional check. |
 
@@ -344,3 +344,5 @@ Pass a public hostname without a scheme, path, port or IP address. Stack returns
 Successful checks may be reused for up to 24 hours. `pretty` optionally formats the wire JSON. Stack uses your plan's request allowance and API version 2.0.0 selected by this client.
 
 Stack defaults to a 35-second transport timeout so a first scan has time to finish. Other lookups retain their 10-second default. An explicit client timeout takes precedence.
+
+Vehicle lookups use `vin` as the input and response field. Existing VIN methods remain available for compatibility.
