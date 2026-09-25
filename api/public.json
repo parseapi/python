@@ -436,6 +436,124 @@
       ],
       "returns": "Json"
     },
+    "company.coverage": {
+      "async": true,
+      "parameters": [],
+      "returns": "Json"
+    },
+    "company.id": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "id",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "company.search": {
+      "async": true,
+      "parameters": [
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "query",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "domain",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "ticker",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "identifier",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "exchange",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "authority",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "cursor",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "industry",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "industry_type",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "registration_authority",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "registration_form",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "registration_status",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
     "constructor": {
       "async": false,
       "parameters": [
@@ -1397,6 +1515,18 @@
           "kind": "KEYWORD_ONLY",
           "name": "origin",
           "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "edition",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "date",
+          "type": "Optional[str]"
         }
       ],
       "returns": "Json"
@@ -1408,6 +1538,18 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "query",
           "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "edition",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "date",
+          "type": "Optional[str]"
         }
       ],
       "returns": "Json"
@@ -1443,6 +1585,66 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "lang",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "disambiguation",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "targets",
+          "type": "Optional[list[str]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "ip",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "city",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "state",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "iata",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "icao",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "unlocode",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "address",
           "type": "Optional[str]"
         }
       ],
@@ -1483,6 +1685,84 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "lang",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "disambiguation",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "targets",
+          "type": "Optional[list[str]]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "time.zones": {
+      "async": true,
+      "parameters": [
+        {
+          "default": null,
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "query",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "area",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "offset",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "abbreviation",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "dst",
+          "type": "Optional[bool]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "observes_dst",
+          "type": "Optional[bool]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "at",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "details",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "sort",
           "type": "Optional[str]"
         }
       ],
@@ -2098,6 +2378,124 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "lang",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "company.coverage": {
+      "async": false,
+      "parameters": [],
+      "returns": "Json"
+    },
+    "company.id": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "id",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        }
+      ],
+      "returns": "Json"
+    },
+    "company.search": {
+      "async": false,
+      "parameters": [
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "query",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "domain",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "ticker",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "identifier",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "exchange",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "authority",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "cursor",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "industry",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "industry_type",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "registration_authority",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "registration_form",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "registration_status",
           "type": "Optional[str]"
         }
       ],
@@ -3064,6 +3462,18 @@
           "kind": "KEYWORD_ONLY",
           "name": "origin",
           "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "edition",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "date",
+          "type": "Optional[str]"
         }
       ],
       "returns": "Json"
@@ -3075,6 +3485,18 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "query",
           "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "edition",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "date",
+          "type": "Optional[str]"
         }
       ],
       "returns": "Json"
@@ -3110,6 +3532,66 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "lang",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "disambiguation",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "targets",
+          "type": "Optional[list[str]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "ip",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "city",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "state",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "iata",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "icao",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "unlocode",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "address",
           "type": "Optional[str]"
         }
       ],
@@ -3150,6 +3632,84 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "lang",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "disambiguation",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "targets",
+          "type": "Optional[list[str]]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "time.zones": {
+      "async": false,
+      "parameters": [
+        {
+          "default": null,
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "query",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "area",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "offset",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "abbreviation",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "dst",
+          "type": "Optional[bool]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "observes_dst",
+          "type": "Optional[bool]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "at",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "details",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "sort",
           "type": "Optional[str]"
         }
       ],

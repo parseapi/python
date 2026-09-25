@@ -6,7 +6,7 @@ import random
 import re
 import time
 from email.utils import parsedate_to_datetime
-from typing import Any, Dict, Optional, overload
+from typing import Any, Dict, Optional, Protocol, Union, overload
 from urllib.parse import quote
 
 import httpx
@@ -126,6 +126,54 @@ class _Config:
 
     def headers(self) -> Dict[str, str]:
         return {"X-API-Key": self.api_key, "User-Agent": f"parseapi-python/{VERSION}", "Parse-Version": _API_VERSION}
+
+
+class _CompanySyncClassCall(Protocol):
+    def __call__(self, client: ParseAPI, /, number: str, *, country: Optional[str] = None,
+        deep: bool = False, lang: Optional[str] = None) -> Json: ...
+
+
+class _CompanyAsyncClassCall(Protocol):
+    async def __call__(self, client: AsyncParseAPI, /, number: str, *, country: Optional[str] = None,
+        deep: bool = False, lang: Optional[str] = None) -> Json: ...
+
+
+# A typed, non-data descriptor keeps the published class-level number method
+# while exposing a callable namespace to instances and static type checkers.
+class _CompanySyncDescriptor:
+    def __init__(self, lookup: _CompanySyncClassCall):
+        self._lookup = lookup
+
+    @overload
+    def __get__(self, instance: None, owner: Optional[type[Any]] = None) -> _CompanySyncClassCall: ...
+
+    @overload
+    def __get__(self, instance: ParseAPI, owner: Optional[type[Any]] = None) -> _CompanySync: ...
+
+    def __get__(self, instance: Optional[ParseAPI], owner: Optional[type[Any]] = None) -> Union[_CompanySyncClassCall, _CompanySync]:
+        if instance is None:
+            return self._lookup
+        namespace = _CompanySync(instance, self._lookup)
+        instance.__dict__["company"] = namespace
+        return namespace
+
+
+class _CompanyAsyncDescriptor:
+    def __init__(self, lookup: _CompanyAsyncClassCall):
+        self._lookup = lookup
+
+    @overload
+    def __get__(self, instance: None, owner: Optional[type[Any]] = None) -> _CompanyAsyncClassCall: ...
+
+    @overload
+    def __get__(self, instance: AsyncParseAPI, owner: Optional[type[Any]] = None) -> _CompanyAsync: ...
+
+    def __get__(self, instance: Optional[AsyncParseAPI], owner: Optional[type[Any]] = None) -> Union[_CompanyAsyncClassCall, _CompanyAsync]:
+        if instance is None:
+            return self._lookup
+        namespace = _CompanyAsync(instance, self._lookup)
+        instance.__dict__["company"] = namespace
+        return namespace
 
 
 class ParseAPI:
@@ -302,6 +350,7 @@ class ParseAPI:
     def vin(self, vin: str, *, deep: bool = False) -> Json:
         return self._get(f"/vin/{_seg(vin)}", {"deep": deep})
 
+    @_CompanySyncDescriptor
     def company(self, number: str, *, country: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
         return self._get(f"/company/{_seg(number)}", {"country": country, "deep": deep, "lang": lang})
 
@@ -506,19 +555,30 @@ class _IndustrySync:
         return self._client._get("/industry", {"q": query, "limit": limit, "deep": deep})
 
 
+def _tariff_selection(result: Json, edition: Optional[str], date: Optional[str]) -> Json:
+    if (edition is not None or date is not None) and (
+        not isinstance(result.get("edition"), str) or re.fullmatch(r"[a-f0-9]{64}", result["edition"]) is None
+        or (edition is not None and result.get("edition") != edition)
+        or (result.get("date") != date)
+    ):
+        raise ParseAPIError(0, "tariff_selection_mismatch", "Tariff response did not confirm the requested edition/date. The server may not support this selection.", None, None)
+    return result
+
+
 class _TariffSync:
     def __init__(self, client: ParseAPI):
         self._client = client
 
-    def __call__(self, code: str, *, deep: bool = False, origin: Optional[str] = None) -> Json:
+    def __call__(self, code: str, *, deep: bool = False, origin: Optional[str] = None, edition: Optional[str] = None, date: Optional[str] = None) -> Json:
         """Look up the general US duty schedule line. Paid deep adds units and the special and other
         schedule columns. Add origin with deep to resolve country-specific measures. Without
         origin, schedule detail remains available and origin-dependent fields are null. A null
         effective rate is not a zero rate."""
-        return self._client._get(f"/tariff/{_seg(code)}", {"deep": deep, "origin": origin})
+        return _tariff_selection(self._client._get(f"/tariff/{_seg(code)}", {"deep": deep, "origin": origin, "edition": edition, "date": date}), edition, date)
 
-    def search(self, query: str) -> Json:
-        return self._client._get("/tariff", {"q": query})
+    def search(self, query: str, *, edition: Optional[str] = None, date: Optional[str] = None) -> Json:
+        return _tariff_selection(self._client._get("/tariff", {"q": query, "edition": edition, "date": date}), edition, date)
+
 
 
 class AsyncParseAPI:
@@ -697,6 +757,7 @@ class AsyncParseAPI:
     async def vin(self, vin: str, *, deep: bool = False) -> Json:
         return await self._get(f"/vin/{_seg(vin)}", {"deep": deep})
 
+    @_CompanyAsyncDescriptor
     async def company(self, number: str, *, country: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
         return await self._get(f"/company/{_seg(number)}", {"country": country, "deep": deep, "lang": lang})
 
@@ -907,15 +968,16 @@ class _TariffAsync:
     def __init__(self, client: AsyncParseAPI):
         self._client = client
 
-    async def __call__(self, code: str, *, deep: bool = False, origin: Optional[str] = None) -> Json:
+    async def __call__(self, code: str, *, deep: bool = False, origin: Optional[str] = None, edition: Optional[str] = None, date: Optional[str] = None) -> Json:
         """Look up the general US duty schedule line. Paid deep adds units and the special and other
         schedule columns. Add origin with deep to resolve country-specific measures. Without
         origin, schedule detail remains available and origin-dependent fields are null. A null
         effective rate is not a zero rate."""
-        return await self._client._get(f"/tariff/{_seg(code)}", {"deep": deep, "origin": origin})
+        return _tariff_selection(await self._client._get(f"/tariff/{_seg(code)}", {"deep": deep, "origin": origin, "edition": edition, "date": date}), edition, date)
 
-    async def search(self, query: str) -> Json:
-        return await self._client._get("/tariff", {"q": query})
+    async def search(self, query: str, *, edition: Optional[str] = None, date: Optional[str] = None) -> Json:
+        return _tariff_selection(await self._client._get("/tariff", {"q": query, "edition": edition, "date": date}), edition, date)
+
 
 
 class _DateSync:
@@ -944,13 +1006,21 @@ class _TimeSync:
     def __init__(self, client: ParseAPI):
         self._client = client
 
-    def __call__(self, timezone: Optional[str] = None, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
-        """Current local time, UTC by default. With to, offsetless at is source wall time."""
-        path = "/time" if timezone is None else f"/time/{_seg(timezone)}"
-        return self._client._get(path, {"at": at, "to": to, "deep": deep, "lang": lang})
+    def __call__(self, timezone: Optional[str] = None, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False, lang: Optional[str] = None, disambiguation: Optional[str] = None, targets: Optional[list[str]] = None, ip: Optional[str] = None, city: Optional[str] = None, country: Optional[str] = None, state: Optional[str] = None, iata: Optional[str] = None, icao: Optional[str] = None, unlocode: Optional[str] = None, address: Optional[str] = None) -> Json:
+        """Current local time, UTC by default. With to or targets, offsetless at is source wall time.
+        disambiguation selects compatible (default), earlier, later, or reject at clock changes.
+        Explicit offsets select the instant directly."""
+        source = _time_source(timezone, ip=ip, city=city, country=country, state=state, iata=iata, icao=icao, unlocode=unlocode, address=address)
+        path = _time_path(timezone)
+        return self._client._get(path, {**source, "at": at, "to": to, "deep": deep, "lang": lang, "disambiguation": disambiguation, "targets": _time_targets(targets, to)})
 
-    def at(self, lat: float, lon: float, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return self._client._get("/time", {"lat": lat, "lon": lon, "at": at, "to": to, "deep": deep, "lang": lang})
+    def at(self, lat: float, lon: float, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False, lang: Optional[str] = None, disambiguation: Optional[str] = None, targets: Optional[list[str]] = None) -> Json:
+        return self._client._get("/time", {"lat": lat, "lon": lon, "at": at, "to": to, "deep": deep, "lang": lang, "disambiguation": disambiguation, "targets": _time_targets(targets, to)})
+
+
+    def zones(self, query: Optional[str] = None, *, country: Optional[str] = None, area: Optional[str] = None, offset: Optional[str] = None, abbreviation: Optional[str] = None, dst: Optional[bool] = None, observes_dst: Optional[bool] = None, at: Optional[str] = None, details: bool = False, sort: Optional[str] = None) -> Json:
+        """Search serving timezone IDs. Omit query to list all."""
+        return self._client._get("/time/zones", {"q": query, "country": country, "area": area, "offset": offset, "abbreviation": abbreviation, "dst": None if dst is None else str(dst).lower(), "observes_dst": None if observes_dst is None else str(observes_dst).lower(), "at": at, "details": details, "sort": sort})
 
 
 class _TimezoneSync:
@@ -984,13 +1054,21 @@ class _TimeAsync:
     def __init__(self, client: AsyncParseAPI):
         self._client = client
 
-    async def __call__(self, timezone: Optional[str] = None, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
-        """Current local time, UTC by default. With to, offsetless at is source wall time."""
-        path = "/time" if timezone is None else f"/time/{_seg(timezone)}"
-        return await self._client._get(path, {"at": at, "to": to, "deep": deep, "lang": lang})
+    async def __call__(self, timezone: Optional[str] = None, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False, lang: Optional[str] = None, disambiguation: Optional[str] = None, targets: Optional[list[str]] = None, ip: Optional[str] = None, city: Optional[str] = None, country: Optional[str] = None, state: Optional[str] = None, iata: Optional[str] = None, icao: Optional[str] = None, unlocode: Optional[str] = None, address: Optional[str] = None) -> Json:
+        """Current local time, UTC by default. With to or targets, offsetless at is source wall time.
+        disambiguation selects compatible (default), earlier, later, or reject at clock changes.
+        Explicit offsets select the instant directly."""
+        source = _time_source(timezone, ip=ip, city=city, country=country, state=state, iata=iata, icao=icao, unlocode=unlocode, address=address)
+        path = _time_path(timezone)
+        return await self._client._get(path, {**source, "at": at, "to": to, "deep": deep, "lang": lang, "disambiguation": disambiguation, "targets": _time_targets(targets, to)})
 
-    async def at(self, lat: float, lon: float, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return await self._client._get("/time", {"lat": lat, "lon": lon, "at": at, "to": to, "deep": deep, "lang": lang})
+    async def at(self, lat: float, lon: float, *, at: Optional[str] = None, to: Optional[str] = None, deep: bool = False, lang: Optional[str] = None, disambiguation: Optional[str] = None, targets: Optional[list[str]] = None) -> Json:
+        return await self._client._get("/time", {"lat": lat, "lon": lon, "at": at, "to": to, "deep": deep, "lang": lang, "disambiguation": disambiguation, "targets": _time_targets(targets, to)})
+
+
+    async def zones(self, query: Optional[str] = None, *, country: Optional[str] = None, area: Optional[str] = None, offset: Optional[str] = None, abbreviation: Optional[str] = None, dst: Optional[bool] = None, observes_dst: Optional[bool] = None, at: Optional[str] = None, details: bool = False, sort: Optional[str] = None) -> Json:
+        """Search serving timezone IDs. Omit query to list all."""
+        return await self._client._get("/time/zones", {"q": query, "country": country, "area": area, "offset": offset, "abbreviation": abbreviation, "dst": None if dst is None else str(dst).lower(), "observes_dst": None if observes_dst is None else str(observes_dst).lower(), "at": at, "details": details, "sort": sort})
 
 
 class _TimezoneAsync:
@@ -1050,3 +1128,98 @@ class _MeasureAsync:
     async def units(self, *, query: Optional[str] = None, type: Optional[str] = None, unit: Optional[str] = None, lang: Optional[str] = None) -> Json:
         """Discover reviewed units. unit filters compatible conversion targets."""
         return await self._client._get("/measure/units", {"q": query, "type": type, "unit": unit, "lang": lang})
+
+
+class _CompanySync:
+    def __init__(self, client: ParseAPI, lookup: _CompanySyncClassCall):
+        self._client = client
+        self._number_lookup = lookup
+
+    def __call__(self, number: str, *, country: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
+        return self._number_lookup(self._client, number, country=country, deep=deep, lang=lang)
+
+    def id(self, id: str, *, deep: bool = False) -> Json:
+        """Fetch a directory profile by its stable Company ID. Deep adds profile detail."""
+        return self._client._get(f"/company/id/{_seg(id)}", {"deep": deep})
+
+    def search(self, *, query: Optional[str] = None, domain: Optional[str] = None,
+        ticker: Optional[str] = None, identifier: Optional[str] = None, country: Optional[str] = None,
+        exchange: Optional[str] = None, authority: Optional[str] = None, limit: Optional[int] = None,
+        cursor: Optional[str] = None, deep: bool = False, industry: Optional[str] = None,
+        industry_type: Optional[str] = None, registration_authority: Optional[str] = None,
+        registration_form: Optional[str] = None, registration_status: Optional[str] = None) -> Json:
+        """Use at most one selector, or discover by country, industry or selected registration.
+        Pair a four-digit SIC industry string with industry_type="sic".
+        Registration form/status are exact source strings requiring registration_authority.
+        Administrative registration status does not establish current business activity.
+        The API validates selectors and filters. Review candidates before choosing an ID.
+        Pass a returned cursor with the same selector and filters. Deep belongs to each result.
+        """
+        return self._client._get("/company", {"q": query, "domain": domain, "ticker": ticker,
+            "identifier": identifier, "country": country, "exchange": exchange, "authority": authority,
+            "limit": limit, "cursor": cursor, "deep": deep, "industry": industry, "industry_type": industry_type,
+            "registration_authority": registration_authority, "registration_form": registration_form, "registration_status": registration_status})
+
+    def coverage(self) -> Json:
+        """Read the directory edition and source coverage."""
+        return self._client._get("/company/directory/coverage")
+
+
+class _CompanyAsync:
+    def __init__(self, client: AsyncParseAPI, lookup: _CompanyAsyncClassCall):
+        self._client = client
+        self._number_lookup = lookup
+
+    async def __call__(self, number: str, *, country: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
+        return await self._number_lookup(self._client, number, country=country, deep=deep, lang=lang)
+
+    async def id(self, id: str, *, deep: bool = False) -> Json:
+        """Fetch a directory profile by its stable Company ID. Deep adds profile detail."""
+        return await self._client._get(f"/company/id/{_seg(id)}", {"deep": deep})
+
+    async def search(self, *, query: Optional[str] = None, domain: Optional[str] = None,
+        ticker: Optional[str] = None, identifier: Optional[str] = None, country: Optional[str] = None,
+        exchange: Optional[str] = None, authority: Optional[str] = None, limit: Optional[int] = None,
+        cursor: Optional[str] = None, deep: bool = False, industry: Optional[str] = None,
+        industry_type: Optional[str] = None, registration_authority: Optional[str] = None,
+        registration_form: Optional[str] = None, registration_status: Optional[str] = None) -> Json:
+        """Use at most one selector, or discover by country, industry or selected registration.
+        Pair a four-digit SIC industry string with industry_type="sic".
+        Registration form/status are exact source strings requiring registration_authority.
+        Administrative registration status does not establish current business activity.
+        The API validates selectors and filters. Review candidates before choosing an ID.
+        Pass a returned cursor with the same selector and filters. Deep belongs to each result.
+        """
+        return await self._client._get("/company", {"q": query, "domain": domain, "ticker": ticker,
+            "identifier": identifier, "country": country, "exchange": exchange, "authority": authority,
+            "limit": limit, "cursor": cursor, "deep": deep, "industry": industry, "industry_type": industry_type,
+            "registration_authority": registration_authority, "registration_form": registration_form, "registration_status": registration_status})
+
+    async def coverage(self) -> Json:
+        """Read the directory edition and source coverage."""
+        return await self._client._get("/company/directory/coverage")
+
+def _time_source(timezone, **values):
+    primary = [values.get(key) for key in ("ip", "city", "iata", "icao", "unlocode", "address") if values.get(key) is not None]
+    present = any(value is not None for value in values.values())
+    if (any(value is not None and (not isinstance(value, str) or not value.strip()) for value in values.values())
+        or (timezone is not None and present) or len(primary) > 1
+        or (values.get("country") is not None and primary and values.get("city") is None and values.get("address") is None)
+        or (values.get("state") is not None and ((values.get("city") is None and values.get("address") is None) or values.get("country") is None))
+        or (values.get("address") is not None and values.get("country") is None)):
+        raise ValueError('Pass one Time source, using country only with city or address and state only with city or address and country.')
+    return values
+
+
+def _time_path(timezone: Optional[str]) -> str:
+    if timezone is not None and timezone.strip().lower() in ("zones", "help"):
+        raise ValueError("Time source must be an IANA timezone ID. Use timezone discovery to list IDs.")
+    return "/time" if timezone is None else f"/time/{_seg(timezone)}"
+
+
+def _time_targets(targets: Optional[list[str]], to: Optional[str]) -> Optional[str]:
+    if targets is None:
+        return None
+    if to is not None or not isinstance(targets, (list, tuple)) or not 1 <= len(targets) <= 10 or any(not isinstance(zone, str) or not zone.strip() or ',' in zone for zone in targets):
+        raise ValueError("Time targets requires 1 to 10 timezone IDs and cannot be combined with to.")
+    return ','.join(targets)
