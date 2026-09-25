@@ -189,6 +189,12 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "bin",
           "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1793,6 +1799,12 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "bin",
           "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
         }
       ],
       "returns": "Json"

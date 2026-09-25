@@ -39,8 +39,8 @@ def _seg(value: Any) -> str:
 
 
 def _card_prefix(value: str) -> str:
-    if not isinstance(value, str) or len(value) > 64 or re.fullmatch(r'[0-9]{6,11}', re.sub(r'[ \t\r\n-]', '', value)) is None:
-        raise ValueError('parseapi: Card requires a string containing 6 to 11 digits. Send a prefix only.')
+    if not isinstance(value, str) or len(value) > 64 or re.fullmatch(r'[0-9]{2,11}', re.sub(r'[ \t\r\n-]', '', value)) is None:
+        raise ValueError('parseapi: Card requires a string containing 2 to 11 digits. Send a prefix only.')
     return value
 
 
@@ -233,9 +233,9 @@ class ParseAPI:
         """Describe accepted fields and check scope, not directory completeness."""
         return self._get("/bank/requirements", {"country": country, "format": format})
 
-    def card(self, bin: str) -> Json:
-        """Look up a 6-11 digit card prefix, preserving leading zeros."""
-        return self._get(f"/card/{_seg(_card_prefix(bin))}")
+    def card(self, bin: str, *, deep: bool = False) -> Json:
+        """Look up a 2-11 digit card prefix, preserving leading zeros."""
+        return self._get(f"/card/{_seg(_card_prefix(bin))}", {"deep": deep})
 
     def npi(self, npi: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
         return self._get(f"/npi/{_seg(npi)}", {"deep": deep, "lang": lang})
@@ -624,9 +624,9 @@ class AsyncParseAPI:
         """Describe accepted fields and check scope, not directory completeness."""
         return await self._get("/bank/requirements", {"country": country, "format": format})
 
-    async def card(self, bin: str) -> Json:
-        """Look up a 6-11 digit card prefix, preserving leading zeros."""
-        return await self._get(f"/card/{_seg(_card_prefix(bin))}")
+    async def card(self, bin: str, *, deep: bool = False) -> Json:
+        """Look up a 2-11 digit card prefix, preserving leading zeros."""
+        return await self._get(f"/card/{_seg(_card_prefix(bin))}", {"deep": deep})
 
     async def npi(self, npi: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
         return await self._get(f"/npi/{_seg(npi)}", {"deep": deep, "lang": lang})

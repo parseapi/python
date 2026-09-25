@@ -13,11 +13,11 @@ def test_prefix_guards_match_server_and_preserve_accepted_input():
     def transport(request):
         calls.append(request)
         return httpx.Response(200, json={})
-    invalid = ['', '12345', '123456789012', '4242424242424242', '００１２３４', '00\u00a01234', '00\v1234', '00%201234', '00+1234', '00/1234', '00_1234', ' '*59+'001234', 123456, None]
+    invalid = ['', '1', '123456789012', '4242424242424242', '００１２３４', '00\u00a01234', '00\v1234', '00%201234', '00+1234', '00/1234', '00_1234', ' '*59+'001234', 123456, None]
     valid = ['001234', '00123456789', '00 1234-56', '00\t12\r34\n-56', ' '*58+'001234']
     with ParseAPI('fixture', transport=httpx.MockTransport(transport)) as client:
         for value in invalid:
-            with pytest.raises(ValueError, match='^parseapi: Card requires a string containing 6 to 11 digits. Send a prefix only.$'):
+            with pytest.raises(ValueError, match='^parseapi: Card requires a string containing 2 to 11 digits. Send a prefix only.$'):
                 client.card(value)
         assert not calls
         for value in valid:
@@ -103,3 +103,18 @@ def test_error_constructor_remains_compatible_and_disabled_retry_keeps_header():
 def test_large_retry_counts_keep_full_jitter_within_budget(monkeypatch):
     monkeypatch.setattr(_client.random, 'random', lambda:0.4)
     assert _client._retry_delay(100000, None) == 2.0
+
+
+def test_optional_card_deep_in_sync_and_async_clients():
+    calls = []
+    body = {"bin": "001234", "brand": None, "brand_name": None, "logo": "https://cdn.parseapi.com/card/generic.svg", "deep": {"prefix": "001234", "issuer": None, "country": None, "type": None, "prepaid": False}}
+    def transport(request):
+        calls.append(request)
+        return httpx.Response(200, json=body)
+    with ParseAPI('fixture', transport=httpx.MockTransport(transport)) as client:
+        assert client.card('00-1234', deep=True) == body
+    async def run():
+        async with AsyncParseAPI('fixture', transport=httpx.MockTransport(transport)) as client:
+            assert await client.card('00-1234', deep=True) == body
+    asyncio.run(run())
+    assert [str(request.url) for request in calls] == ['https://api.parseapi.com/card/00-1234?deep=true'] * 2

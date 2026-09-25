@@ -90,7 +90,7 @@ expect_ok(
     lambda: parse.vat("DE136695976"),
     lambda r: None if r.get("valid") is True and r.get("country") == "DE" else "not valid DE",
 )
-expect_ok("card", lambda: parse.card("00 0000"), lambda r: None if r.get("bin") == "000000" and r.get("prefix") is None else "BIN echo or prefix mismatch")
+expect_ok("card", lambda: parse.card("00 0000"), lambda r: None if r.get("bin") == "000000" and r.get("brand") is None and r.get("logo") == "https://cdn.parseapi.com/card/generic.svg" else "BIN echo or prefix mismatch")
 expect_ok(
     "bank",
     lambda: parse.bank("DE89370400440532013000"),
