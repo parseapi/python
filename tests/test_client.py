@@ -30,10 +30,10 @@ URL_TABLE = [
     (lambda p: p.time.at(0, 0, at="1970-01-01T00:00:00Z", to="UTC"), "https://api.parseapi.com/time?lat=0&lon=0&at=1970-01-01T00%3A00%3A00Z&to=UTC"),
     (lambda p: p.dns("example.com"), "https://api.parseapi.com/dns/example.com"),
     (lambda p: p.dns("_dmarc.bücher.example.", type="txt"), "https://api.parseapi.com/dns/_dmarc.b%C3%BCcher.example.?type=txt"),
-    (lambda p: p.naics("31-33"), "https://api.parseapi.com/naics/31-33"),
-    (lambda p: p.naics("54/11"), "https://api.parseapi.com/naics/54%2F11"),
-    (lambda p: p.naics.search("coffee & tea", limit=5), "https://api.parseapi.com/naics?q=coffee+%26+tea&limit=5"),
-    (lambda p: p.naics.search("plumbing"), "https://api.parseapi.com/naics?q=plumbing"),
+    (lambda p: p.industry("31-33"), "https://api.parseapi.com/industry/31-33"),
+    (lambda p: p.industry("54/11"), "https://api.parseapi.com/industry/54%2F11"),
+    (lambda p: p.industry.search("coffee & tea", limit=5), "https://api.parseapi.com/industry?q=coffee+%26+tea&limit=5"),
+    (lambda p: p.industry.search("plumbing"), "https://api.parseapi.com/industry?q=plumbing"),
     (lambda p: p.name("Andrea / Smith", country="IT"), "https://api.parseapi.com/name/Andrea%20%2F%20Smith?country=IT"),
     (lambda p: p.measure("5 ft 11 in", to="cm", locale="en-US", system="us"), "https://api.parseapi.com/measure/5%20ft%2011%20in?to=cm&locale=en-US&system=us"),
     (lambda p: p.measure("1 kg/m^3", to="g/L"), "https://api.parseapi.com/measure/1%20kg%2Fm%5E3?to=g%2FL"),
@@ -432,7 +432,7 @@ def test_dns_preserves_presentation_and_empty_records_sync_and_async():
 def test_naics_exclusions_and_match_pass_through(record):
     body = {"q": "sofware", "year": 2022, "country": "US", "results": [record]}
     client, calls = make_client(ok(body))
-    assert client.naics.search("sofware") == body
+    assert client.industry.search("sofware") == body
     assert calls[0].url.params["q"] == "sofware"
 
 
@@ -441,7 +441,7 @@ def test_async_naics_exclusions_and_match_pass_through():
         record = json.loads(r'{"naics":"541511","name":"Custom Computer Programming Services","description":null,"level":6,"parent":"54151","parent_name":"Computer Systems Design and Related Services","children":[],"year":2022,"country":"US","exclusions":[{"description":"Designing integrated computer systems","codes":[{"naics":"541512","name":"Computer Systems Design Services"}]},{"description":"Activities classified elsewhere","codes":[]}],"match":{"field":"term","text":"Computer software programming services","corrections":[{"from":"sofware","to":"software"}]},"future":true}''')
         body = {"q": "sofware", "year": 2022, "country": "US", "results": [record]}
         async with AsyncParseAPI("test_key", transport=httpx.MockTransport(ok(body))) as client:
-            assert await client.naics.search("sofware") == body
+            assert await client.industry.search("sofware") == body
     asyncio.run(run())
 
 

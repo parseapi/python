@@ -157,7 +157,8 @@ class ParseAPI:
         self.currency = _CurrencySync(self)
         self.holiday = _HolidaySync(self)
         self.emoji = _EmojiSync(self)
-        self.naics = _NaicsSync(self)
+        self.industry = _IndustrySync(self)
+        self.naics = self.industry
         self.tariff = _TariffSync(self)
         self.date = _DateSync(self)
         self.measure = _MeasureSync(self)
@@ -489,17 +490,17 @@ class _EmojiSync:
         return self._client._get("/emoji", {"q": query, "limit": limit, "deep": deep, "lang": lang})
 
 
-class _NaicsSync:
+class _IndustrySync:
     def __init__(self, client: ParseAPI):
         self._client = client
 
     def __call__(self, code: str, *, deep: bool = False) -> Json:
         """Look up a US NAICS 2022 code and its hierarchy."""
-        return self._client._get(f"/naics/{_seg(code)}", {"deep": deep})
+        return self._client._get(f"/industry/{_seg(code)}", {"deep": deep})
 
     def search(self, query: str, *, limit: Optional[int] = None, deep: bool = False) -> Json:
         """Search industry keywords. Limit defaults to 10 and accepts 1-50."""
-        return self._client._get("/naics", {"q": query, "limit": limit, "deep": deep})
+        return self._client._get("/industry", {"q": query, "limit": limit, "deep": deep})
 
 
 class _TariffSync:
@@ -546,7 +547,8 @@ class AsyncParseAPI:
         self.currency = _CurrencyAsync(self)
         self.holiday = _HolidayAsync(self)
         self.emoji = _EmojiAsync(self)
-        self.naics = _NaicsAsync(self)
+        self.industry = _IndustryAsync(self)
+        self.naics = self.industry
         self.tariff = _TariffAsync(self)
         self.date = _DateAsync(self)
         self.measure = _MeasureAsync(self)
@@ -882,17 +884,17 @@ class _EmojiAsync:
         return await self._client._get("/emoji", {"q": query, "limit": limit, "deep": deep, "lang": lang})
 
 
-class _NaicsAsync:
+class _IndustryAsync:
     def __init__(self, client: AsyncParseAPI):
         self._client = client
 
     async def __call__(self, code: str, *, deep: bool = False) -> Json:
         """Look up a US NAICS 2022 code and its hierarchy."""
-        return await self._client._get(f"/naics/{_seg(code)}", {"deep": deep})
+        return await self._client._get(f"/industry/{_seg(code)}", {"deep": deep})
 
     async def search(self, query: str, *, limit: Optional[int] = None, deep: bool = False) -> Json:
         """Search industry keywords. Limit defaults to 10 and accepts 1-50."""
-        return await self._client._get("/naics", {"q": query, "limit": limit, "deep": deep})
+        return await self._client._get("/industry", {"q": query, "limit": limit, "deep": deep})
 
 
 class _TariffAsync:
