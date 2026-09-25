@@ -1079,7 +1079,7 @@
       ],
       "returns": "Json"
     },
-    "npi": {
+    "provider": {
       "async": true,
       "parameters": [
         {
@@ -2689,7 +2689,7 @@
       ],
       "returns": "Json"
     },
-    "npi": {
+    "provider": {
       "async": false,
       "parameters": [
         {

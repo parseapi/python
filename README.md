@@ -58,7 +58,7 @@ parse.email("hello@gmail.com")
 parse.vat("DE136695976")
 parse.bank("DE89370400440532013000")
 parse.card("424242")
-parse.npi("1881018208")
+parse.provider("1881018208")
 parse.phone("+14155552671")
 parse.carrier("+14155552671")
 parse.caller("+14155552671")
@@ -210,11 +210,11 @@ parse.bank_requirements("US", format="us_ach")
 parse.bank_us_ach(routing="011000015", account="0001234567")
 ```
 
-## NPI provider lookup
+## Provider lookup
 
 ```python
-provider = parse.npi("1881018208")
-profile = parse.npi("1881018208", deep=True)
+provider = parse.provider("1881018208")
+profile = parse.provider("1881018208", deep=True)
 ```
 
 Pass the original NPI as a string. `valid` checks its format and checksum; `registered` means a match in the stored NPPES snapshot. `active` reflects recorded NPI deactivation, not licensure. `excluded` is an NPI-only OIG LEIE match; `false` is not a complete exclusion clearance. These directory facts do not verify credentials, current practice contact or payment eligibility.
@@ -222,6 +222,8 @@ Pass the original NPI as a string. `valid` checks its format and checksum; `regi
 Invalid input returns `valid: false` with unknown provider fields. A checksum-valid number missing from the snapshot returns `registered: false`; unavailable storage remains an API error. Preserve `null` as unknown.
 
 The default pooled lookup includes provider identity, specialty and practice contact where held. Paid `deep` adds `deactivated_at`, `medicare`, `opt_out` and `enrollments` from stored source files, with no separate check meter or live verification. `enrollments: null` means unavailable; `[]` means no enrollment rows are returned. The API omits unrequested `deep` and returns `{}` when requested on Free.
+
+Paid Deep also returns `taxonomies` in published order, with taxonomy code, specialty label, primary flag and provider-reported license number/state, plus `enumerated_at`, `updated_at` and `reactivated_at` record dates. Reported licenses are not verified licenses. Null lists mean unavailable; empty lists mean the edition contains no entries. Core `sources` is available on every plan: NPPES, LEIE, PECOS and opt-out each have nullable edition metadata (`edition`, `published_at`, `through`, `imported_at`). Provider record dates are separate from source publication and completed import dates. Older responses may omit these additions. Edition details remain null until a verified source is served.
 
 ## Deep
 

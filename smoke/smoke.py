@@ -99,10 +99,10 @@ expect_ok(
 expect_ok("bank junk", lambda: parse.bank("hello"), lambda r: None if r.get("valid") is False else "expected invalid")
 expect_ok(
     "npi",
-    lambda: parse.npi("1881018208"),
+    lambda: parse.provider("1881018208"),
     lambda r: None if r.get("valid") is True and r.get("registered") is True else "not registered",
 )
-expect_ok("npi junk", lambda: parse.npi("hello"), lambda r: None if r.get("valid") is False else "expected invalid")
+expect_ok("npi junk", lambda: parse.provider("hello"), lambda r: None if r.get("valid") is False else "expected invalid")
 expect_ok("phone", lambda: parse.phone("+14155552671"), lambda r: None if r["phone"] == "+14155552671" else "wrong phone")
 # Metered core siblings: junk numbers answer 200 valid false, free, no vendor dip.
 expect_ok("carrier junk free", lambda: parse.carrier("555-0100"), lambda r: None if r["valid"] is False else "expected invalid")

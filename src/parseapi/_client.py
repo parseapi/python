@@ -237,8 +237,8 @@ class ParseAPI:
         """Look up a 2-11 digit card prefix, preserving leading zeros."""
         return self._get(f"/card/{_seg(_card_prefix(bin))}", {"deep": deep})
 
-    def npi(self, npi: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return self._get(f"/npi/{_seg(npi)}", {"deep": deep, "lang": lang})
+    def provider(self, npi: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
+        return self._get(f"/provider/{_seg(npi)}", {"deep": deep, "lang": lang})
 
     def phone(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         """Parse a phone number and its formats. Pass country for national numbers when needed. Deep
@@ -628,8 +628,8 @@ class AsyncParseAPI:
         """Look up a 2-11 digit card prefix, preserving leading zeros."""
         return await self._get(f"/card/{_seg(_card_prefix(bin))}", {"deep": deep})
 
-    async def npi(self, npi: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return await self._get(f"/npi/{_seg(npi)}", {"deep": deep, "lang": lang})
+    async def provider(self, npi: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
+        return await self._get(f"/provider/{_seg(npi)}", {"deep": deep, "lang": lang})
 
     async def phone(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         """Parse a phone number and its formats. Pass country for national numbers when needed. Deep

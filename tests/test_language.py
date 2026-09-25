@@ -27,7 +27,7 @@ OPERATIONS = [
     ("postal.nearby", ["28202"], {"country": "US", "radius": 0}),
     ("postal.distance", ["28202", "10001"], {"country": "US"}),
     ("company", ["732829320"], {"country": "FR", "deep": True}),
-    ("npi", ["1881018208"], {"deep": True}),
+    ("provider", ["1881018208"], {"deep": True}),
     ("asn", ["AS13335"], {}),
     ("currency", ["USD"], {"deep": True}),
     ("language", ["ja"], {}),
