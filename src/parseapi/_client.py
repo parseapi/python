@@ -7,7 +7,7 @@ import random
 import re
 import time
 from email.utils import parsedate_to_datetime
-from typing import Any, Dict, Optional, overload
+from typing import Any, Dict, Optional, Protocol, Union, overload
 from urllib.parse import quote
 
 import httpx
@@ -127,6 +127,54 @@ class _Config:
 
     def headers(self) -> Dict[str, str]:
         return {"X-API-Key": self.api_key, "User-Agent": f"parseapi-python/{VERSION}", "Parse-Version": _API_VERSION}
+
+
+class _CompanySyncClassCall(Protocol):
+    def __call__(self, client: ParseAPI, /, number: str, *, country: Optional[str] = None,
+        deep: bool = False, lang: Optional[str] = None) -> Json: ...
+
+
+class _CompanyAsyncClassCall(Protocol):
+    async def __call__(self, client: AsyncParseAPI, /, number: str, *, country: Optional[str] = None,
+        deep: bool = False, lang: Optional[str] = None) -> Json: ...
+
+
+# A typed, non-data descriptor keeps the published class-level number method
+# while exposing a callable namespace to instances and static type checkers.
+class _CompanySyncDescriptor:
+    def __init__(self, lookup: _CompanySyncClassCall):
+        self._lookup = lookup
+
+    @overload
+    def __get__(self, instance: None, owner: Optional[type[Any]] = None) -> _CompanySyncClassCall: ...
+
+    @overload
+    def __get__(self, instance: ParseAPI, owner: Optional[type[Any]] = None) -> _CompanySync: ...
+
+    def __get__(self, instance: Optional[ParseAPI], owner: Optional[type[Any]] = None) -> Union[_CompanySyncClassCall, _CompanySync]:
+        if instance is None:
+            return self._lookup
+        namespace = _CompanySync(instance, self._lookup)
+        instance.__dict__["company"] = namespace
+        return namespace
+
+
+class _CompanyAsyncDescriptor:
+    def __init__(self, lookup: _CompanyAsyncClassCall):
+        self._lookup = lookup
+
+    @overload
+    def __get__(self, instance: None, owner: Optional[type[Any]] = None) -> _CompanyAsyncClassCall: ...
+
+    @overload
+    def __get__(self, instance: AsyncParseAPI, owner: Optional[type[Any]] = None) -> _CompanyAsync: ...
+
+    def __get__(self, instance: Optional[AsyncParseAPI], owner: Optional[type[Any]] = None) -> Union[_CompanyAsyncClassCall, _CompanyAsync]:
+        if instance is None:
+            return self._lookup
+        namespace = _CompanyAsync(instance, self._lookup)
+        instance.__dict__["company"] = namespace
+        return namespace
 
 
 class ParseAPI:
@@ -316,6 +364,7 @@ class ParseAPI:
     def vin(self, vin: str, *, deep: bool = False) -> Json:
         return self._get(f"/vin/{_seg(vin)}", {"deep": deep})
 
+    @_CompanySyncDescriptor
     def company(self, number: str, *, country: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
         return self._get(f"/company/{_seg(number)}", {"country": country, "deep": deep, "lang": lang})
 
@@ -735,6 +784,7 @@ class AsyncParseAPI:
     async def vin(self, vin: str, *, deep: bool = False) -> Json:
         return await self._get(f"/vin/{_seg(vin)}", {"deep": deep})
 
+    @_CompanyAsyncDescriptor
     async def company(self, number: str, *, country: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
         return await self._get(f"/company/{_seg(number)}", {"country": country, "deep": deep, "lang": lang})
 
@@ -1105,6 +1155,70 @@ class _MeasureAsync:
     async def units(self, *, query: Optional[str] = None, type: Optional[str] = None, unit: Optional[str] = None, lang: Optional[str] = None) -> Json:
         """Discover reviewed units. unit filters compatible conversion targets."""
         return await self._client._get("/measure/units", {"q": query, "type": type, "unit": unit, "lang": lang})
+
+
+class _CompanySync:
+    def __init__(self, client: ParseAPI, lookup: _CompanySyncClassCall):
+        self._client = client
+        self._number_lookup = lookup
+
+    def __call__(self, number: str, *, country: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
+        return self._number_lookup(self._client, number, country=country, deep=deep, lang=lang)
+
+    def id(self, id: str, *, deep: bool = False) -> Json:
+        """Fetch a directory profile by its stable Company ID. Deep adds profile detail."""
+        return self._client._get(f"/company/id/{_seg(id)}", {"deep": deep})
+
+    def search(self, *, query: Optional[str] = None, domain: Optional[str] = None,
+        ticker: Optional[str] = None, identifier: Optional[str] = None, country: Optional[str] = None,
+        exchange: Optional[str] = None, authority: Optional[str] = None, limit: Optional[int] = None,
+        cursor: Optional[str] = None, deep: bool = False, industry: Optional[str] = None,
+        industry_type: Optional[str] = None) -> Json:
+        """Use at most one selector, or discover by country, industry or selected registration.
+        Pair a four-digit SIC industry string with industry_type="sic".
+        Administrative registration status does not establish current business activity.
+        The API validates selectors and filters. Review candidates before choosing an ID.
+        Pass a returned cursor with the same selector and filters. Deep belongs to each result.
+        """
+        return self._client._get("/company", {"q": query, "domain": domain, "ticker": ticker,
+            "identifier": identifier, "country": country, "exchange": exchange, "authority": authority,
+            "limit": limit, "cursor": cursor, "deep": deep, "industry": industry, "industry_type": industry_type})
+
+    def coverage(self) -> Json:
+        """Read the directory edition and source coverage."""
+        return self._client._get("/company/directory/coverage")
+
+
+class _CompanyAsync:
+    def __init__(self, client: AsyncParseAPI, lookup: _CompanyAsyncClassCall):
+        self._client = client
+        self._number_lookup = lookup
+
+    async def __call__(self, number: str, *, country: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
+        return await self._number_lookup(self._client, number, country=country, deep=deep, lang=lang)
+
+    async def id(self, id: str, *, deep: bool = False) -> Json:
+        """Fetch a directory profile by its stable Company ID. Deep adds profile detail."""
+        return await self._client._get(f"/company/id/{_seg(id)}", {"deep": deep})
+
+    async def search(self, *, query: Optional[str] = None, domain: Optional[str] = None,
+        ticker: Optional[str] = None, identifier: Optional[str] = None, country: Optional[str] = None,
+        exchange: Optional[str] = None, authority: Optional[str] = None, limit: Optional[int] = None,
+        cursor: Optional[str] = None, deep: bool = False, industry: Optional[str] = None,
+        industry_type: Optional[str] = None) -> Json:
+        """Use at most one selector, or discover by country, industry or selected registration.
+        Pair a four-digit SIC industry string with industry_type="sic".
+        Administrative registration status does not establish current business activity.
+        The API validates selectors and filters. Review candidates before choosing an ID.
+        Pass a returned cursor with the same selector and filters. Deep belongs to each result.
+        """
+        return await self._client._get("/company", {"q": query, "domain": domain, "ticker": ticker,
+            "identifier": identifier, "country": country, "exchange": exchange, "authority": authority,
+            "limit": limit, "cursor": cursor, "deep": deep, "industry": industry, "industry_type": industry_type})
+
+    async def coverage(self) -> Json:
+        """Read the directory edition and source coverage."""
+        return await self._client._get("/company/directory/coverage")
 
 def _time_source(timezone, **values):
     primary = [values.get(key) for key in ("ip", "city", "iata", "icao", "unlocode", "address") if values.get(key) is not None]

@@ -47,6 +47,36 @@ Results are plain data. Pass a returned code or coordinate to another operation 
 
 Use `parse.postal("28202", country="US", deep=True)` for US ZIP tax references. `deep.tax` names the levy and `deep.tax_rate` is a percentage, so `7.9` means 7.9%. The state, county, city and special components explain that combined rate. An exact address can differ. Country and state lookups provide their own geographic reference rates, which should not be added to the ZIP rate. `None` means unknown and `0` means known zero. Country `deep.tax_id_format` and `deep.tax_id_regex` describe registration-number format only. Use `vat` for a metered registration check with `deep` explicitly enabled.
 
+## Company directory
+
+Find candidates, then fetch the profile you selected.
+
+```python
+candidates = parse.company.search(query="GitLab", country="US", limit=5)
+selected_id = "co_caczn6wf36hj"  # Explicitly chosen after reviewing candidates.
+profile = parse.company.id(selected_id, deep=True)
+if candidates["next"] is not None:
+    next_page = parse.company.search(
+        query="GitLab", country="US", limit=5, cursor=candidates["next"]
+    )
+coverage = parse.company.coverage()
+```
+
+Use at most one selector: `query` for a name, `domain`, `ticker`, or `identifier`; country or exact industry filters also allow discovery without a selector. The API validates selectors and filters. Use `country` to scope candidates, `exchange` with a ticker, and `authority` with an identifier. Search returns `companies` and an opaque `next` cursor. Review candidate identity and match details before choosing a stable Company ID. Pass `next` as `cursor` with the same selector, filters and limit to continue that result set.
+
+Directory profiles are plain JSON data. `deep` belongs to each company in search results and adds legal/reference detail plus nullable `description`, `logo`, `founded`, and the `social_profiles`, `phone_numbers`, `email_addresses`, `domains` and `sources` collections. A logo is a reported URL. `founded` has `value` and `precision`, distinct from incorporation. Sources identify the website, filing or business register, supported fields and observation/update timestamps. Employee observations retain count, measurement date, organization scope and approximation; null means unknown. Missing, null, empty and unknown fields retain their response values. An empty search is a successful result. Invalid inputs and unknown IDs raise the existing API error.
+
+Company directory social profiles contain `platform`, `url` and `handle`; unknown metadata stays null. Phone and email records use `type` for the source-reported purpose. Earlier response fields remain readable by the client.
+
+The recipe requests one candidate page, one explicitly chosen profile and directory coverage, plus a second page when a cursor is returned. Each operation uses the existing retry settings. The number-validation call remains unchanged. `lang` applies to national company-number lookup, while directory calls use the source labels.
+
+`AsyncParseAPI` exposes the same `company`, `company.id`, `company.search` and `company.coverage` calls with `await`.
+
+Discovery example: `parse.company.search(country="US", industry="0700", industry_type="sic")`
+
+Supply `industry` and `industry_type` together. The supported namespace is `sic`, with an exact four-digit string such as `0700`; leading zeros are meaningful. Country-only discovery is also supported. Filters intersect and may narrow an existing selector. Country matches the profile country, not a headquarters or operating-presence claim. Unknown values do not match a requested filter. Filter-only candidates use `match.field: "filters"` and `match.value: null`; reuse the same filters and limit with a returned cursor. Counts describe this directory edition, not complete country coverage.
+
+
 ## Calls
 
 One method per endpoint, named after the route.
@@ -70,6 +100,11 @@ parse.postal.distance("28202", "10001", country="US")
 parse.address("1600 Pennsylvania Ave NW, Washington DC", country="US")
 parse.address.search("1600 Pennsylvania", country="US", postal="20500")
 parse.company("51 824 753 556", country="AU")
+parse.company.id("co_caczn6wf36hj", deep=True)
+parse.company.search(domain="about.gitlab.com")
+parse.company.search(ticker="GTLB", exchange="Nasdaq")
+parse.company.search(identifier="0001653482", authority="sec")
+parse.company.coverage()
 parse.city("charlotte", country="US")
 parse.city.id("city_mb8mbqrkz8zb")
 parse.city.search("char", country="US", limit=10)
@@ -147,7 +182,7 @@ Choose display names for one request:
 parse.country("DE", lang="fr")
 ```
 
-`lang` is optional on geography lookups and their lists/searches, Currency lookup, Language, Date, Time/Timezone, Emoji lookup/search, and unit discovery. IP, ASN, Company and NPI also accept it for their geographic labels. Codes, native names, quantities and response structure retain their meanings. Source coverage determines which labels are translated; unavailable labels use the API's documented fallback.
+`lang` is optional on geography lookups and their lists/searches, Currency lookup, Language, Date, Time/Timezone, Emoji lookup/search, and unit discovery. IP, ASN, national Company number lookup and NPI also accept it for their geographic labels. Codes, native names, quantities and response structure retain their meanings. Source coverage determines which labels are translated; unavailable labels use the API's documented fallback.
 
 The next call keeps its usual default unless it also supplies `lang`. Existing `deep` rules still apply. Date `format` and measurement `locale` remain explicit input-parsing controls.
 
@@ -370,7 +405,7 @@ before dispatch, accepted input is forwarded unchanged. Never send a full card n
 
 ## Optional detail
 
-The default response answers the common task. Ask for `deep` when you need more detail about that same result. Core fields stay equal. City, Industry and Emoji searches put detail inside each result. Postal nearby and distance put metropolitan detail beside the entity it describes. Time conversion keeps target detail in `to.deep`; only the source has `deep.next_dst`.
+The default response answers the common task. Ask for `deep` when you need more detail about that same result. Core fields stay equal. City, Company directory, Industry and Emoji searches put detail inside each result. Postal nearby and distance put metropolitan detail beside the entity it describes. Time conversion keeps target detail in `to.deep` or each `targets` item; only the source has `deep.next_dst`.
 
 ```python
 basic = parse.time("America/New_York")
