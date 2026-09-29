@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.9.0 — 2026-09-29
+
+- Add Company stable-ID lookup, candidate search and coverage for the current public-company cohort.
+- Preserve existing Company calls and all published compatibility methods.
+
 ## 1.8.0 — 2026-09-25
 
 - Add Bank diagnostics, POST requests, requirements and explicit US ACH helpers; Card Core and optional Deep; Provider; Industry; and Vehicle.
