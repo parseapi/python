@@ -893,6 +893,180 @@
           "kind": "KEYWORD_ONLY",
           "name": "lang",
           "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "shortcode_source",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "emoji.browse": {
+      "async": true,
+      "parameters": [
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "category",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "subcategory",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "version",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_version",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "include_skin_tones",
+          "type": "Optional[bool]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "offset",
+          "type": "Optional[int]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "emoji.catalog": {
+      "async": true,
+      "parameters": [
+        {
+          "default": true,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "category",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "subcategory",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "version",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_version",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "include_skin_tones",
+          "type": "Optional[bool]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "profile",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "emoji.categories": {
+      "async": true,
+      "parameters": [],
+      "returns": "Json"
+    },
+    "emoji.convert": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "text",
+          "type": "str"
+        },
+        {
+          "kind": "KEYWORD_ONLY",
+          "name": "direction",
+          "type": "str"
+        },
+        {
+          "kind": "KEYWORD_ONLY",
+          "name": "shortcode_source",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "emoji.metadata": {
+      "async": true,
+      "parameters": [],
+      "returns": "Json"
+    },
+    "emoji.parse": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "text",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
         }
       ],
       "returns": "Json"
@@ -922,6 +1096,42 @@
           "kind": "KEYWORD_ONLY",
           "name": "lang",
           "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "category",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "subcategory",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "version",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_version",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "include_skin_tones",
+          "type": "Optional[bool]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "offset",
+          "type": "Optional[int]"
         }
       ],
       "returns": "Json"
@@ -2885,6 +3095,180 @@
           "kind": "KEYWORD_ONLY",
           "name": "lang",
           "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "shortcode_source",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "emoji.browse": {
+      "async": false,
+      "parameters": [
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "category",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "subcategory",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "version",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_version",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "include_skin_tones",
+          "type": "Optional[bool]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "offset",
+          "type": "Optional[int]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "emoji.catalog": {
+      "async": false,
+      "parameters": [
+        {
+          "default": true,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "category",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "subcategory",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "version",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_version",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "include_skin_tones",
+          "type": "Optional[bool]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "profile",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "emoji.categories": {
+      "async": false,
+      "parameters": [],
+      "returns": "Json"
+    },
+    "emoji.convert": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "text",
+          "type": "str"
+        },
+        {
+          "kind": "KEYWORD_ONLY",
+          "name": "direction",
+          "type": "str"
+        },
+        {
+          "kind": "KEYWORD_ONLY",
+          "name": "shortcode_source",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
+    "emoji.metadata": {
+      "async": false,
+      "parameters": [],
+      "returns": "Json"
+    },
+    "emoji.parse": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "text",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
         }
       ],
       "returns": "Json"
@@ -2914,6 +3298,42 @@
           "kind": "KEYWORD_ONLY",
           "name": "lang",
           "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "category",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "subcategory",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "version",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_version",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "include_skin_tones",
+          "type": "Optional[bool]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "offset",
+          "type": "Optional[int]"
         }
       ],
       "returns": "Json"

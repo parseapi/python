@@ -549,11 +549,33 @@ class _EmojiSync:
     def __init__(self, client: ParseAPI):
         self._client = client
 
-    def __call__(self, emoji: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return self._client._get(f"/emoji/{_seg(emoji)}", {"deep": deep, "lang": lang})
+    def __call__(self, emoji: str, *, deep: bool = False, lang: Optional[str] = None, shortcode_source: Optional[str] = None) -> Json:
+        return self._client._get(f"/emoji/{_seg(emoji)}", {"deep": deep, "lang": lang, "shortcode_source": shortcode_source})
 
-    def search(self, query: str, *, limit: Optional[int] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return self._client._get("/emoji", {"q": query, "limit": limit, "deep": deep, "lang": lang})
+    def search(self, query: str, *, limit: Optional[int] = None, deep: bool = False, lang: Optional[str] = None, category: Optional[str] = None, subcategory: Optional[str] = None, version: Optional[str] = None, max_version: Optional[str] = None, include_skin_tones: Optional[bool] = None, offset: Optional[int] = None) -> Json:
+        return self._client._get("/emoji", {"q": query, **{"limit": limit, "deep": deep, "lang": lang, "category": category, "subcategory": subcategory, "version": version, "max_version": max_version, "include_skin_tones": None if include_skin_tones is None else str(include_skin_tones).lower(), "offset": offset}})
+
+    def browse(self, *, limit: Optional[int] = None, deep: bool = False, lang: Optional[str] = None, category: Optional[str] = None, subcategory: Optional[str] = None, version: Optional[str] = None, max_version: Optional[str] = None, include_skin_tones: Optional[bool] = None, offset: Optional[int] = None) -> Json:
+        return self._client._get("/emoji", {"limit": limit, "deep": deep, "lang": lang, "category": category, "subcategory": subcategory, "version": version, "max_version": max_version, "include_skin_tones": None if include_skin_tones is None else str(include_skin_tones).lower(), "offset": offset})
+
+    def catalog(self, *, deep: bool = True, lang: Optional[str] = None, category: Optional[str] = None, subcategory: Optional[str] = None, version: Optional[str] = None, max_version: Optional[str] = None, include_skin_tones: Optional[bool] = None, profile: Optional[str] = None) -> Json:
+        """Download the complete filtered JSON inventory and offline resolution maps."""
+        return self._client._get("/emoji/catalog", {"profile": profile, "deep": str(deep).lower(), "lang": lang, "category": category, "subcategory": subcategory, "version": version, "max_version": max_version, "include_skin_tones": None if include_skin_tones is None else str(include_skin_tones).lower()})
+
+    def metadata(self) -> Json:
+        return self._client._get("/emoji/metadata")
+
+    def categories(self) -> Json:
+        return self._client._get("/emoji/categories")
+
+    def parse(self, text: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
+        """Extract complete emoji sequences. Positions are UTF-16 code units; end is exclusive."""
+        return self._client._get("/emoji/parse", {"deep": deep, "lang": lang}, json={"text": text})
+
+    def convert(self, text: str, *, direction: str, shortcode_source: str) -> Json:
+        """Convert complete sequences; unresolved codes stay literal. Offsets refer to input UTF-16."""
+        return self._client._get("/emoji/convert", {"direction": direction, "shortcode_source": shortcode_source}, json={"text": text})
+
 
 
 class _IndustrySync:
@@ -971,11 +993,33 @@ class _EmojiAsync:
     def __init__(self, client: AsyncParseAPI):
         self._client = client
 
-    async def __call__(self, emoji: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return await self._client._get(f"/emoji/{_seg(emoji)}", {"deep": deep, "lang": lang})
+    async def __call__(self, emoji: str, *, deep: bool = False, lang: Optional[str] = None, shortcode_source: Optional[str] = None) -> Json:
+        return await self._client._get(f"/emoji/{_seg(emoji)}", {"deep": deep, "lang": lang, "shortcode_source": shortcode_source})
 
-    async def search(self, query: str, *, limit: Optional[int] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return await self._client._get("/emoji", {"q": query, "limit": limit, "deep": deep, "lang": lang})
+    async def search(self, query: str, *, limit: Optional[int] = None, deep: bool = False, lang: Optional[str] = None, category: Optional[str] = None, subcategory: Optional[str] = None, version: Optional[str] = None, max_version: Optional[str] = None, include_skin_tones: Optional[bool] = None, offset: Optional[int] = None) -> Json:
+        return await self._client._get("/emoji", {"q": query, **{"limit": limit, "deep": deep, "lang": lang, "category": category, "subcategory": subcategory, "version": version, "max_version": max_version, "include_skin_tones": None if include_skin_tones is None else str(include_skin_tones).lower(), "offset": offset}})
+
+    async def browse(self, *, limit: Optional[int] = None, deep: bool = False, lang: Optional[str] = None, category: Optional[str] = None, subcategory: Optional[str] = None, version: Optional[str] = None, max_version: Optional[str] = None, include_skin_tones: Optional[bool] = None, offset: Optional[int] = None) -> Json:
+        return await self._client._get("/emoji", {"limit": limit, "deep": deep, "lang": lang, "category": category, "subcategory": subcategory, "version": version, "max_version": max_version, "include_skin_tones": None if include_skin_tones is None else str(include_skin_tones).lower(), "offset": offset})
+
+    async def catalog(self, *, deep: bool = True, lang: Optional[str] = None, category: Optional[str] = None, subcategory: Optional[str] = None, version: Optional[str] = None, max_version: Optional[str] = None, include_skin_tones: Optional[bool] = None, profile: Optional[str] = None) -> Json:
+        """Download the complete filtered JSON inventory and offline resolution maps."""
+        return await self._client._get("/emoji/catalog", {"profile": profile, "deep": str(deep).lower(), "lang": lang, "category": category, "subcategory": subcategory, "version": version, "max_version": max_version, "include_skin_tones": None if include_skin_tones is None else str(include_skin_tones).lower()})
+
+    async def metadata(self) -> Json:
+        return await self._client._get("/emoji/metadata")
+
+    async def categories(self) -> Json:
+        return await self._client._get("/emoji/categories")
+
+    async def parse(self, text: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
+        """Extract complete emoji sequences. Positions are UTF-16 code units; end is exclusive."""
+        return await self._client._get("/emoji/parse", {"deep": deep, "lang": lang}, json={"text": text})
+
+    async def convert(self, text: str, *, direction: str, shortcode_source: str) -> Json:
+        """Convert complete sequences; unresolved codes stay literal. Offsets refer to input UTF-16."""
+        return await self._client._get("/emoji/convert", {"direction": direction, "shortcode_source": shortcode_source}, json={"text": text})
+
 
 
 class _IndustryAsync:

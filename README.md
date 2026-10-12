@@ -429,3 +429,35 @@ Successful checks may be reused for up to 24 hours. `pretty` optionally formats 
 Stack defaults to a 35-second transport timeout so a first scan has time to finish. Other lookups retain their 10-second default. An explicit client timeout takes precedence.
 
 Vehicle lookups use `vin` as the input and response field. Existing VIN methods remain available for compatibility.
+
+## Emoji catalog additions
+
+Resolve Unicode emoji or a named shortcode, search or browse a bounded catalog,
+parse emoji positions in text, and convert between Unicode and a selected shortcode source.
+The ordinary lookup remains four fields:
+
+```http
+GET /emoji/rocket
+```
+
+```json
+{"emoji":"🚀","name":"Rocket","shortcodes":[":rocket:","rocket"],"category":"Travel & Places"}
+```
+
+Use `deep=true` for Unicode facts, keywords, tone families and available artwork.
+Artwork is keyed by style: `deep.artwork.openmoji.svg` is the SVG URL, and
+`deep.artwork.openmoji.png["72"]` is the 72×72 PNG URL (use your language’s map
+access syntax). The same shape applies to `noto` and `twemoji`. Missing styles
+and formats are omitted. URLs pin immutable artwork editions and retain their bytes.
+Core values stay unchanged. Text parsing returns `emojis` with UTF-16 `positions`;
+conversion returns `text` and unresolved tokens with positions and reasons.
+
+The compact JSON catalog contains offline identity, qualification-form and
+shortcode indexes. Request `profile=full` when artwork is needed and `lang` when
+localized names and keywords are needed. `/emoji/metadata` carries dataset
+coverage and shared source notices once. Artwork supports Google Noto, Twemoji
+and OpenMoji, with real SVG/PNG availability and immutable first-party URLs.
+A device's emoji font remains the ordinary display.
+
+These additions are a local release candidate until the matching SDK and
+backend are published. Existing lookup and search contracts are preserved.
