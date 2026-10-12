@@ -7,10 +7,12 @@ import random
 import re
 import time
 from email.utils import parsedate_to_datetime
-from typing import Any, Dict, Optional, Protocol, Union, overload
+from typing import Any, Dict, Literal, Optional, Protocol, Sequence, Union, cast, overload
 from urllib.parse import quote
 
 import httpx
+
+from .currency import CurrencyHistory, CurrencyRates, CurrencyRatesHistory, CurrencyRatesSummary, CurrencyList
 
 VERSION = "1.9.0"
 _API_VERSION = "2.0.0"
@@ -22,6 +24,18 @@ RETRY_AFTER_CAP = 5.0
 
 Json = Dict[str, Any]
 
+
+
+
+
+
+
+
+
+def _currency_quotes(quotes: Sequence[str]) -> str:
+    if isinstance(quotes, (str, bytes)) or not 1 <= len(quotes) <= 50 or any(not isinstance(code, str) or re.fullmatch(r'[A-Za-z]{3}', code) is None for code in quotes) or len({code.upper() for code in quotes}) != len(quotes):
+        raise ValueError('parseapi: Currency quotes must contain 1 to 50 distinct three-letter codes.')
+    return ','.join(quotes)
 
 class ParseAPIError(Exception):
     """Every non-2xx response from the API. Branch on `code`, never on the message."""
@@ -526,12 +540,59 @@ class _CurrencySync:
     def __call__(self, code: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
         return self._client._get(f"/currency/{_seg(code)}", {"deep": deep, "lang": lang})
 
-    def rate(
-        self, base: str, quote_currency: str, *, date: Optional[str] = None, amount: Optional[float] = None
-    ) -> Json:
-        return self._client._get(
-            f"/currency/{_seg(base)}/{_seg(quote_currency)}", {"date": date, "amount": amount}
-        )
+    def rate(self, base: str, quote_currency: str, *, date: Optional[str] = None, amount: Optional[float] = None, pretty: bool = False) -> Json:
+        return self._client._get(f"/currency/{_seg(base)}/{_seg(quote_currency)}", {"date": date, "amount": amount, "pretty": pretty})
+
+    def rates(self, base: str, quotes: Optional[Sequence[str]] = None, *, date: Optional[str] = None, amount: Optional[float] = None, pretty: bool = False) -> CurrencyRates:
+        """Omit quotes for all available maintained rates, or pass 1–50 distinct codes."""
+        return cast(CurrencyRates, self._client._get(f"/currency/{_seg(base)}/rates", {"quotes": None if quotes is None else _currency_quotes(quotes), "date": date, "amount": amount, "pretty": pretty}))
+
+    def list(self, *, q: Optional[str] = None, country: Optional[str] = None, deep: bool = False, pretty: bool = False, lang: Optional[str] = None) -> CurrencyList:
+        """List maintained current currency metadata, independently of rate coverage."""
+        return cast(CurrencyList, self._client._get("/currency", {"q": q, "country": country, "deep": deep, "pretty": pretty, "lang": lang}))
+
+
+
+    def history(self, base: str, quote_currency: str, from_date: str, to_date: str, *, amount: Optional[float] = None, pretty: bool = False, interval: Optional[str] = None) -> CurrencyHistory:
+        """Daily held history, or week/month samples anchored to from_date with to_date included."""
+        return cast(CurrencyHistory, self._client._get(f"/currency/{_seg(base)}/{_seg(quote_currency)}/history", {"from": from_date, "interval": interval, "to": to_date, "amount": amount, "pretty": pretty}))
+
+    def rates_history(self, base: str, quotes: Sequence[str], from_date: str, to_date: str, *, amount: Optional[float] = None, pretty: bool = False, interval: Optional[str] = None) -> CurrencyRatesHistory:
+        """Up to 5000 sampled quote-dates including gaps, under a bounded complete read."""
+        return cast(CurrencyRatesHistory, self._client._get(f"/currency/{_seg(base)}/rates/history", {"quotes": _currency_quotes(quotes), "from": from_date, "interval": interval, "to": to_date, "amount": amount, "pretty": pretty}))
+
+    def rates_summary(self, base: str, quotes: Sequence[str], from_date: str, to_date: str, *, interval: Optional[str] = None, pretty: bool = False) -> CurrencyRatesSummary:
+        """Monthly, quarterly or yearly publication averages, extrema and calendar gaps."""
+        return cast(CurrencyRatesSummary, self._client._get(f"/currency/{_seg(base)}/rates/summary", {"quotes": _currency_quotes(quotes), "from": from_date, "to": to_date, "interval": interval, "pretty": pretty}))
+
+HolidayList = Union[str, Sequence[str]]
+HolidayWeekend = Union[str, Sequence[int]]
+
+
+def _holiday_list(value: Optional[HolidayList], label: str, maximum: int) -> Optional[str]:
+    if value is None or isinstance(value, str):
+        return value
+    if not isinstance(value, (list, tuple)) or len(value) > maximum or any(not isinstance(item, str) or not item or ',' in item for item in value):
+        raise ValueError(f"{label} requires at most {maximum} nonempty values without commas.")
+    return ','.join(value) if value else None
+
+
+def _holiday_range_pins(value: Optional[HolidayList]) -> Optional[str]:
+    if value is None:
+        return None
+    pins = value.split(',') if isinstance(value, str) else value
+    if not isinstance(pins, (list, tuple)) or not 1 <= len(pins) <= 3 or any(not isinstance(pin, str) or not re.fullmatch(r"[a-f0-9]{64}", pin) for pin in pins) or len(set(pins)) != len(pins):
+        raise ValueError("edition requires one through three distinct lowercase SHA-256 hashes.")
+    return ','.join(pins)
+
+
+def _holiday_schedule(weekend: HolidayWeekend, region: Optional[str], working_dates: Optional[HolidayList], closed_dates: Optional[HolidayList], edition: Optional[HolidayList], work_profile: Optional[str], work_profile_edition: Optional[str], max_editions: int) -> Dict[str, Any]:
+    if not isinstance(weekend, str):
+        if not isinstance(weekend, (list, tuple)) or len(weekend) > 7 or any(type(day) is not int or day < 0 or day > 6 for day in weekend) or len(set(weekend)) != len(weekend):
+            raise ValueError("weekend requires unique weekday numbers 0 through 6, or none.")
+        weekend = ','.join(str(day) for day in weekend) if weekend else 'none'
+    return {"weekend": weekend, "region": region, "working_dates": _holiday_list(working_dates, 'working_dates', 50), "closed_dates": _holiday_list(closed_dates, 'closed_dates', 50), "edition": _holiday_list(edition, 'edition', max_editions), "work_profile": work_profile, "work_profile_edition": work_profile_edition}
+
 
 
 class _HolidaySync:
@@ -948,13 +1009,30 @@ class _CurrencyAsync:
     async def __call__(self, code: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
         return await self._client._get(f"/currency/{_seg(code)}", {"deep": deep, "lang": lang})
 
-    async def rate(
-        self, base: str, quote_currency: str, *, date: Optional[str] = None, amount: Optional[float] = None
-    ) -> Json:
-        return await self._client._get(
-            f"/currency/{_seg(base)}/{_seg(quote_currency)}", {"date": date, "amount": amount}
-        )
+    async def rate(self, base: str, quote_currency: str, *, date: Optional[str] = None, amount: Optional[float] = None, pretty: bool = False) -> Json:
+        return await self._client._get(f"/currency/{_seg(base)}/{_seg(quote_currency)}", {"date": date, "amount": amount, "pretty": pretty})
 
+    async def rates(self, base: str, quotes: Optional[Sequence[str]] = None, *, date: Optional[str] = None, amount: Optional[float] = None, pretty: bool = False) -> CurrencyRates:
+        """Omit quotes for all available maintained rates, or pass 1–50 distinct codes."""
+        return cast(CurrencyRates, await self._client._get(f"/currency/{_seg(base)}/rates", {"quotes": None if quotes is None else _currency_quotes(quotes), "date": date, "amount": amount, "pretty": pretty}))
+
+    async def list(self, *, q: Optional[str] = None, country: Optional[str] = None, deep: bool = False, pretty: bool = False, lang: Optional[str] = None) -> CurrencyList:
+        """List maintained current currency metadata, independently of rate coverage."""
+        return cast(CurrencyList, await self._client._get("/currency", {"q": q, "country": country, "deep": deep, "pretty": pretty, "lang": lang}))
+
+
+
+    async def history(self, base: str, quote_currency: str, from_date: str, to_date: str, *, amount: Optional[float] = None, pretty: bool = False, interval: Optional[str] = None) -> CurrencyHistory:
+        """Daily held history, or week/month samples anchored to from_date with to_date included."""
+        return cast(CurrencyHistory, await self._client._get(f"/currency/{_seg(base)}/{_seg(quote_currency)}/history", {"from": from_date, "interval": interval, "to": to_date, "amount": amount, "pretty": pretty}))
+
+    async def rates_history(self, base: str, quotes: Sequence[str], from_date: str, to_date: str, *, amount: Optional[float] = None, pretty: bool = False, interval: Optional[str] = None) -> CurrencyRatesHistory:
+        """Up to 5000 sampled quote-dates including gaps, under a bounded complete read."""
+        return cast(CurrencyRatesHistory, await self._client._get(f"/currency/{_seg(base)}/rates/history", {"quotes": _currency_quotes(quotes), "from": from_date, "interval": interval, "to": to_date, "amount": amount, "pretty": pretty}))
+
+    async def rates_summary(self, base: str, quotes: Sequence[str], from_date: str, to_date: str, *, interval: Optional[str] = None, pretty: bool = False) -> CurrencyRatesSummary:
+        """Monthly, quarterly or yearly publication averages, extrema and calendar gaps."""
+        return cast(CurrencyRatesSummary, await self._client._get(f"/currency/{_seg(base)}/rates/summary", {"quotes": _currency_quotes(quotes), "from": from_date, "to": to_date, "interval": interval, "pretty": pretty}))
 
 class _HolidayAsync:
     def __init__(self, client: AsyncParseAPI):

@@ -709,6 +709,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "amount",
           "type": "Optional[float]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "pretty",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -1989,6 +1995,203 @@
         }
       ],
       "returns": "Json"
+    },
+    "currency.history": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "base",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "quote_currency",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "from_date",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "to_date",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "amount",
+          "type": "Optional[float]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "pretty",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "interval",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "CurrencyHistory"
+    },
+    "currency.list": {
+      "async": true,
+      "parameters": [
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "q",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "pretty",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "CurrencyList"
+    },
+    "currency.rates": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "base",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "quotes",
+          "type": "Optional[Sequence[str]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "date",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "amount",
+          "type": "Optional[float]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "pretty",
+          "type": "bool"
+        }
+      ],
+      "returns": "CurrencyRates"
+    },
+    "currency.rates_history": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "base",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "quotes",
+          "type": "Sequence[str]"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "from_date",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "to_date",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "amount",
+          "type": "Optional[float]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "pretty",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "interval",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "CurrencyRatesHistory"
+    },
+    "currency.rates_summary": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "base",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "quotes",
+          "type": "Sequence[str]"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "from_date",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "to_date",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "interval",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "pretty",
+          "type": "bool"
+        }
+      ],
+      "returns": "CurrencyRatesSummary"
     }
   },
   "ParseAPI": {
@@ -2701,6 +2904,12 @@
           "kind": "KEYWORD_ONLY",
           "name": "amount",
           "type": "Optional[float]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "pretty",
+          "type": "bool"
         }
       ],
       "returns": "Json"
@@ -3981,6 +4190,203 @@
         }
       ],
       "returns": "Json"
+    },
+    "currency.history": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "base",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "quote_currency",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "from_date",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "to_date",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "amount",
+          "type": "Optional[float]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "pretty",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "interval",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "CurrencyHistory"
+    },
+    "currency.list": {
+      "async": false,
+      "parameters": [
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "q",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "pretty",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "CurrencyList"
+    },
+    "currency.rates": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "base",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "quotes",
+          "type": "Optional[Sequence[str]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "date",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "amount",
+          "type": "Optional[float]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "pretty",
+          "type": "bool"
+        }
+      ],
+      "returns": "CurrencyRates"
+    },
+    "currency.rates_history": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "base",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "quotes",
+          "type": "Sequence[str]"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "from_date",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "to_date",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "amount",
+          "type": "Optional[float]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "pretty",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "interval",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "CurrencyRatesHistory"
+    },
+    "currency.rates_summary": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "base",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "quotes",
+          "type": "Sequence[str]"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "from_date",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "to_date",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "interval",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "pretty",
+          "type": "bool"
+        }
+      ],
+      "returns": "CurrencyRatesSummary"
     }
   },
   "ParseAPIError": {

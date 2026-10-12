@@ -1,0 +1,2457 @@
+{
+  "pair": {
+    "base": "USD",
+    "quote": "ROL",
+    "rate": 32608.042980169073,
+    "date": "2004-01-05",
+    "amount": 1,
+    "converted": null
+  },
+  "sources": {
+    "data": [
+      {
+        "id": "default",
+        "name": "ParseAPI official references",
+        "url": "https://parseapi.com/docs/currency",
+        "cadence": "daily_and_weekly",
+        "kind": "official_reference_and_fixed_peg",
+        "available": true,
+        "date": "2026-10-10",
+        "currencies": [
+          "AED",
+          "AFN",
+          "ALL",
+          "AMD",
+          "ANG",
+          "AOA",
+          "ARS",
+          "AUD",
+          "AWG",
+          "AZN",
+          "BAM",
+          "BBD",
+          "BDT",
+          "BHD",
+          "BIF",
+          "BMD",
+          "BND",
+          "BOB",
+          "BRL",
+          "BSD",
+          "BTN",
+          "BWP",
+          "BYN",
+          "BZD",
+          "CAD",
+          "CDF",
+          "CHF",
+          "CLF",
+          "CLP",
+          "CNY",
+          "COP",
+          "CRC",
+          "CUP",
+          "CVE",
+          "CZK",
+          "DJF",
+          "DKK",
+          "DOP",
+          "DZD",
+          "EGP",
+          "ERN",
+          "ETB",
+          "EUR",
+          "FJD",
+          "FKP",
+          "GBP",
+          "GEL",
+          "GHS",
+          "GIP",
+          "GMD",
+          "GNF",
+          "GTQ",
+          "GYD",
+          "HKD",
+          "HNL",
+          "HTG",
+          "HUF",
+          "IDR",
+          "ILS",
+          "INR",
+          "IQD",
+          "IRR",
+          "ISK",
+          "JMD",
+          "JOD",
+          "JPY",
+          "KES",
+          "KGS",
+          "KHR",
+          "KMF",
+          "KPW",
+          "KRW",
+          "KWD",
+          "KYD",
+          "KZT",
+          "LAK",
+          "LBP",
+          "LKR",
+          "LRD",
+          "LSL",
+          "LYD",
+          "MAD",
+          "MDL",
+          "MGA",
+          "MKD",
+          "MMK",
+          "MNT",
+          "MOP",
+          "MRU",
+          "MUR",
+          "MVR",
+          "MWK",
+          "MXN",
+          "MXV",
+          "MYR",
+          "MZN",
+          "NAD",
+          "NGN",
+          "NIO",
+          "NOK",
+          "NPR",
+          "NZD",
+          "OMR",
+          "PAB",
+          "PEN",
+          "PGK",
+          "PHP",
+          "PKR",
+          "PLN",
+          "PYG",
+          "QAR",
+          "RON",
+          "RSD",
+          "RUB",
+          "RWF",
+          "SAR",
+          "SBD",
+          "SCR",
+          "SDG",
+          "SEK",
+          "SGD",
+          "SHP",
+          "SLE",
+          "SOS",
+          "SRD",
+          "SSP",
+          "STN",
+          "SVC",
+          "SYP",
+          "SZL",
+          "THB",
+          "TJS",
+          "TMT",
+          "TND",
+          "TOP",
+          "TRY",
+          "TTD",
+          "TWD",
+          "TZS",
+          "UAH",
+          "UGX",
+          "USD",
+          "UYU",
+          "UZS",
+          "VES",
+          "VND",
+          "VUV",
+          "WST",
+          "XAF",
+          "XAG",
+          "XAU",
+          "XCD",
+          "XCG",
+          "XDR",
+          "XOF",
+          "XPD",
+          "XPF",
+          "XPT",
+          "YER",
+          "ZAR",
+          "ZMW",
+          "ZWG"
+        ],
+        "history": {
+          "from": null,
+          "to": null,
+          "currencies": null
+        }
+      },
+      {
+        "id": "ecb",
+        "name": "European Central Bank",
+        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+        "cadence": "business_days",
+        "kind": "official_reference",
+        "quote_unit": "currency_unit",
+        "convention": "units_of_currency_per_eur",
+        "available": true,
+        "date": "2026-10-09",
+        "currencies": [
+          "AUD",
+          "BRL",
+          "CAD",
+          "CHF",
+          "CNY",
+          "CZK",
+          "DKK",
+          "EUR",
+          "GBP",
+          "HKD",
+          "HUF",
+          "IDR",
+          "ILS",
+          "INR",
+          "ISK",
+          "JPY",
+          "KRW",
+          "MXN",
+          "MYR",
+          "NOK",
+          "NZD",
+          "PHP",
+          "PLN",
+          "RON",
+          "SEK",
+          "SGD",
+          "THB",
+          "TRY",
+          "USD",
+          "ZAR"
+        ],
+        "history": {
+          "from": "1999-01-04",
+          "to": "2026-10-09",
+          "currencies": [
+            "AUD",
+            "BGN",
+            "BRL",
+            "CAD",
+            "CHF",
+            "CNY",
+            "CYP",
+            "CZK",
+            "DKK",
+            "EEK",
+            "EUR",
+            "GBP",
+            "HKD",
+            "HRK",
+            "HUF",
+            "IDR",
+            "ILS",
+            "INR",
+            "ISK",
+            "JPY",
+            "KRW",
+            "LTL",
+            "LVL",
+            "MTL",
+            "MXN",
+            "MYR",
+            "NOK",
+            "NZD",
+            "PHP",
+            "PLN",
+            "ROL",
+            "RON",
+            "RUB",
+            "SEK",
+            "SGD",
+            "SIT",
+            "SKK",
+            "THB",
+            "TRL",
+            "TRY",
+            "USD",
+            "ZAR"
+          ],
+          "series": [
+            {
+              "currency": "AUD",
+              "from": "1999-01-04",
+              "to": "2026-10-09",
+              "observations": 7111
+            },
+            {
+              "currency": "BGN",
+              "from": "2000-07-19",
+              "to": "2025-12-31",
+              "observations": 6515
+            },
+            {
+              "currency": "BRL",
+              "from": "2008-01-02",
+              "to": "2026-10-09",
+              "observations": 4807
+            },
+            {
+              "currency": "CAD",
+              "from": "1999-01-04",
+              "to": "2026-10-09",
+              "observations": 7111
+            },
+            {
+              "currency": "CHF",
+              "from": "1999-01-04",
+              "to": "2026-10-09",
+              "observations": 7111
+            },
+            {
+              "currency": "CNY",
+              "from": "2005-04-01",
+              "to": "2026-10-09",
+              "observations": 5512
+            },
+            {
+              "currency": "CYP",
+              "from": "1999-01-04",
+              "to": "2007-12-31",
+              "observations": 2304
+            },
+            {
+              "currency": "CZK",
+              "from": "1999-01-04",
+              "to": "2026-10-09",
+              "observations": 7111
+            },
+            {
+              "currency": "DKK",
+              "from": "1999-01-04",
+              "to": "2026-10-09",
+              "observations": 7111
+            },
+            {
+              "currency": "EEK",
+              "from": "1999-01-04",
+              "to": "2010-12-31",
+              "observations": 3074
+            },
+            {
+              "currency": "EUR",
+              "from": "1999-01-04",
+              "to": "2026-10-09",
+              "observations": 7111
+            },
+            {
+              "currency": "GBP",
+              "from": "1999-01-04",
+              "to": "2026-10-09",
+              "observations": 7111
+            },
+            {
+              "currency": "HKD",
+              "from": "1999-01-04",
+              "to": "2026-10-09",
+              "observations": 7111
+            },
+            {
+              "currency": "HRK",
+              "from": "2005-04-01",
+              "to": "2022-12-30",
+              "observations": 4548
+            },
+            {
+              "currency": "HUF",
+              "from": "1999-01-04",
+              "to": "2026-10-09",
+              "observations": 7111
+            },
+            {
+              "currency": "IDR",
+              "from": "2005-04-01",
+              "to": "2026-10-09",
+              "observations": 5512
+            },
+            {
+              "currency": "ILS",
+              "from": "2011-01-03",
+              "to": "2026-10-09",
+              "observations": 4037
+            },
+            {
+              "currency": "INR",
+              "from": "2009-01-02",
+              "to": "2026-10-09",
+              "observations": 4551
+            },
+            {
+              "currency": "ISK",
+              "from": "1999-01-04",
+              "to": "2026-10-09",
+              "observations": 4770
+            },
+            {
+              "currency": "JPY",
+              "from": "1999-01-04",
+              "to": "2026-10-09",
+              "observations": 7111
+            },
+            {
+              "currency": "KRW",
+              "from": "1999-01-04",
+              "to": "2026-10-09",
+              "observations": 7111
+            },
+            {
+              "currency": "LTL",
+              "from": "1999-01-04",
+              "to": "2014-12-31",
+              "observations": 4097
+            },
+            {
+              "currency": "LVL",
+              "from": "1999-01-04",
+              "to": "2013-12-31",
+              "observations": 3842
+            },
+            {
+              "currency": "MTL",
+              "from": "1999-01-04",
+              "to": "2007-12-31",
+              "observations": 2304
+            },
+            {
+              "currency": "MXN",
+              "from": "2008-01-02",
+              "to": "2026-10-09",
+              "observations": 4807
+            },
+            {
+              "currency": "MYR",
+              "from": "2005-04-01",
+              "to": "2026-10-09",
+              "observations": 5512
+            },
+            {
+              "currency": "NOK",
+              "from": "1999-01-04",
+              "to": "2026-10-09",
+              "observations": 7111
+            },
+            {
+              "currency": "NZD",
+              "from": "1999-01-04",
+              "to": "2026-10-09",
+              "observations": 7111
+            },
+            {
+              "currency": "PHP",
+              "from": "2005-04-01",
+              "to": "2026-10-09",
+              "observations": 5512
+            },
+            {
+              "currency": "PLN",
+              "from": "1999-01-04",
+              "to": "2026-10-09",
+              "observations": 7111
+            },
+            {
+              "currency": "ROL",
+              "from": "1999-01-04",
+              "to": "2005-06-30",
+              "observations": 1664
+            },
+            {
+              "currency": "RON",
+              "from": "2005-07-01",
+              "to": "2026-10-09",
+              "observations": 5447
+            },
+            {
+              "currency": "RUB",
+              "from": "2005-04-01",
+              "to": "2022-03-01",
+              "observations": 4333
+            },
+            {
+              "currency": "SEK",
+              "from": "1999-01-04",
+              "to": "2026-10-09",
+              "observations": 7111
+            },
+            {
+              "currency": "SGD",
+              "from": "1999-01-04",
+              "to": "2026-10-09",
+              "observations": 7111
+            },
+            {
+              "currency": "SIT",
+              "from": "1999-01-04",
+              "to": "2006-12-29",
+              "observations": 2049
+            },
+            {
+              "currency": "SKK",
+              "from": "1999-01-04",
+              "to": "2008-12-31",
+              "observations": 2560
+            },
+            {
+              "currency": "THB",
+              "from": "2005-04-01",
+              "to": "2026-10-09",
+              "observations": 5512
+            },
+            {
+              "currency": "TRL",
+              "from": "1999-01-04",
+              "to": "2004-12-31",
+              "observations": 1537
+            },
+            {
+              "currency": "TRY",
+              "from": "2005-01-03",
+              "to": "2026-10-09",
+              "observations": 5574
+            },
+            {
+              "currency": "USD",
+              "from": "1999-01-04",
+              "to": "2026-10-09",
+              "observations": 7111
+            },
+            {
+              "currency": "ZAR",
+              "from": "1999-01-04",
+              "to": "2026-10-09",
+              "observations": 7111
+            }
+          ]
+        }
+      },
+      {
+        "id": "nbp",
+        "name": "National Bank of Poland",
+        "url": "https://api.nbp.pl/en.html",
+        "cadence": "daily_and_weekly",
+        "kind": "official_reference",
+        "quote_unit": "currency_unit",
+        "convention": "table_a_and_b_mid_rates_normalized_with_same_day_eur",
+        "available": true,
+        "date": "2026-10-09",
+        "currencies": [
+          "AED",
+          "AFN",
+          "ALL",
+          "AMD",
+          "AOA",
+          "ARS",
+          "AUD",
+          "AWG",
+          "AZN",
+          "BAM",
+          "BBD",
+          "BDT",
+          "BHD",
+          "BIF",
+          "BND",
+          "BOB",
+          "BRL",
+          "BSD",
+          "BWP",
+          "BYN",
+          "BZD",
+          "CAD",
+          "CDF",
+          "CHF",
+          "CLP",
+          "CNY",
+          "COP",
+          "CRC",
+          "CUP",
+          "CVE",
+          "CZK",
+          "DJF",
+          "DKK",
+          "DOP",
+          "DZD",
+          "EGP",
+          "ERN",
+          "ETB",
+          "EUR",
+          "FJD",
+          "GBP",
+          "GEL",
+          "GHS",
+          "GIP",
+          "GMD",
+          "GNF",
+          "GTQ",
+          "GYD",
+          "HKD",
+          "HNL",
+          "HTG",
+          "HUF",
+          "IDR",
+          "ILS",
+          "INR",
+          "IQD",
+          "IRR",
+          "ISK",
+          "JMD",
+          "JOD",
+          "JPY",
+          "KES",
+          "KGS",
+          "KHR",
+          "KMF",
+          "KRW",
+          "KWD",
+          "KZT",
+          "LAK",
+          "LBP",
+          "LKR",
+          "LRD",
+          "LSL",
+          "LYD",
+          "MAD",
+          "MDL",
+          "MGA",
+          "MKD",
+          "MMK",
+          "MNT",
+          "MOP",
+          "MRU",
+          "MUR",
+          "MVR",
+          "MWK",
+          "MXN",
+          "MYR",
+          "MZN",
+          "NAD",
+          "NGN",
+          "NIO",
+          "NOK",
+          "NPR",
+          "NZD",
+          "OMR",
+          "PAB",
+          "PEN",
+          "PGK",
+          "PHP",
+          "PKR",
+          "PLN",
+          "PYG",
+          "QAR",
+          "RON",
+          "RSD",
+          "RUB",
+          "RWF",
+          "SAR",
+          "SBD",
+          "SCR",
+          "SDG",
+          "SEK",
+          "SGD",
+          "SLE",
+          "SOS",
+          "SRD",
+          "SSP",
+          "STN",
+          "SVC",
+          "SYP",
+          "SZL",
+          "THB",
+          "TJS",
+          "TMT",
+          "TND",
+          "TOP",
+          "TRY",
+          "TTD",
+          "TWD",
+          "TZS",
+          "UAH",
+          "UGX",
+          "USD",
+          "UYU",
+          "UZS",
+          "VES",
+          "VND",
+          "VUV",
+          "WST",
+          "XAF",
+          "XCD",
+          "XCG",
+          "XDR",
+          "XOF",
+          "XPF",
+          "YER",
+          "ZAR",
+          "ZMW",
+          "ZWG"
+        ],
+        "history": {
+          "from": null,
+          "to": null,
+          "currencies": null
+        }
+      },
+      {
+        "id": "nbu",
+        "name": "National Bank of Ukraine",
+        "url": "https://bank.gov.ua/en/open-data",
+        "cadence": "daily",
+        "kind": "official_reference",
+        "quote_unit": "currency_unit",
+        "quote_units": {
+          "XAU": "troy_ounce",
+          "XAG": "troy_ounce",
+          "XPT": "troy_ounce",
+          "XPD": "troy_ounce"
+        },
+        "convention": "official_fx_and_bank_metal_accounting_prices_normalized_with_own_eur",
+        "available": true,
+        "date": "2026-10-10",
+        "currencies": [
+          "AED",
+          "AUD",
+          "AZN",
+          "BDT",
+          "CAD",
+          "CHF",
+          "CNY",
+          "CZK",
+          "DKK",
+          "DZD",
+          "EGP",
+          "EUR",
+          "GBP",
+          "GEL",
+          "HKD",
+          "HUF",
+          "IDR",
+          "ILS",
+          "INR",
+          "JPY",
+          "KRW",
+          "KZT",
+          "LBP",
+          "MDL",
+          "MXN",
+          "MYR",
+          "NOK",
+          "NZD",
+          "PLN",
+          "RON",
+          "RSD",
+          "SAR",
+          "SEK",
+          "SGD",
+          "THB",
+          "TND",
+          "TRY",
+          "UAH",
+          "USD",
+          "VND",
+          "XAG",
+          "XAU",
+          "XDR",
+          "XPD",
+          "XPT",
+          "ZAR"
+        ],
+        "history": {
+          "from": "1999-01-01",
+          "to": "2026-10-10",
+          "currencies": [
+            "AED",
+            "AUD",
+            "AZN",
+            "BDT",
+            "CAD",
+            "CHF",
+            "CNY",
+            "CZK",
+            "DKK",
+            "DZD",
+            "EGP",
+            "EUR",
+            "GBP",
+            "GEL",
+            "HKD",
+            "HUF",
+            "IDR",
+            "ILS",
+            "INR",
+            "JPY",
+            "KRW",
+            "KZT",
+            "LBP",
+            "MDL",
+            "MXN",
+            "MYR",
+            "NOK",
+            "NZD",
+            "PLN",
+            "RON",
+            "RSD",
+            "SAR",
+            "SEK",
+            "SGD",
+            "THB",
+            "TND",
+            "TRY",
+            "UAH",
+            "USD",
+            "VND",
+            "XAG",
+            "XAU",
+            "XDR",
+            "XPD",
+            "XPT",
+            "ZAR"
+          ],
+          "series": [
+            {
+              "currency": "AED",
+              "from": "2016-11-01",
+              "to": "2026-10-10",
+              "observations": 3631
+            },
+            {
+              "currency": "AUD",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 10145
+            },
+            {
+              "currency": "AZN",
+              "from": "2014-04-04",
+              "to": "2026-10-10",
+              "observations": 4573
+            },
+            {
+              "currency": "BDT",
+              "from": "2016-11-01",
+              "to": "2026-10-10",
+              "observations": 3631
+            },
+            {
+              "currency": "CAD",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 10145
+            },
+            {
+              "currency": "CHF",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 10145
+            },
+            {
+              "currency": "CNY",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 8345
+            },
+            {
+              "currency": "CZK",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 10145
+            },
+            {
+              "currency": "DKK",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 10145
+            },
+            {
+              "currency": "DZD",
+              "from": "2016-11-01",
+              "to": "2026-10-10",
+              "observations": 3631
+            },
+            {
+              "currency": "EGP",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 8317
+            },
+            {
+              "currency": "EUR",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 10145
+            },
+            {
+              "currency": "GBP",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 10145
+            },
+            {
+              "currency": "GEL",
+              "from": "2002-12-01",
+              "to": "2026-10-10",
+              "observations": 8231
+            },
+            {
+              "currency": "HKD",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 8317
+            },
+            {
+              "currency": "HUF",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 10145
+            },
+            {
+              "currency": "IDR",
+              "from": "2016-11-01",
+              "to": "2026-10-10",
+              "observations": 3631
+            },
+            {
+              "currency": "ILS",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 8317
+            },
+            {
+              "currency": "INR",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 8317
+            },
+            {
+              "currency": "JPY",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 10145
+            },
+            {
+              "currency": "KRW",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 8317
+            },
+            {
+              "currency": "KZT",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 10145
+            },
+            {
+              "currency": "LBP",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 8317
+            },
+            {
+              "currency": "MDL",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 10145
+            },
+            {
+              "currency": "MXN",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 8317
+            },
+            {
+              "currency": "MYR",
+              "from": "2016-11-01",
+              "to": "2026-10-10",
+              "observations": 3631
+            },
+            {
+              "currency": "NOK",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 10145
+            },
+            {
+              "currency": "NZD",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 8317
+            },
+            {
+              "currency": "PLN",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 10145
+            },
+            {
+              "currency": "RON",
+              "from": "2014-05-01",
+              "to": "2026-10-10",
+              "observations": 4518
+            },
+            {
+              "currency": "RSD",
+              "from": "2016-11-01",
+              "to": "2026-10-10",
+              "observations": 3631
+            },
+            {
+              "currency": "SAR",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 8317
+            },
+            {
+              "currency": "SEK",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 10145
+            },
+            {
+              "currency": "SGD",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 10145
+            },
+            {
+              "currency": "THB",
+              "from": "2016-11-01",
+              "to": "2026-10-10",
+              "observations": 3631
+            },
+            {
+              "currency": "TND",
+              "from": "2016-11-01",
+              "to": "2026-10-10",
+              "observations": 3631
+            },
+            {
+              "currency": "TRY",
+              "from": "2014-04-04",
+              "to": "2026-10-10",
+              "observations": 4573
+            },
+            {
+              "currency": "UAH",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 10145
+            },
+            {
+              "currency": "USD",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 10145
+            },
+            {
+              "currency": "VND",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 8317
+            },
+            {
+              "currency": "XAG",
+              "from": "2000-09-08",
+              "to": "2026-10-10",
+              "observations": 9510
+            },
+            {
+              "currency": "XAU",
+              "from": "2000-09-08",
+              "to": "2026-10-10",
+              "observations": 9510
+            },
+            {
+              "currency": "XDR",
+              "from": "1999-01-01",
+              "to": "2026-10-10",
+              "observations": 10145
+            },
+            {
+              "currency": "XPD",
+              "from": "2000-09-08",
+              "to": "2026-10-10",
+              "observations": 9509
+            },
+            {
+              "currency": "XPT",
+              "from": "2000-09-08",
+              "to": "2026-10-10",
+              "observations": 9510
+            },
+            {
+              "currency": "ZAR",
+              "from": "2016-11-01",
+              "to": "2026-10-10",
+              "observations": 3631
+            }
+          ]
+        }
+      },
+      {
+        "id": "boc",
+        "name": "Bank of Canada",
+        "url": "https://www.bankofcanada.ca/rates/exchange/daily-exchange-rates/",
+        "cadence": "business_days",
+        "kind": "official_reference",
+        "quote_unit": "currency_unit",
+        "convention": "daily_average_cad_per_currency_normalized_with_own_eur",
+        "available": true,
+        "date": "2026-10-09",
+        "currencies": [
+          "AUD",
+          "BRL",
+          "CAD",
+          "CHF",
+          "CNY",
+          "EUR",
+          "GBP",
+          "HKD",
+          "IDR",
+          "INR",
+          "JPY",
+          "KRW",
+          "MXN",
+          "MYR",
+          "NOK",
+          "NZD",
+          "PEN",
+          "PLN",
+          "SEK",
+          "SGD",
+          "THB",
+          "TRY",
+          "TWD",
+          "USD",
+          "ZAR"
+        ],
+        "history": {
+          "from": "2017-01-03",
+          "to": "2026-10-09",
+          "currencies": [
+            "AUD",
+            "BRL",
+            "CAD",
+            "CHF",
+            "CNY",
+            "EUR",
+            "GBP",
+            "HKD",
+            "IDR",
+            "INR",
+            "JPY",
+            "KRW",
+            "MXN",
+            "MYR",
+            "NOK",
+            "NZD",
+            "PEN",
+            "PLN",
+            "RUB",
+            "SAR",
+            "SEK",
+            "SGD",
+            "THB",
+            "TRY",
+            "TWD",
+            "USD",
+            "VND",
+            "ZAR"
+          ],
+          "series": [
+            {
+              "currency": "AUD",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "BRL",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "CAD",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "CHF",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "CNY",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "EUR",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "GBP",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "HKD",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "IDR",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "INR",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "JPY",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "KRW",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "MXN",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "MYR",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 860
+            },
+            {
+              "currency": "NOK",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "NZD",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "PEN",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "PLN",
+              "from": "2026-05-01",
+              "to": "2026-10-09",
+              "observations": 111
+            },
+            {
+              "currency": "RUB",
+              "from": "2017-01-03",
+              "to": "2026-04-30",
+              "observations": 2327
+            },
+            {
+              "currency": "SAR",
+              "from": "2017-01-03",
+              "to": "2026-04-30",
+              "observations": 2327
+            },
+            {
+              "currency": "SEK",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "SGD",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "THB",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 860
+            },
+            {
+              "currency": "TRY",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "TWD",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "USD",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            },
+            {
+              "currency": "VND",
+              "from": "2017-01-03",
+              "to": "2019-12-31",
+              "observations": 749
+            },
+            {
+              "currency": "ZAR",
+              "from": "2017-01-03",
+              "to": "2026-10-09",
+              "observations": 2438
+            }
+          ]
+        }
+      },
+      {
+        "id": "cbrt",
+        "name": "Central Bank of the Republic of T\u00fcrkiye",
+        "url": "https://www.tcmb.gov.tr/kurlar/kurlar_en.html",
+        "cadence": "business_days",
+        "kind": "official_reference",
+        "quote_unit": "currency_unit",
+        "convention": "indicative_forex_buying_and_selling_midpoint_normalized_with_own_eur",
+        "available": true,
+        "date": "2026-10-09",
+        "currencies": [
+          "AED",
+          "AUD",
+          "AZN",
+          "CAD",
+          "CHF",
+          "CNY",
+          "DKK",
+          "EUR",
+          "GBP",
+          "JPY",
+          "KRW",
+          "KWD",
+          "KZT",
+          "NOK",
+          "PKR",
+          "QAR",
+          "RON",
+          "RUB",
+          "SAR",
+          "SEK",
+          "TRY",
+          "USD",
+          "XDR"
+        ],
+        "history": {
+          "from": null,
+          "to": null,
+          "currencies": null
+        }
+      },
+      {
+        "id": "cnb",
+        "name": "Czech National Bank",
+        "url": "https://www.cnb.cz/en/financial-markets/foreign-exchange-market/central-bank-exchange-rate-fixing/central-bank-exchange-rate-fixing/",
+        "cadence": "business_days",
+        "kind": "official_reference",
+        "quote_unit": "currency_unit",
+        "convention": "czk_fixing_per_declared_currency_quantity_normalized_with_own_eur",
+        "available": true,
+        "date": "2026-10-09",
+        "currencies": [
+          "AUD",
+          "BRL",
+          "CAD",
+          "CHF",
+          "CNY",
+          "CZK",
+          "DKK",
+          "EUR",
+          "GBP",
+          "HKD",
+          "HUF",
+          "IDR",
+          "ILS",
+          "INR",
+          "ISK",
+          "JPY",
+          "KRW",
+          "MXN",
+          "MYR",
+          "NOK",
+          "NZD",
+          "PHP",
+          "PLN",
+          "RON",
+          "SEK",
+          "SGD",
+          "THB",
+          "TRY",
+          "USD",
+          "XDR",
+          "ZAR"
+        ],
+        "history": {
+          "from": "1999-01-01",
+          "to": "2026-10-09",
+          "currencies": [
+            "ATS",
+            "AUD",
+            "BEF",
+            "BGN",
+            "BRL",
+            "CAD",
+            "CHF",
+            "CNY",
+            "CYP",
+            "CZK",
+            "DEM",
+            "DKK",
+            "EEK",
+            "ESP",
+            "EUR",
+            "FIM",
+            "FRF",
+            "GBP",
+            "GRD",
+            "HKD",
+            "HRK",
+            "HUF",
+            "IDR",
+            "IEP",
+            "ILS",
+            "INR",
+            "ISK",
+            "ITL",
+            "JPY",
+            "KRW",
+            "LTL",
+            "LUF",
+            "LVL",
+            "MTL",
+            "MXN",
+            "MYR",
+            "NLG",
+            "NOK",
+            "NZD",
+            "PHP",
+            "PLN",
+            "PTE",
+            "ROL",
+            "RON",
+            "RUB",
+            "SEK",
+            "SGD",
+            "SIT",
+            "SKK",
+            "THB",
+            "TRL",
+            "TRY",
+            "USD",
+            "XDR",
+            "ZAR"
+          ],
+          "series": [
+            {
+              "currency": "ATS",
+              "from": "1999-01-01",
+              "to": "2001-12-31",
+              "observations": 757
+            },
+            {
+              "currency": "AUD",
+              "from": "1999-01-01",
+              "to": "2026-10-09",
+              "observations": 6993
+            },
+            {
+              "currency": "BEF",
+              "from": "1999-01-01",
+              "to": "2001-12-31",
+              "observations": 757
+            },
+            {
+              "currency": "BGN",
+              "from": "2004-01-02",
+              "to": "2025-12-31",
+              "observations": 5537
+            },
+            {
+              "currency": "BRL",
+              "from": "2008-01-02",
+              "to": "2026-10-09",
+              "observations": 4723
+            },
+            {
+              "currency": "CAD",
+              "from": "1999-01-01",
+              "to": "2026-10-09",
+              "observations": 6993
+            },
+            {
+              "currency": "CHF",
+              "from": "1999-01-01",
+              "to": "2026-10-09",
+              "observations": 6993
+            },
+            {
+              "currency": "CNY",
+              "from": "2005-04-01",
+              "to": "2026-10-09",
+              "observations": 5415
+            },
+            {
+              "currency": "CYP",
+              "from": "2004-01-02",
+              "to": "2007-12-31",
+              "observations": 1009
+            },
+            {
+              "currency": "CZK",
+              "from": "1999-01-01",
+              "to": "2026-10-09",
+              "observations": 6993
+            },
+            {
+              "currency": "DEM",
+              "from": "1999-01-01",
+              "to": "2001-12-31",
+              "observations": 757
+            },
+            {
+              "currency": "DKK",
+              "from": "1999-01-01",
+              "to": "2026-10-09",
+              "observations": 6993
+            },
+            {
+              "currency": "EEK",
+              "from": "2004-01-02",
+              "to": "2010-12-31",
+              "observations": 1766
+            },
+            {
+              "currency": "ESP",
+              "from": "1999-01-01",
+              "to": "2001-12-31",
+              "observations": 757
+            },
+            {
+              "currency": "EUR",
+              "from": "1999-01-01",
+              "to": "2026-10-09",
+              "observations": 6993
+            },
+            {
+              "currency": "FIM",
+              "from": "1999-01-01",
+              "to": "2001-12-31",
+              "observations": 757
+            },
+            {
+              "currency": "FRF",
+              "from": "1999-01-01",
+              "to": "2001-12-31",
+              "observations": 757
+            },
+            {
+              "currency": "GBP",
+              "from": "1999-01-01",
+              "to": "2026-10-09",
+              "observations": 6993
+            },
+            {
+              "currency": "GRD",
+              "from": "1999-01-01",
+              "to": "2001-12-31",
+              "observations": 757
+            },
+            {
+              "currency": "HKD",
+              "from": "2004-01-02",
+              "to": "2026-10-09",
+              "observations": 5732
+            },
+            {
+              "currency": "HRK",
+              "from": "2005-01-03",
+              "to": "2022-12-30",
+              "observations": 4530
+            },
+            {
+              "currency": "HUF",
+              "from": "1999-01-01",
+              "to": "2026-10-09",
+              "observations": 6993
+            },
+            {
+              "currency": "IDR",
+              "from": "2005-04-01",
+              "to": "2026-10-09",
+              "observations": 5415
+            },
+            {
+              "currency": "IEP",
+              "from": "1999-01-01",
+              "to": "2001-12-31",
+              "observations": 757
+            },
+            {
+              "currency": "ILS",
+              "from": "2011-01-03",
+              "to": "2026-10-09",
+              "observations": 3966
+            },
+            {
+              "currency": "INR",
+              "from": "2009-01-02",
+              "to": "2026-10-09",
+              "observations": 4470
+            },
+            {
+              "currency": "ISK",
+              "from": "2004-01-02",
+              "to": "2026-10-09",
+              "observations": 3595
+            },
+            {
+              "currency": "ITL",
+              "from": "1999-01-01",
+              "to": "2001-12-31",
+              "observations": 757
+            },
+            {
+              "currency": "JPY",
+              "from": "1999-01-01",
+              "to": "2026-10-09",
+              "observations": 6993
+            },
+            {
+              "currency": "KRW",
+              "from": "2004-01-02",
+              "to": "2026-10-09",
+              "observations": 5732
+            },
+            {
+              "currency": "LTL",
+              "from": "2004-01-02",
+              "to": "2014-12-31",
+              "observations": 2775
+            },
+            {
+              "currency": "LUF",
+              "from": "1999-01-01",
+              "to": "2001-12-31",
+              "observations": 757
+            },
+            {
+              "currency": "LVL",
+              "from": "2004-01-02",
+              "to": "2013-12-31",
+              "observations": 2523
+            },
+            {
+              "currency": "MTL",
+              "from": "2004-01-02",
+              "to": "2007-12-31",
+              "observations": 1009
+            },
+            {
+              "currency": "MXN",
+              "from": "2008-01-02",
+              "to": "2026-10-09",
+              "observations": 4723
+            },
+            {
+              "currency": "MYR",
+              "from": "2005-04-01",
+              "to": "2026-10-09",
+              "observations": 5415
+            },
+            {
+              "currency": "NLG",
+              "from": "1999-01-01",
+              "to": "2001-12-31",
+              "observations": 757
+            },
+            {
+              "currency": "NOK",
+              "from": "1999-01-01",
+              "to": "2026-10-09",
+              "observations": 6993
+            },
+            {
+              "currency": "NZD",
+              "from": "1999-01-01",
+              "to": "2026-10-09",
+              "observations": 6993
+            },
+            {
+              "currency": "PHP",
+              "from": "2005-04-01",
+              "to": "2026-10-09",
+              "observations": 5415
+            },
+            {
+              "currency": "PLN",
+              "from": "1999-01-01",
+              "to": "2026-10-09",
+              "observations": 6993
+            },
+            {
+              "currency": "PTE",
+              "from": "1999-01-01",
+              "to": "2001-12-31",
+              "observations": 757
+            },
+            {
+              "currency": "ROL",
+              "from": "2004-01-02",
+              "to": "2005-06-30",
+              "observations": 382
+            },
+            {
+              "currency": "RON",
+              "from": "2005-07-01",
+              "to": "2026-10-09",
+              "observations": 5350
+            },
+            {
+              "currency": "RUB",
+              "from": "2005-01-03",
+              "to": "2022-03-01",
+              "observations": 4320
+            },
+            {
+              "currency": "SEK",
+              "from": "1999-01-01",
+              "to": "2026-10-09",
+              "observations": 6993
+            },
+            {
+              "currency": "SGD",
+              "from": "2004-01-02",
+              "to": "2026-10-09",
+              "observations": 5732
+            },
+            {
+              "currency": "SIT",
+              "from": "1999-01-01",
+              "to": "2006-12-29",
+              "observations": 2019
+            },
+            {
+              "currency": "SKK",
+              "from": "1999-01-01",
+              "to": "2008-12-31",
+              "observations": 2523
+            },
+            {
+              "currency": "THB",
+              "from": "2005-04-01",
+              "to": "2026-10-09",
+              "observations": 5415
+            },
+            {
+              "currency": "TRL",
+              "from": "2004-01-02",
+              "to": "2004-12-31",
+              "observations": 254
+            },
+            {
+              "currency": "TRY",
+              "from": "2005-01-03",
+              "to": "2026-10-09",
+              "observations": 5478
+            },
+            {
+              "currency": "USD",
+              "from": "1999-01-01",
+              "to": "2026-10-09",
+              "observations": 6993
+            },
+            {
+              "currency": "XDR",
+              "from": "1999-01-01",
+              "to": "2026-10-09",
+              "observations": 6993
+            },
+            {
+              "currency": "ZAR",
+              "from": "2004-01-02",
+              "to": "2026-10-09",
+              "observations": 5732
+            }
+          ]
+        }
+      },
+      {
+        "id": "nbg",
+        "name": "National Bank of Georgia",
+        "url": "https://nbg.gov.ge/en/monetary-policy/currency",
+        "cadence": "daily",
+        "kind": "official_reference",
+        "quote_unit": "currency_unit",
+        "convention": "gel_per_declared_currency_quantity_normalized_with_own_eur",
+        "available": true,
+        "date": "2026-10-10",
+        "currencies": [
+          "AED",
+          "AMD",
+          "AUD",
+          "AZN",
+          "BRL",
+          "BYN",
+          "CAD",
+          "CHF",
+          "CNY",
+          "CZK",
+          "DKK",
+          "EGP",
+          "EUR",
+          "GBP",
+          "GEL",
+          "HKD",
+          "HUF",
+          "ILS",
+          "INR",
+          "IRR",
+          "ISK",
+          "JPY",
+          "KGS",
+          "KRW",
+          "KWD",
+          "KZT",
+          "MDL",
+          "NOK",
+          "NZD",
+          "PLN",
+          "QAR",
+          "RON",
+          "RSD",
+          "RUB",
+          "SEK",
+          "SGD",
+          "TJS",
+          "TMT",
+          "TRY",
+          "UAH",
+          "USD",
+          "UZS",
+          "ZAR"
+        ],
+        "history": {
+          "from": null,
+          "to": null,
+          "currencies": null
+        }
+      },
+      {
+        "id": "nbkz",
+        "name": "National Bank of Kazakhstan",
+        "url": "https://nationalbank.kz/en/exchangerates/ezhednevnye-oficialnye-rynochnye-kursy-valyut",
+        "cadence": "daily",
+        "kind": "official_reference",
+        "quote_unit": "currency_unit",
+        "convention": "kzt_per_declared_currency_quantity_normalized_with_own_eur",
+        "available": true,
+        "date": "2026-10-10",
+        "currencies": [
+          "AED",
+          "AMD",
+          "AUD",
+          "AZN",
+          "BRL",
+          "BYN",
+          "CAD",
+          "CHF",
+          "CNY",
+          "CZK",
+          "DKK",
+          "EGP",
+          "EUR",
+          "GBP",
+          "GEL",
+          "HKD",
+          "HUF",
+          "IDR",
+          "ILS",
+          "INR",
+          "IRR",
+          "JPY",
+          "KGS",
+          "KRW",
+          "KWD",
+          "KZT",
+          "MDL",
+          "MNT",
+          "MXN",
+          "MYR",
+          "NOK",
+          "OMR",
+          "PKR",
+          "PLN",
+          "QAR",
+          "RON",
+          "RUB",
+          "SAR",
+          "SEK",
+          "SGD",
+          "THB",
+          "TJS",
+          "TRY",
+          "UAH",
+          "USD",
+          "UZS",
+          "VND",
+          "XDR",
+          "ZAR"
+        ],
+        "history": {
+          "from": null,
+          "to": null,
+          "currencies": null
+        }
+      },
+      {
+        "id": "cbu",
+        "name": "Central Bank of Uzbekistan",
+        "url": "https://cbu.uz/en/arkhiv-kursov-valyut/",
+        "cadence": "daily",
+        "kind": "official_reference",
+        "quote_unit": "currency_unit",
+        "convention": "uzs_per_declared_currency_quantity_normalized_with_own_eur",
+        "available": true,
+        "date": "2026-10-10",
+        "currencies": [
+          "AED",
+          "AFN",
+          "AMD",
+          "ARS",
+          "AUD",
+          "AZN",
+          "BDT",
+          "BHD",
+          "BND",
+          "BRL",
+          "BYN",
+          "CAD",
+          "CHF",
+          "CNY",
+          "CUP",
+          "CZK",
+          "DKK",
+          "DZD",
+          "EGP",
+          "EUR",
+          "GBP",
+          "GEL",
+          "HKD",
+          "HUF",
+          "IDR",
+          "ILS",
+          "INR",
+          "IQD",
+          "IRR",
+          "ISK",
+          "JOD",
+          "JPY",
+          "KGS",
+          "KHR",
+          "KRW",
+          "KWD",
+          "KZT",
+          "LAK",
+          "LBP",
+          "LYD",
+          "MAD",
+          "MDL",
+          "MMK",
+          "MNT",
+          "MXN",
+          "MYR",
+          "NOK",
+          "NZD",
+          "OMR",
+          "PHP",
+          "PKR",
+          "PLN",
+          "QAR",
+          "RON",
+          "RSD",
+          "RUB",
+          "SAR",
+          "SDG",
+          "SEK",
+          "SGD",
+          "SYP",
+          "THB",
+          "TJS",
+          "TMT",
+          "TND",
+          "TRY",
+          "UAH",
+          "USD",
+          "UYU",
+          "UZS",
+          "VES",
+          "VND",
+          "XDR",
+          "YER",
+          "ZAR"
+        ],
+        "history": {
+          "from": null,
+          "to": null,
+          "currencies": null
+        }
+      },
+      {
+        "id": "nbkr",
+        "name": "National Bank of the Kyrgyz Republic",
+        "url": "https://www.nbkr.kg/index1.jsp?item=1562&lang=ENG",
+        "cadence": "daily_and_weekly",
+        "kind": "official_reference",
+        "quote_unit": "currency_unit",
+        "convention": "effective_dated_daily_and_weekly_kgs_accounting_rates_per_declared_quantity_normalized_with_own_eur",
+        "available": true,
+        "date": "2026-10-10",
+        "currencies": [
+          "AED",
+          "AFN",
+          "AMD",
+          "AUD",
+          "AZN",
+          "BHD",
+          "BRL",
+          "BYN",
+          "CAD",
+          "CHF",
+          "CNY",
+          "CZK",
+          "DKK",
+          "EUR",
+          "GBP",
+          "GEL",
+          "HKD",
+          "HUF",
+          "IDR",
+          "INR",
+          "IRR",
+          "JPY",
+          "KGS",
+          "KRW",
+          "KWD",
+          "KZT",
+          "MDL",
+          "MNT",
+          "MYR",
+          "NOK",
+          "NZD",
+          "OMR",
+          "PKR",
+          "PLN",
+          "RUB",
+          "SAR",
+          "SEK",
+          "SGD",
+          "THB",
+          "TJS",
+          "TMT",
+          "TRY",
+          "TWD",
+          "UAH",
+          "USD",
+          "UZS",
+          "VND",
+          "XDR"
+        ],
+        "history": {
+          "from": null,
+          "to": null,
+          "currencies": null
+        }
+      }
+    ]
+  },
+  "batch": {
+    "base": "USD",
+    "amount": 0,
+    "requested_date": "2026-10-09",
+    "missing": [
+      {
+        "quote": "KPW",
+        "reason": "no_rate"
+      }
+    ],
+    "rates": {
+      "EUR": {
+        "rate": 0.892379082634303,
+        "date": "2026-10-09",
+        "converted": 0
+      },
+      "JPY": {
+        "rate": 158.2545065143673,
+        "date": "2026-10-09",
+        "converted": 0
+      }
+    }
+  },
+  "history": {
+    "data": [
+      {
+        "requested_date": "2026-10-09",
+        "rate": 0.892379082634303,
+        "date": "2026-10-09",
+        "converted": -0.6
+      },
+      {
+        "requested_date": "2026-10-10",
+        "rate": 0.892379082634303,
+        "date": "2026-10-09",
+        "converted": -0.6
+      }
+    ],
+    "base": "USD",
+    "quote": "EUR",
+    "from": "2026-10-09",
+    "to": "2026-10-10",
+    "amount": -0.67,
+    "missing": []
+  },
+  "rates_history": {
+    "data": [
+      {
+        "requested_date": "2026-10-09",
+        "quote": "EUR",
+        "rate": 0.892379082634303,
+        "date": "2026-10-09",
+        "converted": 0
+      },
+      {
+        "requested_date": "2026-10-09",
+        "quote": "JPY",
+        "rate": 158.2545065143673,
+        "date": "2026-10-09",
+        "converted": 0
+      },
+      {
+        "requested_date": "2026-10-10",
+        "quote": "EUR",
+        "rate": 0.892379082634303,
+        "date": "2026-10-09",
+        "converted": 0
+      },
+      {
+        "requested_date": "2026-10-10",
+        "quote": "JPY",
+        "rate": 158.2545065143673,
+        "date": "2026-10-09",
+        "converted": 0
+      }
+    ],
+    "base": "USD",
+    "quotes": [
+      "EUR",
+      "JPY",
+      "KPW"
+    ],
+    "from": "2026-10-09",
+    "to": "2026-10-10",
+    "amount": 0,
+    "missing": [
+      {
+        "requested_date": "2026-10-09",
+        "quote": "KPW",
+        "reason": "no_rate"
+      },
+      {
+        "requested_date": "2026-10-10",
+        "quote": "KPW",
+        "reason": "no_rate"
+      }
+    ]
+  },
+  "currencies": {
+    "data": [
+      {
+        "currency": "XAU",
+        "name": "Gold",
+        "symbol": null,
+        "symbol_native": null,
+        "digits": null,
+        "deep": {
+          "numeric": 959,
+          "name_plural": "troy ounces of gold",
+          "countries": []
+        },
+        "unit": "troy_ounce"
+      },
+      {
+        "currency": "ZWG",
+        "name": "Zimbabwe Gold",
+        "symbol": "ZiG",
+        "symbol_native": "ZiG",
+        "digits": 2,
+        "deep": {
+          "numeric": 924,
+          "name_plural": "Zimbabwean gold",
+          "countries": [
+            "ZW"
+          ]
+        }
+      }
+    ]
+  },
+  "all_rates": {
+    "base": "USD",
+    "missing": [],
+    "rates": {
+      "AED": {
+        "rate": 3.673010465630477,
+        "date": "2026-10-10"
+      },
+      "AUD": {
+        "rate": 1.4412326082066775,
+        "date": "2026-10-10"
+      },
+      "AZN": {
+        "rate": 1.6999988629429312,
+        "date": "2026-10-10"
+      },
+      "BDT": {
+        "rate": 122.92761805574588,
+        "date": "2026-10-10"
+      },
+      "CAD": {
+        "rate": 1.4271087212447104,
+        "date": "2026-10-10"
+      },
+      "CHF": {
+        "rate": 0.8336294699278864,
+        "date": "2026-10-10"
+      },
+      "CNY": {
+        "rate": 6.704123880842415,
+        "date": "2026-10-10"
+      },
+      "CZK": {
+        "rate": 21.83458280595853,
+        "date": "2026-10-10"
+      },
+      "DKK": {
+        "rate": 6.685935753148991,
+        "date": "2026-10-10"
+      },
+      "DZD": {
+        "rate": 134.54703623710105,
+        "date": "2026-10-10"
+      },
+      "EGP": {
+        "rate": 52.39177666160496,
+        "date": "2026-10-10"
+      },
+      "EUR": {
+        "rate": 0.8945740299370744,
+        "date": "2026-10-10"
+      },
+      "GBP": {
+        "rate": 0.7578795472249024,
+        "date": "2026-10-10"
+      },
+      "GEL": {
+        "rate": 2.6005426904924804,
+        "date": "2026-10-10"
+      },
+      "HKD": {
+        "rate": 7.847537398302862,
+        "date": "2026-10-10"
+      },
+      "HUF": {
+        "rate": 327.6854402127458,
+        "date": "2026-10-10"
+      },
+      "IDR": {
+        "rate": 17914.526500778848,
+        "date": "2026-10-10"
+      },
+      "ILS": {
+        "rate": 3.078062271389063,
+        "date": "2026-10-10"
+      },
+      "INR": {
+        "rate": 96.79024600776867,
+        "date": "2026-10-10"
+      },
+      "JPY": {
+        "rate": 158.2604706961646,
+        "date": "2026-10-10"
+      },
+      "KRW": {
+        "rate": 1344.1800527451453,
+        "date": "2026-10-10"
+      },
+      "KZT": {
+        "rate": 451.4332300012078,
+        "date": "2026-10-10"
+      },
+      "LBP": {
+        "rate": 89526.14770459081,
+        "date": "2026-10-10"
+      },
+      "MDL": {
+        "rate": 17.87027371608431,
+        "date": "2026-10-10"
+      },
+      "MXN": {
+        "rate": 18.023225910150288,
+        "date": "2026-10-10"
+      },
+      "MYR": {
+        "rate": 4.092166487236101,
+        "date": "2026-10-10"
+      },
+      "NOK": {
+        "rate": 9.589421247300795,
+        "date": "2026-10-10"
+      },
+      "NZD": {
+        "rate": 1.7904800683416768,
+        "date": "2026-10-10"
+      },
+      "PLN": {
+        "rate": 3.9149667879930523,
+        "date": "2026-10-10"
+      },
+      "RON": {
+        "rate": 4.780503922237381,
+        "date": "2026-10-10"
+      },
+      "RSD": {
+        "rate": 105.01908262895408,
+        "date": "2026-10-10"
+      },
+      "SAR": {
+        "rate": 3.7542981501632213,
+        "date": "2026-10-10"
+      },
+      "SEK": {
+        "rate": 10.014423506296332,
+        "date": "2026-10-10"
+      },
+      "SGD": {
+        "rate": 1.2822795521858956,
+        "date": "2026-10-10"
+      },
+      "THB": {
+        "rate": 33.69513120431514,
+        "date": "2026-10-10"
+      },
+      "TND": {
+        "rate": 3.0102214079100142,
+        "date": "2026-10-10"
+      },
+      "TRY": {
+        "rate": 49.212859337283305,
+        "date": "2026-10-10"
+      },
+      "UAH": {
+        "rate": 44.8526,
+        "date": "2026-10-10"
+      },
+      "USD": {
+        "rate": 1,
+        "date": "2026-10-10"
+      },
+      "VND": {
+        "rate": 25935.353301723142,
+        "date": "2026-10-10"
+      },
+      "XAG": {
+        "rate": 0.0169987644869589,
+        "date": "2026-10-10",
+        "units": {
+          "quote": "troy_ounce"
+        }
+      },
+      "XAU": {
+        "rate": 0.0002423659554849532,
+        "date": "2026-10-10",
+        "units": {
+          "quote": "troy_ounce"
+        }
+      },
+      "XDR": {
+        "rate": 0.7398379213821386,
+        "date": "2026-10-10"
+      },
+      "XPD": {
+        "rate": 0.0008844540139165752,
+        "date": "2026-10-10",
+        "units": {
+          "quote": "troy_ounce"
+        }
+      },
+      "XPT": {
+        "rate": 0.000606393928246328,
+        "date": "2026-10-10",
+        "units": {
+          "quote": "troy_ounce"
+        }
+      },
+      "ZAR": {
+        "rate": 16.671349985132327,
+        "date": "2026-10-10"
+      }
+    }
+  },
+  "indexed_pair": {
+    "base": "USD",
+    "quote": "MXV",
+    "rate": 2.055699918498212,
+    "date": "2026-10-10",
+    "amount": 1,
+    "converted": 2.06,
+    "dates": {
+      "base": [
+        "2026-10-09"
+      ],
+      "quote": [
+        "2026-10-09",
+        "2026-10-10"
+      ]
+    },
+    "units": {
+      "quote": "indexed_unit"
+    }
+  }
+}

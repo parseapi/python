@@ -341,6 +341,38 @@ ip = parse.ip("52.94.76.10", deep=True)
 ip.get("deep", {}).get("datacenter")  # True, False, or None
 ```
 
+## Currency reference rates
+
+The new currency list, batch, history and summary methods are a local release candidate awaiting API activation and client publication.
+```python
+rates = parse.currency.rates("USD", ["EUR", "JPY"])
+print(rates["rates"].get("EUR"))
+history = parse.currency.history("USD", "EUR", "2026-10-01", "2026-10-09")
+series = parse.currency.rates_history("USD", ["EUR", "JPY"], "2026-10-01", "2026-10-09")
+all_rates = parse.currency.rates("USD")
+catalog = parse.currency.list(q="dollar")
+
+```
+
+The async client exposes the same methods and keywords with `await`. New JSON methods have exported `TypedDict` response types and preserve unknown fields. Existing metadata and `rate` methods keep their dictionary return shape and `quote_currency` keyword.
+
+Dated rates and history automatically select from the maintained archives. Missing quotes and dates stay explicit. Amount conversion uses known currency decimal precision. Rates, amounts and converted values are JSON numbers.
+
+An unknown historical minor-unit precision returns `converted=None`. Amount calculations use the held reference ratio and quote minor units. Returned JSON numbers retain ordinary numeric magnitude precision.
+
+Rate batches return a `rates` object keyed by currency code, so each value holds its rate, date and any necessary qualifications without repeating the quote code. History, catalog and period summaries return complete bounded `data` arrays. Ordinary catalog currencies omit `unit`; special units identify troy ounces or indexed units. The catalog uses `/currency`. Its optional `lang` translates available currency names and Deep plural names using the same policy as individual metadata lookups; identifiers, symbols and numeric facts stay unchanged. Omitted quotes return all available rates. Optional Core `units` distinguishes troy ounces and indexed units. Rates and history keep shared base, pair and requested amount on the envelope. The API omits empty missing arrays. Lists and all-quotes batches exclude metals and test/no-currency codes.
+
+### Currency history sampling and period summaries
+
+```python
+sampled = parse.currency.history("USD", "JPY", "1999-01-01", "2026-10-09" interval="month")
+report = parse.currency.rates_summary("USD", ["EUR"], "1999-01-01", "1999-01-31" interval="month")
+```
+
+History accepts `interval` (`Interval` in Go): `day` by default, or `week` and `month` for longer ranges. Samples start at `from` and include `to`. Weekly samples advance seven days. Monthly samples retain the original day of month and clamp in shorter months. Week/month history and period summaries accept at most 36,600 calendar days, under a complete read bound of 100,000 currency-day rows including a 30-day lookback. History output is bounded to 5,000 requested quote-dates, including gaps. Reduce the range or quote list when a request exceeds a bound.
+
+Period summaries use `month` by default, or `quarter` and `year`. Each row gives `average`, `min`, `max`, `observation_count`, `first_date`, `last_date` and `missing_day_count`. Averages count each original effective observation date once. ParseAPI carry-forward rows add no observations. Bank-supplied calendar dates still count when values repeat; they are not all proven fresh publications. Periods at the edges are clipped to the requested range. A period with no observations is explicit in `missing`. Summaries do not accept amounts or Deep.
+
 ## Errors
 
 Every non-2xx response raises `ParseAPIError` with `status`, `code`, `docs`, and `request_id`. Branch on `code`.
