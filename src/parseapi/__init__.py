@@ -2,5 +2,5 @@
 
 from ._client import AsyncParseAPI, ParseAPI, ParseAPIError
 
-__version__ = "1.9.0"
+__version__ = "1.9.2"
 __all__ = ["ParseAPI", "AsyncParseAPI", "ParseAPIError", "__version__"]

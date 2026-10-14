@@ -1176,6 +1176,7 @@ class _MeasureSync:
     def __call__(self, measure: str, *, to: Optional[str] = None, locale: Optional[str] = None, system: Optional[str] = None) -> Json:
         """Parse or convert a measurement. Amount is a decimal string. Without to, use the
         type's canonical unit. Locale and system (us or imperial) resolve explicit ambiguity.
+        Successful JSON omits reason and choices. Invalid input adds reason and alternatives add choices.
         Invalid measurements return valid=False and a reason. Invalid targets raise an API error.
         """
         return self._client._get(f"/measure/{_seg(measure)}", {"to": to, "locale": locale, "system": system})
@@ -1192,6 +1193,7 @@ class _MeasureAsync:
     async def __call__(self, measure: str, *, to: Optional[str] = None, locale: Optional[str] = None, system: Optional[str] = None) -> Json:
         """Parse or convert a measurement. Amount is a decimal string. Without to, use the
         type's canonical unit. Locale and system (us or imperial) resolve explicit ambiguity.
+        Successful JSON omits reason and choices. Invalid input adds reason and alternatives add choices.
         Invalid measurements return valid=False and a reason. Invalid targets raise an API error.
         """
         return await self._client._get(f"/measure/{_seg(measure)}", {"to": to, "locale": locale, "system": system})
