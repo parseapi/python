@@ -681,9 +681,13 @@ class _IndustrySync:
         return self._client._get("/industry", {"q": query, "limit": limit, "deep": deep})
 
 
+def _tariff_edition_id(value: Any) -> bool:
+    return isinstance(value, str) and (re.fullmatch(r"[a-f0-9]{64}", value) is not None or (re.fullmatch(r"ted_[1-9][0-9]{0,19}", value) is not None and (len(value) < 24 or value[4:] <= "18446744073709551615")))
+
+
 def _tariff_selection(result: Json, edition: Optional[str], date: Optional[str]) -> Json:
     if (edition is not None or date is not None) and (
-        not isinstance(result.get("edition"), str) or re.fullmatch(r"[a-f0-9]{64}", result["edition"]) is None
+        not _tariff_edition_id(result.get("edition"))
         or (edition is not None and result.get("edition") != edition)
         or (result.get("date") != date)
     ):
