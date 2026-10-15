@@ -1,0 +1,13 @@
+{
+  "scope": "sample",
+  "label": "Company directory",
+  "description": "The counts describe this directory edition, not complete country or worldwide coverage. A missing profile does not establish that a company does not exist.",
+  "snapshot_at": "2026-09-24T12:00:00.000Z",
+  "companies": 1,
+  "countries": [
+    "US"
+  ],
+  "with_website": 1,
+  "with_listings": 0,
+  "with_address": 0
+}
