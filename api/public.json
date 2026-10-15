@@ -260,6 +260,83 @@
           "type": "Optional[str]"
         },
         {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "type",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "grain",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "aliases",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "hierarchy",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "ambiguity",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "format",
+          "type": "Optional[Literal['resource']]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "romanized",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city.ancestors": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "id",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "romanized",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "hierarchy",
+          "type": "bool"
+        },
+        {
           "default": false,
           "kind": "KEYWORD_ONLY",
           "name": "deep",
@@ -270,6 +347,69 @@
           "kind": "KEYWORD_ONLY",
           "name": "lang",
           "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city.children": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "id",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "cursor",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "romanized",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "hierarchy",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city.distance": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "from_id",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "to_id",
+          "type": "str"
         }
       ],
       "returns": "Json"
@@ -285,7 +425,157 @@
         {
           "default": false,
           "kind": "KEYWORD_ONLY",
+          "name": "hierarchy",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
           "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "format",
+          "type": "Optional[Literal['resource']]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "romanized",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city.list": {
+      "async": true,
+      "parameters": [
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "state",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "type",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "grain",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "hierarchy",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "min_population",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_population",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "countries",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "exclude_countries",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "timezones",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "min_elevation",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_elevation",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "timezone",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "bbox",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "sort",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "order",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "cursor",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "romanized",
           "type": "bool"
         },
         {
@@ -336,9 +626,283 @@
           "type": "Optional[int]"
         },
         {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "type",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "grain",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "aliases",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "hierarchy",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "ambiguity",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "min_population",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_population",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "countries",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "exclude_countries",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "timezones",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "min_elevation",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_elevation",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "timezone",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "bbox",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "sort",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "order",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "page",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "cursor",
+          "type": "Optional[str]"
+        },
+        {
           "default": false,
           "kind": "KEYWORD_ONLY",
           "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "format",
+          "type": "Optional[Literal['list']]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "romanized",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city.nearby_coordinates": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lat",
+          "type": "float"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lon",
+          "type": "float"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "radius",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "unit",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "state",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "type",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "grain",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "hierarchy",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "min_population",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_population",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "countries",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "exclude_countries",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "timezones",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "min_elevation",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_elevation",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "timezone",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "bbox",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "sort",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "order",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "cursor",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "romanized",
           "type": "bool"
         },
         {
@@ -364,9 +928,51 @@
           "type": "float"
         },
         {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "state",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "type",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "grain",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "hierarchy",
+          "type": "bool"
+        },
+        {
           "default": false,
           "kind": "KEYWORD_ONLY",
           "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "format",
+          "type": "Optional[Literal['resource']]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "romanized",
           "type": "bool"
         },
         {
@@ -389,6 +995,18 @@
         {
           "default": null,
           "kind": "KEYWORD_ONLY",
+          "name": "match",
+          "type": "Optional[Literal['exact', 'prefix', 'fuzzy']]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_distance",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
         },
@@ -403,6 +1021,167 @@
           "kind": "KEYWORD_ONLY",
           "name": "limit",
           "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "type",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "grain",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "aliases",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "hierarchy",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "min_population",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_population",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "countries",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "exclude_countries",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "timezones",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "min_elevation",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_elevation",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "timezone",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "bbox",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "sort",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "order",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "page",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "cursor",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "format",
+          "type": "Optional[Literal['list']]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "romanized",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city.siblings": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "id",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "cursor",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "romanized",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "hierarchy",
+          "type": "bool"
         },
         {
           "default": false,
@@ -2462,6 +3241,83 @@
           "type": "Optional[str]"
         },
         {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "type",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "grain",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "aliases",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "hierarchy",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "ambiguity",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "format",
+          "type": "Optional[Literal['resource']]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "romanized",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city.ancestors": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "id",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "romanized",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "hierarchy",
+          "type": "bool"
+        },
+        {
           "default": false,
           "kind": "KEYWORD_ONLY",
           "name": "deep",
@@ -2472,6 +3328,69 @@
           "kind": "KEYWORD_ONLY",
           "name": "lang",
           "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city.children": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "id",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "cursor",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "romanized",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "hierarchy",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city.distance": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "from_id",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "to_id",
+          "type": "str"
         }
       ],
       "returns": "Json"
@@ -2487,7 +3406,157 @@
         {
           "default": false,
           "kind": "KEYWORD_ONLY",
+          "name": "hierarchy",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
           "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "format",
+          "type": "Optional[Literal['resource']]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "romanized",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city.list": {
+      "async": false,
+      "parameters": [
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "state",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "type",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "grain",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "hierarchy",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "min_population",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_population",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "countries",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "exclude_countries",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "timezones",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "min_elevation",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_elevation",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "timezone",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "bbox",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "sort",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "order",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "cursor",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "romanized",
           "type": "bool"
         },
         {
@@ -2538,9 +3607,283 @@
           "type": "Optional[int]"
         },
         {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "type",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "grain",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "aliases",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "hierarchy",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "ambiguity",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "min_population",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_population",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "countries",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "exclude_countries",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "timezones",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "min_elevation",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_elevation",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "timezone",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "bbox",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "sort",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "order",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "page",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "cursor",
+          "type": "Optional[str]"
+        },
+        {
           "default": false,
           "kind": "KEYWORD_ONLY",
           "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "format",
+          "type": "Optional[Literal['list']]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "romanized",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city.nearby_coordinates": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lat",
+          "type": "float"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "lon",
+          "type": "float"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "radius",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "unit",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "state",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "type",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "grain",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "hierarchy",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "min_population",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_population",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "countries",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "exclude_countries",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "timezones",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "min_elevation",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_elevation",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "timezone",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "bbox",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "sort",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "order",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "cursor",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "romanized",
           "type": "bool"
         },
         {
@@ -2566,9 +3909,51 @@
           "type": "float"
         },
         {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "country",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "state",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "type",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "grain",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "hierarchy",
+          "type": "bool"
+        },
+        {
           "default": false,
           "kind": "KEYWORD_ONLY",
           "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "format",
+          "type": "Optional[Literal['resource']]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "romanized",
           "type": "bool"
         },
         {
@@ -2591,6 +3976,18 @@
         {
           "default": null,
           "kind": "KEYWORD_ONLY",
+          "name": "match",
+          "type": "Optional[Literal['exact', 'prefix', 'fuzzy']]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_distance",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
           "name": "country",
           "type": "Optional[str]"
         },
@@ -2605,6 +4002,167 @@
           "kind": "KEYWORD_ONLY",
           "name": "limit",
           "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "type",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "grain",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "aliases",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "hierarchy",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "min_population",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_population",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "countries",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "exclude_countries",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "timezones",
+          "type": "Optional[Union[str, Sequence[str]]]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "min_elevation",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "max_elevation",
+          "type": "Optional[float]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "timezone",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "bbox",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "sort",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "order",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "page",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "cursor",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "format",
+          "type": "Optional[Literal['list']]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "romanized",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "city.siblings": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "id",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "limit",
+          "type": "Optional[int]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "cursor",
+          "type": "Optional[str]"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "romanized",
+          "type": "bool"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "hierarchy",
+          "type": "bool"
         },
         {
           "default": false,

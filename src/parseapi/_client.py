@@ -7,12 +7,13 @@ import random
 import re
 import time
 from email.utils import parsedate_to_datetime
-from typing import Any, Dict, Optional, Protocol, Union, overload
+from typing import Any, Dict, List, Literal, Optional, Protocol, Sequence, Union, overload
 from urllib.parse import quote
 
 import httpx
+from .city import CityAmbiguityCandidate, city_error_candidates
 
-VERSION = "1.9.0"
+VERSION = "1.10.0"
 _API_VERSION = "2.0.0"
 DEFAULT_BASE_URL = "https://api.parseapi.com"
 DEFAULT_TIMEOUT = 10.0
@@ -25,6 +26,9 @@ Json = Dict[str, Any]
 
 class ParseAPIError(Exception):
     """Every non-2xx response from the API. Branch on `code`, never on the message."""
+
+    # Present only on HTTP409 ambiguous_city; other error instances are unchanged.
+    candidates: Optional[List[CityAmbiguityCandidate]]
 
     def __init__(self, status: int, code: str, message: str, docs: Optional[str], request_id: Optional[str], retry_after: Optional[str] = None):
         super().__init__(message)
@@ -77,7 +81,7 @@ def _error_from(response: httpx.Response) -> ParseAPIError:
         body = {}
     if not isinstance(body, dict):
         body = {}
-    return ParseAPIError(
+    error = ParseAPIError(
         status=response.status_code,
         code=body.get("code") if isinstance(body.get("code"), str) else "unknown_error",
         message=body.get("message")
@@ -87,6 +91,12 @@ def _error_from(response: httpx.Response) -> ParseAPIError:
         request_id=body.get("request_id") if isinstance(body.get("request_id"), str) else None,
         retry_after=response.headers.get("Retry-After"),
     )
+
+    if error.status == 409 and error.code == "ambiguous_city":
+        candidates = city_error_candidates(body.get("candidates"))
+        if candidates is not None:
+            error.candidates = candidates
+    return error
 
 
 def _clean(params: Dict[str, Any]) -> Dict[str, Any]:
@@ -454,26 +464,43 @@ class _CitySync:
     def __init__(self, client: ParseAPI):
         self._client = client
 
-    def __call__(self, name: str, *, country: Optional[str] = None, state: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return self._client._get(f"/city/{_seg(name)}", {"country": country, "state": state, "deep": deep, "lang": lang})
+    def __call__(self, name: str, *, country: Optional[str] = None, state: Optional[str] = None, type: Optional[str] = None, grain: Optional[str] = None, aliases: bool = False, hierarchy: bool = False, ambiguity: Optional[str] = None, deep: bool = False, format: Optional[Literal["resource"]] = None, romanized: bool = False, lang: Optional[str] = None) -> Json:
+        return self._client._get(f"/city/{_seg(name)}", {"romanized": romanized, "format": format, "country": country, "state": state, "type": type, "grain": grain, "aliases": aliases, "hierarchy": hierarchy, "ambiguity": ambiguity, "deep": deep, "lang": lang})
 
-    def id(self, id: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return self._client._get(f"/city/id/{_seg(id)}", {"deep": deep, "lang": lang})
+    def id(self, id: str, *, hierarchy: bool = False, deep: bool = False, format: Optional[Literal["resource"]] = None, romanized: bool = False, lang: Optional[str] = None) -> Json:
+        return self._client._get(f"/city/id/{_seg(id)}", {"romanized": romanized, "format": format, "hierarchy": hierarchy, "deep": deep, "lang": lang})
 
     def search(
         self,
         query: str,
         *,
+        match: Optional[Literal["exact", "prefix", "fuzzy"]] = None, max_distance: Optional[int] = None,
         country: Optional[str] = None,
         state: Optional[str] = None,
         limit: Optional[int] = None,
+        type: Optional[str] = None,
+        grain: Optional[str] = None,
+        aliases: bool = False,
+        hierarchy: bool = False,
+        min_population: Optional[int] = None,
+        max_population: Optional[int] = None,
+        countries: Optional[Union[str, Sequence[str]]] = None, exclude_countries: Optional[Union[str, Sequence[str]]] = None, timezones: Optional[Union[str, Sequence[str]]] = None, min_elevation: Optional[float] = None, max_elevation: Optional[float] = None, timezone: Optional[str] = None,
+        bbox: Optional[str] = None,
+        sort: Optional[str] = None,
+        order: Optional[str] = None,
+        page: bool = False,
+        cursor: Optional[str] = None,
         deep: bool = False,
-        lang: Optional[str] = None,
+        format: Optional[Literal["list"]] = None, romanized: bool = False, lang: Optional[str] = None,
     ) -> Json:
-        return self._client._get("/city", {"q": query, "country": country, "state": state, "limit": limit, "deep": deep, "lang": lang})
+        spelling = match is not None or max_distance is not None
+        result = self._client._get("/city/search" if spelling else "/city", {"romanized": romanized, "format": format, "countries": _city_csv(countries), "exclude_countries": _city_csv(exclude_countries), "timezones": _city_csv(timezones), "min_elevation": min_elevation, "max_elevation": max_elevation, "q": query, "match": match, "max_distance": max_distance, "country": country, "state": state, "type": type, "grain": grain, "aliases": aliases, "hierarchy": hierarchy, "limit": limit, "min_population": min_population, "max_population": max_population, "timezone": timezone, "bbox": bbox, "sort": sort, "order": order, "page": page, "cursor": cursor, "deep": deep, "lang": lang})
+        if spelling and format is None:
+            return {"q": query, **({"country": country} if country else {}), **({"state": state} if state else {}), "cities": result["data"], "next_cursor": result.get("next_cursor")}
+        return result
 
-    def nearest(self, lat: float, lon: float, *, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return self._client._get("/city", {"lat": lat, "lon": lon, "deep": deep, "lang": lang})
+    def nearest(self, lat: float, lon: float, *, country: Optional[str] = None, state: Optional[str] = None, type: Optional[str] = None, grain: Optional[str] = None, hierarchy: bool = False, deep: bool = False, format: Optional[Literal["resource"]] = None, romanized: bool = False, lang: Optional[str] = None) -> Json:
+        return self._client._get("/city", {"romanized": romanized, "format": format, "lat": lat, "lon": lon, "country": country, "state": state, "type": type, "grain": grain, "hierarchy": hierarchy, "deep": deep, "lang": lang})
 
     def nearby(
         self,
@@ -484,13 +511,76 @@ class _CitySync:
         country: Optional[str] = None,
         state: Optional[str] = None,
         limit: Optional[int] = None,
+        type: Optional[str] = None,
+        grain: Optional[str] = None,
+        aliases: bool = False,
+        hierarchy: bool = False,
+        ambiguity: Optional[str] = None,
+        min_population: Optional[int] = None,
+        max_population: Optional[int] = None,
+        countries: Optional[Union[str, Sequence[str]]] = None, exclude_countries: Optional[Union[str, Sequence[str]]] = None, timezones: Optional[Union[str, Sequence[str]]] = None, min_elevation: Optional[float] = None, max_elevation: Optional[float] = None, timezone: Optional[str] = None,
+        bbox: Optional[str] = None,
+        sort: Optional[str] = None,
+        order: Optional[str] = None,
+        page: bool = False,
+        cursor: Optional[str] = None,
         deep: bool = False,
-        lang: Optional[str] = None,
+        format: Optional[Literal["list"]] = None, romanized: bool = False, lang: Optional[str] = None,
     ) -> Json:
         return self._client._get(
             f"/city/{_seg(name)}/nearby",
-            {"radius": radius, "unit": unit, "country": country, "state": state, "limit": limit, "deep": deep, "lang": lang},
+            {"romanized": romanized, "format": format, "countries": _city_csv(countries), "exclude_countries": _city_csv(exclude_countries), "timezones": _city_csv(timezones), "min_elevation": min_elevation, "max_elevation": max_elevation, "radius": radius, "unit": unit, "country": country, "state": state, "type": type, "grain": grain, "aliases": aliases, "hierarchy": hierarchy, "ambiguity": ambiguity, "limit": limit, "min_population": min_population, "max_population": max_population, "timezone": timezone, "bbox": bbox, "sort": sort, "order": order, "page": page, "cursor": cursor, "deep": deep, "lang": lang},
         )
+
+
+    def list(
+        self, *, country: Optional[str] = None, state: Optional[str] = None,
+        type: Optional[str] = None, grain: Optional[str] = None,
+        hierarchy: bool = False, limit: Optional[int] = None,
+        min_population: Optional[int] = None, max_population: Optional[int] = None,
+        countries: Optional[Union[str, Sequence[str]]] = None, exclude_countries: Optional[Union[str, Sequence[str]]] = None, timezones: Optional[Union[str, Sequence[str]]] = None, min_elevation: Optional[float] = None, max_elevation: Optional[float] = None, timezone: Optional[str] = None, bbox: Optional[str] = None,
+        sort: Optional[str] = None, order: Optional[str] = None,
+        cursor: Optional[str] = None, deep: bool = False, romanized: bool = False, lang: Optional[str] = None,
+    ) -> Json:
+        return self._client._get("/city", {"romanized": romanized, "format": "list", "countries": _city_csv(countries), "exclude_countries": _city_csv(exclude_countries), "timezones": _city_csv(timezones), "min_elevation": min_elevation, "max_elevation": max_elevation, "browse": True, "country": country, "state": state,
+            "type": type, "grain": grain, "hierarchy": hierarchy, "limit": limit,
+            "min_population": min_population, "max_population": max_population,
+            "timezone": timezone, "bbox": bbox, "sort": sort, "order": order,
+            "cursor": cursor, "deep": deep, "lang": lang})
+
+    def nearby_coordinates(
+        self, lat: float, lon: float, *, radius: Optional[float] = None,
+        unit: Optional[str] = None, country: Optional[str] = None, state: Optional[str] = None,
+        type: Optional[str] = None, grain: Optional[str] = None,
+        hierarchy: bool = False, limit: Optional[int] = None,
+        min_population: Optional[int] = None, max_population: Optional[int] = None,
+        countries: Optional[Union[str, Sequence[str]]] = None, exclude_countries: Optional[Union[str, Sequence[str]]] = None, timezones: Optional[Union[str, Sequence[str]]] = None, min_elevation: Optional[float] = None, max_elevation: Optional[float] = None, timezone: Optional[str] = None, bbox: Optional[str] = None,
+        sort: Optional[str] = None, order: Optional[str] = None,
+        cursor: Optional[str] = None, deep: bool = False, romanized: bool = False, lang: Optional[str] = None,
+    ) -> Json:
+        return self._client._get("/city", {"romanized": romanized, "format": "list", "countries": _city_csv(countries), "exclude_countries": _city_csv(exclude_countries), "timezones": _city_csv(timezones), "min_elevation": min_elevation, "max_elevation": max_elevation, "lat": lat, "lon": lon, "nearby": True,
+            "radius": radius, "unit": unit, "country": country, "state": state,
+            "type": type, "grain": grain, "hierarchy": hierarchy, "limit": limit,
+            "min_population": min_population, "max_population": max_population,
+            "timezone": timezone, "bbox": bbox, "sort": sort, "order": order,
+            "cursor": cursor, "deep": deep, "lang": lang})
+
+    def children(self, id: str, *, limit: Optional[int] = None, cursor: Optional[str] = None, romanized: bool = False, hierarchy: bool = False, deep: bool = False, lang: Optional[str] = None) -> Json:
+        """Return reviewed children as a canonical list. Relationship coverage is partial."""
+        return self._client._get(f"/city/id/{_seg(id)}/children", {"limit": limit, "cursor": cursor, "romanized": romanized, "hierarchy": hierarchy, "deep": deep, "lang": lang})
+
+    def ancestors(self, id: str, *, romanized: bool = False, hierarchy: bool = False, deep: bool = False, lang: Optional[str] = None) -> Json:
+        """Return reviewed ancestors as a canonical list. Relationship coverage is partial."""
+        return self._client._get(f"/city/id/{_seg(id)}/ancestors", {"romanized": romanized, "hierarchy": hierarchy, "deep": deep, "lang": lang})
+
+    def siblings(self, id: str, *, limit: Optional[int] = None, cursor: Optional[str] = None, romanized: bool = False, hierarchy: bool = False, deep: bool = False, lang: Optional[str] = None) -> Json:
+        """Return reviewed siblings as a canonical list. Relationship coverage is partial."""
+        return self._client._get(f"/city/id/{_seg(id)}/siblings", {"limit": limit, "cursor": cursor, "romanized": romanized, "hierarchy": hierarchy, "deep": deep, "lang": lang})
+
+    def distance(self, from_id: str, to_id: str) -> Json:
+        """Great-circle distance between stored centers. Unknown coordinates yield null."""
+        return self._client._get(f"/city/id/{_seg(from_id)}/distance/{_seg(to_id)}")
+
 
 
 class _PostalSync:
@@ -896,26 +986,43 @@ class _CityAsync:
     def __init__(self, client: AsyncParseAPI):
         self._client = client
 
-    async def __call__(self, name: str, *, country: Optional[str] = None, state: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return await self._client._get(f"/city/{_seg(name)}", {"country": country, "state": state, "deep": deep, "lang": lang})
+    async def __call__(self, name: str, *, country: Optional[str] = None, state: Optional[str] = None, type: Optional[str] = None, grain: Optional[str] = None, aliases: bool = False, hierarchy: bool = False, ambiguity: Optional[str] = None, deep: bool = False, format: Optional[Literal["resource"]] = None, romanized: bool = False, lang: Optional[str] = None) -> Json:
+        return await self._client._get(f"/city/{_seg(name)}", {"romanized": romanized, "format": format, "country": country, "state": state, "type": type, "grain": grain, "aliases": aliases, "hierarchy": hierarchy, "ambiguity": ambiguity, "deep": deep, "lang": lang})
 
-    async def id(self, id: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return await self._client._get(f"/city/id/{_seg(id)}", {"deep": deep, "lang": lang})
+    async def id(self, id: str, *, hierarchy: bool = False, deep: bool = False, format: Optional[Literal["resource"]] = None, romanized: bool = False, lang: Optional[str] = None) -> Json:
+        return await self._client._get(f"/city/id/{_seg(id)}", {"romanized": romanized, "format": format, "hierarchy": hierarchy, "deep": deep, "lang": lang})
 
     async def search(
         self,
         query: str,
         *,
+        match: Optional[Literal["exact", "prefix", "fuzzy"]] = None, max_distance: Optional[int] = None,
         country: Optional[str] = None,
         state: Optional[str] = None,
         limit: Optional[int] = None,
+        type: Optional[str] = None,
+        grain: Optional[str] = None,
+        aliases: bool = False,
+        hierarchy: bool = False,
+        min_population: Optional[int] = None,
+        max_population: Optional[int] = None,
+        countries: Optional[Union[str, Sequence[str]]] = None, exclude_countries: Optional[Union[str, Sequence[str]]] = None, timezones: Optional[Union[str, Sequence[str]]] = None, min_elevation: Optional[float] = None, max_elevation: Optional[float] = None, timezone: Optional[str] = None,
+        bbox: Optional[str] = None,
+        sort: Optional[str] = None,
+        order: Optional[str] = None,
+        page: bool = False,
+        cursor: Optional[str] = None,
         deep: bool = False,
-        lang: Optional[str] = None,
+        format: Optional[Literal["list"]] = None, romanized: bool = False, lang: Optional[str] = None,
     ) -> Json:
-        return await self._client._get("/city", {"q": query, "country": country, "state": state, "limit": limit, "deep": deep, "lang": lang})
+        spelling = match is not None or max_distance is not None
+        result = await self._client._get("/city/search" if spelling else "/city", {"romanized": romanized, "format": format, "countries": _city_csv(countries), "exclude_countries": _city_csv(exclude_countries), "timezones": _city_csv(timezones), "min_elevation": min_elevation, "max_elevation": max_elevation, "q": query, "match": match, "max_distance": max_distance, "country": country, "state": state, "type": type, "grain": grain, "aliases": aliases, "hierarchy": hierarchy, "limit": limit, "min_population": min_population, "max_population": max_population, "timezone": timezone, "bbox": bbox, "sort": sort, "order": order, "page": page, "cursor": cursor, "deep": deep, "lang": lang})
+        if spelling and format is None:
+            return {"q": query, **({"country": country} if country else {}), **({"state": state} if state else {}), "cities": result["data"], "next_cursor": result.get("next_cursor")}
+        return result
 
-    async def nearest(self, lat: float, lon: float, *, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return await self._client._get("/city", {"lat": lat, "lon": lon, "deep": deep, "lang": lang})
+    async def nearest(self, lat: float, lon: float, *, country: Optional[str] = None, state: Optional[str] = None, type: Optional[str] = None, grain: Optional[str] = None, hierarchy: bool = False, deep: bool = False, format: Optional[Literal["resource"]] = None, romanized: bool = False, lang: Optional[str] = None) -> Json:
+        return await self._client._get("/city", {"romanized": romanized, "format": format, "lat": lat, "lon": lon, "country": country, "state": state, "type": type, "grain": grain, "hierarchy": hierarchy, "deep": deep, "lang": lang})
 
     async def nearby(
         self,
@@ -926,13 +1033,76 @@ class _CityAsync:
         country: Optional[str] = None,
         state: Optional[str] = None,
         limit: Optional[int] = None,
+        type: Optional[str] = None,
+        grain: Optional[str] = None,
+        aliases: bool = False,
+        hierarchy: bool = False,
+        ambiguity: Optional[str] = None,
+        min_population: Optional[int] = None,
+        max_population: Optional[int] = None,
+        countries: Optional[Union[str, Sequence[str]]] = None, exclude_countries: Optional[Union[str, Sequence[str]]] = None, timezones: Optional[Union[str, Sequence[str]]] = None, min_elevation: Optional[float] = None, max_elevation: Optional[float] = None, timezone: Optional[str] = None,
+        bbox: Optional[str] = None,
+        sort: Optional[str] = None,
+        order: Optional[str] = None,
+        page: bool = False,
+        cursor: Optional[str] = None,
         deep: bool = False,
-        lang: Optional[str] = None,
+        format: Optional[Literal["list"]] = None, romanized: bool = False, lang: Optional[str] = None,
     ) -> Json:
         return await self._client._get(
             f"/city/{_seg(name)}/nearby",
-            {"radius": radius, "unit": unit, "country": country, "state": state, "limit": limit, "deep": deep, "lang": lang},
+            {"romanized": romanized, "format": format, "countries": _city_csv(countries), "exclude_countries": _city_csv(exclude_countries), "timezones": _city_csv(timezones), "min_elevation": min_elevation, "max_elevation": max_elevation, "radius": radius, "unit": unit, "country": country, "state": state, "type": type, "grain": grain, "aliases": aliases, "hierarchy": hierarchy, "ambiguity": ambiguity, "limit": limit, "min_population": min_population, "max_population": max_population, "timezone": timezone, "bbox": bbox, "sort": sort, "order": order, "page": page, "cursor": cursor, "deep": deep, "lang": lang},
         )
+
+
+    async def list(
+        self, *, country: Optional[str] = None, state: Optional[str] = None,
+        type: Optional[str] = None, grain: Optional[str] = None,
+        hierarchy: bool = False, limit: Optional[int] = None,
+        min_population: Optional[int] = None, max_population: Optional[int] = None,
+        countries: Optional[Union[str, Sequence[str]]] = None, exclude_countries: Optional[Union[str, Sequence[str]]] = None, timezones: Optional[Union[str, Sequence[str]]] = None, min_elevation: Optional[float] = None, max_elevation: Optional[float] = None, timezone: Optional[str] = None, bbox: Optional[str] = None,
+        sort: Optional[str] = None, order: Optional[str] = None,
+        cursor: Optional[str] = None, deep: bool = False, romanized: bool = False, lang: Optional[str] = None,
+    ) -> Json:
+        return await self._client._get("/city", {"romanized": romanized, "format": "list", "countries": _city_csv(countries), "exclude_countries": _city_csv(exclude_countries), "timezones": _city_csv(timezones), "min_elevation": min_elevation, "max_elevation": max_elevation, "browse": True, "country": country, "state": state,
+            "type": type, "grain": grain, "hierarchy": hierarchy, "limit": limit,
+            "min_population": min_population, "max_population": max_population,
+            "timezone": timezone, "bbox": bbox, "sort": sort, "order": order,
+            "cursor": cursor, "deep": deep, "lang": lang})
+
+    async def nearby_coordinates(
+        self, lat: float, lon: float, *, radius: Optional[float] = None,
+        unit: Optional[str] = None, country: Optional[str] = None, state: Optional[str] = None,
+        type: Optional[str] = None, grain: Optional[str] = None,
+        hierarchy: bool = False, limit: Optional[int] = None,
+        min_population: Optional[int] = None, max_population: Optional[int] = None,
+        countries: Optional[Union[str, Sequence[str]]] = None, exclude_countries: Optional[Union[str, Sequence[str]]] = None, timezones: Optional[Union[str, Sequence[str]]] = None, min_elevation: Optional[float] = None, max_elevation: Optional[float] = None, timezone: Optional[str] = None, bbox: Optional[str] = None,
+        sort: Optional[str] = None, order: Optional[str] = None,
+        cursor: Optional[str] = None, deep: bool = False, romanized: bool = False, lang: Optional[str] = None,
+    ) -> Json:
+        return await self._client._get("/city", {"romanized": romanized, "format": "list", "countries": _city_csv(countries), "exclude_countries": _city_csv(exclude_countries), "timezones": _city_csv(timezones), "min_elevation": min_elevation, "max_elevation": max_elevation, "lat": lat, "lon": lon, "nearby": True,
+            "radius": radius, "unit": unit, "country": country, "state": state,
+            "type": type, "grain": grain, "hierarchy": hierarchy, "limit": limit,
+            "min_population": min_population, "max_population": max_population,
+            "timezone": timezone, "bbox": bbox, "sort": sort, "order": order,
+            "cursor": cursor, "deep": deep, "lang": lang})
+
+    async def children(self, id: str, *, limit: Optional[int] = None, cursor: Optional[str] = None, romanized: bool = False, hierarchy: bool = False, deep: bool = False, lang: Optional[str] = None) -> Json:
+        """Return reviewed children as a canonical list. Relationship coverage is partial."""
+        return await self._client._get(f"/city/id/{_seg(id)}/children", {"limit": limit, "cursor": cursor, "romanized": romanized, "hierarchy": hierarchy, "deep": deep, "lang": lang})
+
+    async def ancestors(self, id: str, *, romanized: bool = False, hierarchy: bool = False, deep: bool = False, lang: Optional[str] = None) -> Json:
+        """Return reviewed ancestors as a canonical list. Relationship coverage is partial."""
+        return await self._client._get(f"/city/id/{_seg(id)}/ancestors", {"romanized": romanized, "hierarchy": hierarchy, "deep": deep, "lang": lang})
+
+    async def siblings(self, id: str, *, limit: Optional[int] = None, cursor: Optional[str] = None, romanized: bool = False, hierarchy: bool = False, deep: bool = False, lang: Optional[str] = None) -> Json:
+        """Return reviewed siblings as a canonical list. Relationship coverage is partial."""
+        return await self._client._get(f"/city/id/{_seg(id)}/siblings", {"limit": limit, "cursor": cursor, "romanized": romanized, "hierarchy": hierarchy, "deep": deep, "lang": lang})
+
+    async def distance(self, from_id: str, to_id: str) -> Json:
+        """Great-circle distance between stored centers. Unknown coordinates yield null."""
+        return await self._client._get(f"/city/id/{_seg(from_id)}/distance/{_seg(to_id)}")
+
 
 
 class _PostalAsync:
@@ -1290,3 +1460,7 @@ def _time_targets(targets: Optional[list[str]], to: Optional[str]) -> Optional[s
     if to is not None or not isinstance(targets, (list, tuple)) or not 1 <= len(targets) <= 10 or any(not isinstance(zone, str) or not zone.strip() or ',' in zone for zone in targets):
         raise ValueError("Time targets requires 1 to 10 timezone IDs and cannot be combined with to.")
     return ','.join(targets)
+
+
+def _city_csv(value: Optional[Union[str, Sequence[str]]]) -> Optional[str]:
+    return value if isinstance(value, str) or value is None else ",".join(value)

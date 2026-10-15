@@ -1,6 +1,7 @@
 """Official ParseAPI client for Python."""
 
+from .city import CityAmbiguityCandidate
 from ._client import AsyncParseAPI, ParseAPI, ParseAPIError
 
-__version__ = "1.9.2"
-__all__ = ["ParseAPI", "AsyncParseAPI", "ParseAPIError", "__version__"]
+__version__ = "1.10.0"
+__all__ = ["CityAmbiguityCandidate", "ParseAPI", "AsyncParseAPI", "ParseAPIError", "__version__"]

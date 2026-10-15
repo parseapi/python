@@ -256,7 +256,7 @@ place = parse.postal("28202", country="US", deep=True)
 property_tax = (place.get("deep") or {}).get("property_tax")
 ```
 
-Read `population_period` alongside `population`: a reporting year (`YYYY`) or period (`YYYY-YYYY`), null when unknown or unverifiable. Keep missing or null values unknown and preserve a known zero. These fields belong to full place profiles. State district lists include each district's population and period. Postal nearby and distance detail remains metropolitan associations only. Continent population stays in core.
+Read `population` as the source’s count for that place boundary. Keep missing or null values unknown and preserve a known zero. State district lists include each district’s population. Postal nearby and distance detail remains metropolitan associations only. Continent population stays in core.
 
 Country deep includes `land_area` and `water_area` in km2, `coastline` in km, and mean `elevation` in metres. `lowest_point` and `highest_point` contain a nullable `name` and an `elevation` in metres. Values below sea level are negative. Missing or null values stay unknown, and zero stays zero.
 
@@ -463,3 +463,71 @@ A device's emoji font remains the ordinary display.
 
 These additions are a local release candidate until the matching SDK and
 backend are published. Existing lookup and search contracts are preserved.
+
+
+## City scope and reviewed details
+
+```python
+city = parse.city("Sakai", country="JP", state="27", grain="municipality",
+                  aliases=True, ambiguity="error", hierarchy=True, deep=True)
+```
+
+`type` selects the recorded country-specific place type. `grain` selects a reviewed `municipality`, `subdivision`, `locality` or `metropolitan_area`; unreviewed places do not match a grain filter. `aliases=True` enables reviewed name forms. `ambiguity="error"` rejects several eligible exact matches. Existing calls keep their defaults, and `AsyncParseAPI` accepts the same options.
+
+`hierarchy=True` adds optional `grain` and `parent` fields using stable City IDs. A null parent means no relationship has been reviewed. Nearest lookup applies country, state, type and grain to eligible centers within 2,000 km; a nearest center does not establish boundary containment. Nearby type and grain select both the named anchor and its results.
+
+Paid Deep can include `population_observed_on` and `population_basis` for a reviewed count at the same place layer. Download dates do not supply population observation dates. These options use current API 2.0.0; older responses can omit the new fields.
+
+```python
+opts = dict(country="JP", min_population=100_000, sort="-population,+name",
+            limit=50)
+first = parse.city.list(**opts)
+for city in first["data"]:
+    print(city["id"], city.get("name"))
+if first["next_cursor"]:
+    next_page = parse.city.list(**opts, cursor=first["next_cursor"])
+parse.city.nearby_coordinates(48.2082, 16.3738, radius=40, unit="km")
+parse.city.search("sa", page=True, timezone="Asia/Tokyo", bbox="130,30,145,45")
+```
+
+Collections support inclusive `min_population`/`max_population`, `min_elevation`/`max_elevation`, `countries`, `exclude_countries`, `timezones`, exact `timezone` and center-coordinate `bbox` (`west,south,east,north`; west greater than east crosses the dateline). Unknown populations do not match a population range. Browse sorts by name or population; search also supports relevance; nearby also supports distance. `order` accepts `asc` or `desc` (relevance allows only `asc`); population defaults to descending with unknown counts last. Filtering and ordering use the same count as paid Deep.
+
+`lang="de"` displays Vienna as Wien; `lang="ja"` supports 1,912 reviewed Japanese native names, and `lang="zh-Hant"` supports 377 reviewed Traditional Chinese names in Taiwan. Approved translations take precedence; missing or unsupported labels keep the source name. IDs and `name_local` stay unchanged. Name sorting uses the stored primary name, regardless of display language. Coordinate nearby defaults to 40 km, or 25 mi with `unit="mi"`, and caps the radius at 800 km or 500 mi.
+
+`city.list` and `city.nearby_coordinates` return `{ "object": "list", "data": [...], "next_cursor": ... }`. Each item retains `id` and `object: "city"`. Existing lookup, search, nearest and named-nearby calls keep their classic responses. Add `format="list"` to search or named nearby for a canonical collection, or `format="resource"` to lookup, ID lookup or nearest for a canonical resource. Classic search and named nearby include `next_cursor` with `page=True` or `cursor`; old responses may omit it. Keep the original options, including `limit`, when continuing. An invalid cursor or changed query/order returns 400; restart without the cursor. Pages are not a historical snapshot. Named nearby applies population, timezone and bbox to results, while country/state select its anchor. Async methods accept the same arguments.
+
+`city.children(id)`, `city.ancestors(id)` and `city.siblings(id)` return canonical lists with `coverage: "partial"`. An empty list does not prove the absence of relatives. Children and siblings support page continuation. `city.distance(from_id, to_id)` returns `object: "city_distance"`, `from`, `to`, `distance` in kilometers, `distance_mi` in miles and `method: "great_circle"`. It compares stored centers; unknown coordinates remain null and known zero remains zero. Async clients support the same calls.
+
+Strict ambiguity returns HTTP 409. Catch `ParseAPIError` with `code == "ambiguous_city"` and read optional `error.candidates` for at most two safe City identity objects; `CityAmbiguityCandidate` is exported as a TypedDict. Choose an ID or narrow the filters for a new request. Other errors and retry behavior remain unchanged.
+
+
+## Canonical City operations (local source candidate)
+
+These compatible additions are local and unpublished. Classic lookup, search, nearest and named-nearby methods retain their default envelopes and required-field models. Browse and coordinate-nearby use canonical lists: `object`, `data` and nullable `next_cursor` (camelCase properties in Swift/Kotlin). Keep all query options unchanged when continuing a page; no client fetches pages automatically.
+
+```python
+page = parse.city.search('Viena', format='list', match='fuzzy', max_distance=1)
+```
+
+Select `format=resource` for one City or `format=list` for a collection. Country inclusion/exclusion sets, timezone sets, inclusive population and meter-elevation bounds, stored-center `bbox` and signed multi-key sorting are available for collections. Unknown numeric facts do not match range filters.
+
+Search defaults to prefix matching. Exact and fuzzy matching are explicit; fuzzy accepts maximum edit distance 1 or 2 and returns `match` evidence (`type`, `source`, `value`, `language`, `edit_distance`). Review a fuzzy choice before storing its ID.
+
+Reviewed children, ancestors and siblings use canonical lists with partial relationship coverage. Empty data does not prove there are no geographic relatives. Children/siblings accept page controls; ancestors do not. Distance reports great-circle kilometers and miles between stored centers: zero is known zero, null is unknown, and it does not imply travel time or containment.
+
+Strict `ambiguity=error` can return HTTP 409 `ambiguous_city` with up to two safe candidate identities. The existing error constructor and unrelated error metadata are preserved; candidates are retained only for that status/code and never contain Deep. GeoJSON is available through HTTP; these typed City list methods do not return GeoJSON.
+
+
+
+Reviewed name forms:
+
+```python
+city = parse.city.id('city_7aj899nvwyku', format='resource', romanized=True)
+```
+
+Coverage by country and available fields is described at https://parseapi.com/city#coverage.
+
+`romanized=true` requests reviewed official name forms as `name_romanized` and `romanization_language` (camelCase in Swift/Kotlin). Current reviewed forms cover 20 Japanese whole-city aliases in ja-Latn. Missing or conflicting forms stay null; ASCII folding is not substituted for an official form.
+
+
+Conditional `If-None-Match` reads and GeoJSON currently use HTTP directly. A matching City ETag returns 304 without a body; ordinary billing and rate limits apply. These JSON client methods do not supply conditional-cache handling.
