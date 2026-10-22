@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "parseapi"
-version = "1.10.1"
+version = "1.10.2"
 description = "Official ParseAPI client for Python. One key, minimal JSON, fast."
 readme = "README.md"
 license = "MIT"

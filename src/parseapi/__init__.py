@@ -3,5 +3,5 @@
 from .city import CityAmbiguityCandidate
 from ._client import AsyncParseAPI, ParseAPI, ParseAPIError
 
-__version__ = "1.10.1"
+__version__ = "1.10.2"
 __all__ = ["CityAmbiguityCandidate", "ParseAPI", "AsyncParseAPI", "ParseAPIError", "__version__"]

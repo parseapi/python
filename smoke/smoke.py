@@ -51,16 +51,6 @@ expect_ok("ip", lambda: parse.ip("8.8.8.8"), lambda r: None if r["ip"] == "8.8.8
 expect_ok("ip.self", lambda: parse.ip.self(), lambda r: None if r.get("ip") else "no ip")
 expect_ok("continent", lambda: parse.continent("NA"), lambda r: None if r["name"] == "North America" else "wrong name")
 expect_ok("continent.countries", lambda: parse.continent.countries("NA"), lambda r: None if r["countries"] else "empty")
-expect_ok(
-    "bloc",
-    lambda: parse.bloc("EU"),
-    lambda r: None if r["name"] == "European Union" and r["members"] == 27 else "wrong bloc",
-)
-expect_ok(
-    "bloc.countries",
-    lambda: parse.bloc.countries("SCHENGEN"),
-    lambda r: None if r["countries"] and len(r["countries"]) == 29 else "wrong members",
-)
 expect_ok("country", lambda: parse.country("US"), lambda r: None if r["iso3"] == "USA" else "wrong iso3")
 expect_ok("country.states", lambda: parse.country.states("US"), lambda r: None if len(r["states"]) >= 50 else "too few")
 expect_ok("state", lambda: parse.state("NC", country="US"), lambda r: None if r["name"] == "North Carolina" else "wrong")
@@ -85,11 +75,6 @@ expect_ok("address junk", lambda: parse.address("junk"), lambda r: None if r["va
 expect_ok("address.search", lambda: parse.address.search("1600 Pennsylvania", country="US", postal="20500"), lambda r: None if isinstance(r.get("addresses"), list) else "missing addresses")
 expect_ok("company junk", lambda: parse.company("junk"), lambda r: None if r["valid"] is False else "expected invalid")
 expect_ok("email", lambda: parse.email("hello@gmail.com"), lambda r: None if r["valid"] is True else "not valid")
-expect_ok(
-    "vat",
-    lambda: parse.vat("DE136695976"),
-    lambda r: None if r.get("valid") is True and r.get("country") == "DE" else "not valid DE",
-)
 expect_ok("card", lambda: parse.card("00 0000"), lambda r: None if r.get("bin") == "000000" and r.get("brand") is None and r.get("logo") == "https://cdn.parseapi.com/card/generic.svg" else "BIN echo or prefix mismatch")
 expect_ok(
     "bank",
@@ -97,12 +82,6 @@ expect_ok(
     lambda r: None if r.get("valid") is True and r.get("country") == "DE" and r.get("bank") == "37040044" else "not valid DE",
 )
 expect_ok("bank junk", lambda: parse.bank("hello"), lambda r: None if r.get("valid") is False else "expected invalid")
-expect_ok(
-    "npi",
-    lambda: parse.provider("1881018208"),
-    lambda r: None if r.get("valid") is True and r.get("registered") is True else "not registered",
-)
-expect_ok("npi junk", lambda: parse.provider("hello"), lambda r: None if r.get("valid") is False else "expected invalid")
 expect_ok("phone", lambda: parse.phone("+14155552671"), lambda r: None if r["phone"] == "+14155552671" else "wrong phone")
 # Metered core siblings: junk numbers answer 200 valid false, free, no vendor dip.
 expect_ok("carrier junk free", lambda: parse.carrier("555-0100"), lambda r: None if r["valid"] is False else "expected invalid")
@@ -138,8 +117,6 @@ expect_ok(
 expect_ok("timezone.at", lambda: parse.timezone.at(39.77, -104.9), lambda r: None if r["timezone"] == "America/Denver" else "wrong timezone")
 expect_ok("date", lambda: parse.date("03/04/2026", format="mdy"), lambda r: None if r["date"] == "2026-03-04" else "wrong date")
 expect_ok("date.today", lambda: parse.date.today(), lambda r: None if r["valid"] is True else "invalid today")
-expect_ok("tariff", lambda: parse.tariff("8471.30.01.00"), lambda r: None if r.get("hts") else "missing hts")
-expect_ok("tariff.search", lambda: parse.tariff.search("sunglasses"), lambda r: None if isinstance(r.get("lines"), list) else "missing lines")
 expect_ok("holiday", lambda: parse.holiday("US"), lambda r: None if len(r["holidays"]) > 5 else "too few")
 expect_ok(
     "holiday.date",

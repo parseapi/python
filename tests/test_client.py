@@ -72,8 +72,8 @@ URL_TABLE = [
     (lambda p: p.ip("8.8.8.8", deep=True), "https://api.parseapi.com/ip/8.8.8.8?deep=true"),
     (lambda p: p.continent("NA"), "https://api.parseapi.com/continent/NA"),
     (lambda p: p.continent.countries("NA"), "https://api.parseapi.com/continent/NA/countries"),
-    (lambda p: p.bloc("EU"), "https://api.parseapi.com/bloc/EU"),
-    (lambda p: p.bloc.countries("SCHENGEN"), "https://api.parseapi.com/bloc/SCHENGEN/countries"),
+
+
     (lambda p: p.country("US"), "https://api.parseapi.com/country/US"),
     (lambda p: p.country.states("US"), "https://api.parseapi.com/country/US/states"),
     (lambda p: p.state("NC", country="US"), "https://api.parseapi.com/state/NC?country=US"),
@@ -99,10 +99,7 @@ URL_TABLE = [
         "https://api.parseapi.com/postal/28202/distance/10001?country=US",
     ),
     (lambda p: p.email("a@b.com"), "https://api.parseapi.com/email/a%40b.com"),
-    (
-        lambda p: p.vat("DE136695976", from_vat="IE6388047V", deep=True),
-        "https://api.parseapi.com/vat/DE136695976?deep=true&from=IE6388047V",
-    ),
+
     (
         lambda p: p.bank("DE89370400440532013000"),
         "https://api.parseapi.com/bank",
@@ -111,8 +108,8 @@ URL_TABLE = [
         lambda p: p.bank("89370400440532013000", country="DE"),
         "https://api.parseapi.com/bank",
     ),
-    (lambda p: p.provider("1881018208"), "https://api.parseapi.com/provider/1881018208"),
-    (lambda p: p.provider("1881018208", deep=True), "https://api.parseapi.com/provider/1881018208?deep=true"),
+
+
     (lambda p: p.phone("+14155552671", deep=True), "https://api.parseapi.com/phone/%2B14155552671?deep=true"),
     (lambda p: p.carrier("+14155552671"), "https://api.parseapi.com/carrier/%2B14155552671"),
     (lambda p: p.caller("4155552671", country="US"), "https://api.parseapi.com/caller/4155552671?country=US"),
@@ -349,7 +346,7 @@ def test_async_redirect_is_an_error_not_a_second_request():
 @pytest.mark.parametrize("async_mode", [False, True])
 @pytest.mark.parametrize("invoke", [
     lambda p: p.carrier("555-0100"), lambda p: p.caller("555-0100"), lambda p: p.hlr("555-0100"),
-    lambda p: p.email("a@example.com", deep=True), lambda p: p.vat("junk", deep=True),
+    lambda p: p.email("a@example.com", deep=True),
 ])
 def test_paid_checks_default_to_one_attempt(async_mode, invoke):
     calls = []

@@ -154,34 +154,6 @@
       ],
       "returns": "Json"
     },
-    "bloc": {
-      "async": true,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "code",
-          "type": "str"
-        }
-      ],
-      "returns": "Json"
-    },
-    "bloc.countries": {
-      "async": true,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "code",
-          "type": "str"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "lang",
-          "type": "Optional[str]"
-        }
-      ],
-      "returns": "Json"
-    },
     "caller": {
       "async": true,
       "parameters": [
@@ -2248,29 +2220,6 @@
       ],
       "returns": "Json"
     },
-    "npi": {
-      "async": true,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "npi",
-          "type": "str"
-        },
-        {
-          "default": false,
-          "kind": "KEYWORD_ONLY",
-          "name": "deep",
-          "type": "bool"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "lang",
-          "type": "Optional[str]"
-        }
-      ],
-      "returns": "Json"
-    },
     "phone": {
       "async": true,
       "parameters": [
@@ -2426,29 +2375,6 @@
       ],
       "returns": "Json"
     },
-    "provider": {
-      "async": true,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "npi",
-          "type": "str"
-        },
-        {
-          "default": false,
-          "kind": "KEYWORD_ONLY",
-          "name": "deep",
-          "type": "bool"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "lang",
-          "type": "Optional[str]"
-        }
-      ],
-      "returns": "Json"
-    },
     "stack": {
       "async": true,
       "parameters": [
@@ -2525,64 +2451,6 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "lang",
-          "type": "Optional[str]"
-        }
-      ],
-      "returns": "Json"
-    },
-    "tariff": {
-      "async": true,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "code",
-          "type": "str"
-        },
-        {
-          "default": false,
-          "kind": "KEYWORD_ONLY",
-          "name": "deep",
-          "type": "bool"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "origin",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "edition",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "date",
-          "type": "Optional[str]"
-        }
-      ],
-      "returns": "Json"
-    },
-    "tariff.search": {
-      "async": true,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "query",
-          "type": "str"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "edition",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "date",
           "type": "Optional[str]"
         }
       ],
@@ -2888,35 +2756,6 @@
       ],
       "returns": "Json"
     },
-    "vat": {
-      "async": true,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "number",
-          "type": "str"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "country",
-          "type": "Optional[str]"
-        },
-        {
-          "default": false,
-          "kind": "KEYWORD_ONLY",
-          "name": "deep",
-          "type": "bool"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "from_vat",
-          "type": "Optional[str]"
-        }
-      ],
-      "returns": "Json"
-    },
     "weather": {
       "async": true,
       "parameters": [
@@ -3097,34 +2936,6 @@
           "kind": "KEYWORD_ONLY",
           "name": "deep",
           "type": "bool"
-        }
-      ],
-      "returns": "Json"
-    },
-    "bloc": {
-      "async": false,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "code",
-          "type": "str"
-        }
-      ],
-      "returns": "Json"
-    },
-    "bloc.countries": {
-      "async": false,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "code",
-          "type": "str"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "lang",
-          "type": "Optional[str]"
         }
       ],
       "returns": "Json"
@@ -5195,29 +5006,6 @@
       ],
       "returns": "Json"
     },
-    "npi": {
-      "async": false,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "npi",
-          "type": "str"
-        },
-        {
-          "default": false,
-          "kind": "KEYWORD_ONLY",
-          "name": "deep",
-          "type": "bool"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "lang",
-          "type": "Optional[str]"
-        }
-      ],
-      "returns": "Json"
-    },
     "phone": {
       "async": false,
       "parameters": [
@@ -5373,29 +5161,6 @@
       ],
       "returns": "Json"
     },
-    "provider": {
-      "async": false,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "npi",
-          "type": "str"
-        },
-        {
-          "default": false,
-          "kind": "KEYWORD_ONLY",
-          "name": "deep",
-          "type": "bool"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "lang",
-          "type": "Optional[str]"
-        }
-      ],
-      "returns": "Json"
-    },
     "stack": {
       "async": false,
       "parameters": [
@@ -5472,64 +5237,6 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "lang",
-          "type": "Optional[str]"
-        }
-      ],
-      "returns": "Json"
-    },
-    "tariff": {
-      "async": false,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "code",
-          "type": "str"
-        },
-        {
-          "default": false,
-          "kind": "KEYWORD_ONLY",
-          "name": "deep",
-          "type": "bool"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "origin",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "edition",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "date",
-          "type": "Optional[str]"
-        }
-      ],
-      "returns": "Json"
-    },
-    "tariff.search": {
-      "async": false,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "query",
-          "type": "str"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "edition",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "date",
           "type": "Optional[str]"
         }
       ],
@@ -5831,35 +5538,6 @@
           "kind": "KEYWORD_ONLY",
           "name": "deep",
           "type": "bool"
-        }
-      ],
-      "returns": "Json"
-    },
-    "vat": {
-      "async": false,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "number",
-          "type": "str"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "country",
-          "type": "Optional[str]"
-        },
-        {
-          "default": false,
-          "kind": "KEYWORD_ONLY",
-          "name": "deep",
-          "type": "bool"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "from_vat",
-          "type": "Optional[str]"
         }
       ],
       "returns": "Json"

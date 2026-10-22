@@ -208,7 +208,6 @@ class ParseAPI:
         )
         self.ip = _IpSync(self)
         self.continent = _ContinentSync(self)
-        self.bloc = _BlocSync(self)
         self.country = _CountrySync(self)
         self.state = _StateSync(self)
         self.city = _CitySync(self)
@@ -218,7 +217,6 @@ class ParseAPI:
         self.emoji = _EmojiSync(self)
         self.industry = _IndustrySync(self)
         self.naics = self.industry
-        self.tariff = _TariffSync(self)
         self.date = _DateSync(self)
         self.measure = _MeasureSync(self)
         self.time = _TimeSync(self)
@@ -268,19 +266,6 @@ class ParseAPI:
         """
         return self._get(f"/email/{_seg(email)}", {"deep": deep})
 
-    def vat(
-        self,
-        number: str,
-        *,
-        country: Optional[str] = None,
-        deep: bool = False,
-        from_vat: Optional[str] = None,
-    ) -> Json:
-        """Check VAT format and checksum. Deep requests a metered registry check where supported. Deep
-        checks use one attempt by default. Supply your own VAT number for a consultation
-        reference when supported.
-        """
-        return self._get(f"/vat/{_seg(number)}", {"country": country, "deep": deep, "from": from_vat})
 
     def iban(self, iban: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         return self._get(f"/iban/{_seg(iban)}", {"country": country, "deep": deep})
@@ -291,8 +276,6 @@ class ParseAPI:
         return self._get(f"/bin/{_seg(bin)}", {"deep": deep})
 
 
-    def npi(self, npi: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return self._get(f"/npi/{_seg(npi)}", {"deep": deep, "lang": lang})
 
 
     def bank(self, iban: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
@@ -310,8 +293,6 @@ class ParseAPI:
         """Look up a 2-11 digit card prefix, preserving leading zeros."""
         return self._get(f"/card/{_seg(_card_prefix(bin))}", {"deep": deep})
 
-    def provider(self, npi: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return self._get(f"/provider/{_seg(npi)}", {"deep": deep, "lang": lang})
 
     def phone(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         """Parse a phone number and its formats. Pass country for national numbers when needed. Deep
@@ -421,15 +402,6 @@ class _ContinentSync:
         return self._client._get(f"/continent/{_seg(code)}/countries", {"lang": lang})
 
 
-class _BlocSync:
-    def __init__(self, client: ParseAPI):
-        self._client = client
-
-    def __call__(self, code: str) -> Json:
-        return self._client._get(f"/bloc/{_seg(code)}")
-
-    def countries(self, code: str, *, lang: Optional[str] = None) -> Json:
-        return self._client._get(f"/bloc/{_seg(code)}/countries", {"lang": lang})
 
 
 class _CountrySync:
@@ -675,33 +647,10 @@ class _IndustrySync:
         return self._client._get("/industry", {"q": query, "limit": limit, "deep": deep})
 
 
-def _tariff_edition_id(value: Any) -> bool:
-    return isinstance(value, str) and (re.fullmatch(r"[a-f0-9]{64}", value) is not None or (re.fullmatch(r"ted_[1-9][0-9]{0,19}", value) is not None and (len(value) < 24 or value[4:] <= "18446744073709551615")))
 
 
-def _tariff_selection(result: Json, edition: Optional[str], date: Optional[str]) -> Json:
-    if (edition is not None or date is not None) and (
-        not _tariff_edition_id(result.get("edition"))
-        or (edition is not None and result.get("edition") != edition)
-        or (result.get("date") != date)
-    ):
-        raise ParseAPIError(0, "tariff_selection_mismatch", "Tariff response did not confirm the requested edition/date. The server may not support this selection.", None, None)
-    return result
 
 
-class _TariffSync:
-    def __init__(self, client: ParseAPI):
-        self._client = client
-
-    def __call__(self, code: str, *, deep: bool = False, origin: Optional[str] = None, edition: Optional[str] = None, date: Optional[str] = None) -> Json:
-        """Look up the general US duty schedule line. Paid deep adds units and the special and other
-        schedule columns. Add origin with deep to resolve country-specific measures. Without
-        origin, schedule detail remains available and origin-dependent fields are null. A null
-        effective rate is not a zero rate."""
-        return _tariff_selection(self._client._get(f"/tariff/{_seg(code)}", {"deep": deep, "origin": origin, "edition": edition, "date": date}), edition, date)
-
-    def search(self, query: str, *, edition: Optional[str] = None, date: Optional[str] = None) -> Json:
-        return _tariff_selection(self._client._get("/tariff", {"q": query, "edition": edition, "date": date}), edition, date)
 
 
 
@@ -726,7 +675,6 @@ class AsyncParseAPI:
         )
         self.ip = _IpAsync(self)
         self.continent = _ContinentAsync(self)
-        self.bloc = _BlocAsync(self)
         self.country = _CountryAsync(self)
         self.state = _StateAsync(self)
         self.city = _CityAsync(self)
@@ -736,7 +684,6 @@ class AsyncParseAPI:
         self.emoji = _EmojiAsync(self)
         self.industry = _IndustryAsync(self)
         self.naics = self.industry
-        self.tariff = _TariffAsync(self)
         self.date = _DateAsync(self)
         self.measure = _MeasureAsync(self)
         self.time = _TimeAsync(self)
@@ -788,19 +735,6 @@ class AsyncParseAPI:
         """
         return await self._get(f"/email/{_seg(email)}", {"deep": deep})
 
-    async def vat(
-        self,
-        number: str,
-        *,
-        country: Optional[str] = None,
-        deep: bool = False,
-        from_vat: Optional[str] = None,
-    ) -> Json:
-        """Check VAT format and checksum. Deep requests a metered registry check where supported. Deep
-        checks use one attempt by default. Supply your own VAT number for a consultation
-        reference when supported.
-        """
-        return await self._get(f"/vat/{_seg(number)}", {"country": country, "deep": deep, "from": from_vat})
 
     async def iban(self, iban: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         return await self._get(f"/iban/{_seg(iban)}", {"country": country, "deep": deep})
@@ -811,8 +745,6 @@ class AsyncParseAPI:
         return await self._get(f"/bin/{_seg(bin)}", {"deep": deep})
 
 
-    async def npi(self, npi: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return await self._get(f"/npi/{_seg(npi)}", {"deep": deep, "lang": lang})
 
 
     async def bank(self, iban: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
@@ -830,8 +762,6 @@ class AsyncParseAPI:
         """Look up a 2-11 digit card prefix, preserving leading zeros."""
         return await self._get(f"/card/{_seg(_card_prefix(bin))}", {"deep": deep})
 
-    async def provider(self, npi: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return await self._get(f"/provider/{_seg(npi)}", {"deep": deep, "lang": lang})
 
     async def phone(self, number: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
         """Parse a phone number and its formats. Pass country for national numbers when needed. Deep
@@ -941,15 +871,6 @@ class _ContinentAsync:
         return await self._client._get(f"/continent/{_seg(code)}/countries", {"lang": lang})
 
 
-class _BlocAsync:
-    def __init__(self, client: AsyncParseAPI):
-        self._client = client
-
-    async def __call__(self, code: str) -> Json:
-        return await self._client._get(f"/bloc/{_seg(code)}")
-
-    async def countries(self, code: str, *, lang: Optional[str] = None) -> Json:
-        return await self._client._get(f"/bloc/{_seg(code)}/countries", {"lang": lang})
 
 
 class _CountryAsync:
@@ -1197,19 +1118,6 @@ class _IndustryAsync:
         return await self._client._get("/industry", {"q": query, "limit": limit, "deep": deep})
 
 
-class _TariffAsync:
-    def __init__(self, client: AsyncParseAPI):
-        self._client = client
-
-    async def __call__(self, code: str, *, deep: bool = False, origin: Optional[str] = None, edition: Optional[str] = None, date: Optional[str] = None) -> Json:
-        """Look up the general US duty schedule line. Paid deep adds units and the special and other
-        schedule columns. Add origin with deep to resolve country-specific measures. Without
-        origin, schedule detail remains available and origin-dependent fields are null. A null
-        effective rate is not a zero rate."""
-        return _tariff_selection(await self._client._get(f"/tariff/{_seg(code)}", {"deep": deep, "origin": origin, "edition": edition, "date": date}), edition, date)
-
-    async def search(self, query: str, *, edition: Optional[str] = None, date: Optional[str] = None) -> Json:
-        return _tariff_selection(await self._client._get("/tariff", {"q": query, "edition": edition, "date": date}), edition, date)
 
 
 

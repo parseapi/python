@@ -12,7 +12,6 @@ OPERATIONS = [
     ("ip.self", [], {"deep": True}),
     ("continent", ["EU"], {}),
     ("continent.countries", ["EU"], {}),
-    ("bloc.countries", ["EU"], {}),
     ("country", ["DE"], {"deep": True}),
     ("country.states", ["DE"], {}),
     ("state", ["CA"], {"country": "US"}),
@@ -27,7 +26,6 @@ OPERATIONS = [
     ("postal.nearby", ["28202"], {"country": "US", "radius": 0}),
     ("postal.distance", ["28202", "10001"], {"country": "US"}),
     ("company", ["732829320"], {"country": "FR", "deep": True}),
-    ("provider", ["1881018208"], {"deep": True}),
     ("asn", ["AS13335"], {}),
     ("currency", ["USD"], {"deep": True}),
     ("language", ["ja"], {}),
@@ -89,5 +87,5 @@ def test_language_does_not_change_input_parsing_or_unrelated_operations():
         assert calls[0].url.params["format"] == "dmy"
         assert calls[1].url.params["locale"] == "de-DE"
         assert "lang" not in calls[1].url.params
-        for name in ["bloc", "currency.rate", "measure", "holiday", "name", "email", "phone", "address"]:
+        for name in ["currency.rate", "measure", "holiday", "name", "email", "phone", "address"]:
             assert "lang" not in inspect.signature(operation(client, name)).parameters
