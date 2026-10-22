@@ -116,12 +116,8 @@ expect_ok("measure.units", lambda: parse.measure.units(unit="m"), lambda r: None
 expect_ok("dns", lambda: parse.dns("example.com", type="A"), lambda r: None if any(record["type"] == "A" and isinstance(record["ttl"], int) for record in r["records"]) else "no A records")
 expect_ok("mx", lambda: parse.mx("gmail.com"), lambda r: None if r["mx"] else "no mx")
 expect_ok("useragent", lambda: parse.useragent(UA), lambda r: None if r["browser"] == "Chrome" else f"browser {r['browser']}")
-expect_ok(
-    "vin",
-    lambda: parse.vin("1HGCM82633A004352"),
-    lambda r: None if r.get("valid") is True and r.get("make") == "Honda" and r.get("year") == 2003 else "wrong decode",
-)
-expect_ok("vin junk", lambda: parse.vin("1HGCM82613A004352"), lambda r: None if r.get("valid") is False else "expected invalid")
+
+
 expect_ok("currency", lambda: parse.currency("USD"), lambda r: None if r["symbol"] == "$" else "wrong symbol")
 expect_ok("currency.rate", lambda: parse.currency.rate("USD", "EUR"), lambda r: None if 0 < r["rate"] < 10 else "bad rate")
 expect_ok(

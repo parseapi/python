@@ -368,12 +368,6 @@ class ParseAPI:
     def useragent(self, ua: str, *, deep: bool = False) -> Json:
         return self._get("/useragent", {"deep": deep}, headers={"User-Agent": ua})
 
-    def vehicle(self, vin: str, *, deep: bool = False) -> Json:
-        return self._get(f"/vehicle/{_seg(vin)}", {"deep": deep})
-
-    def vin(self, vin: str, *, deep: bool = False) -> Json:
-        return self._get(f"/vin/{_seg(vin)}", {"deep": deep})
-
     @_CompanySyncDescriptor
     def company(self, number: str, *, country: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
         return self._get(f"/company/{_seg(number)}", {"country": country, "deep": deep, "lang": lang})
@@ -893,12 +887,6 @@ class AsyncParseAPI:
 
     async def useragent(self, ua: str, *, deep: bool = False) -> Json:
         return await self._get("/useragent", {"deep": deep}, headers={"User-Agent": ua})
-
-    async def vehicle(self, vin: str, *, deep: bool = False) -> Json:
-        return await self._get(f"/vehicle/{_seg(vin)}", {"deep": deep})
-
-    async def vin(self, vin: str, *, deep: bool = False) -> Json:
-        return await self._get(f"/vin/{_seg(vin)}", {"deep": deep})
 
     @_CompanyAsyncDescriptor
     async def company(self, number: str, *, country: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
