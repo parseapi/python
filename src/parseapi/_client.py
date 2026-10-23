@@ -13,7 +13,7 @@ from urllib.parse import quote
 import httpx
 from .city import CityAmbiguityCandidate, city_error_candidates
 
-VERSION = "1.10.0"
+VERSION = "1.10.4"
 _API_VERSION = "2.0.0"
 DEFAULT_BASE_URL = "https://api.parseapi.com"
 DEFAULT_TIMEOUT = 10.0
@@ -212,13 +212,11 @@ class ParseAPI:
         self.state = _StateSync(self)
         self.city = _CitySync(self)
         self.postal = _PostalSync(self)
-        self.currency = _CurrencySync(self)
         self.holiday = _HolidaySync(self)
         self.emoji = _EmojiSync(self)
         self.industry = _IndustrySync(self)
         self.naics = self.industry
         self.date = _DateSync(self)
-        self.measure = _MeasureSync(self)
         self.time = _TimeSync(self)
         self.timezone = _TimezoneSync(self)
         self.address = _AddressSync(self)
@@ -322,8 +320,6 @@ class ParseAPI:
     def asn(self, asn: str, *, lang: Optional[str] = None) -> Json:
         return self._get(f"/asn/{_seg(asn)}", {"lang": lang})
 
-    def mac(self, mac: str) -> Json:
-        return self._get(f"/mac/{_seg(mac)}")
 
     def dns(self, domain: str, *, type: str | None = None) -> Json:
         """Published DNS records with TTLs. Omit type to check all supported types.
@@ -565,19 +561,6 @@ class _PostalSync:
         return self._client._get(f"/postal/{_seg(from_postal)}/distance/{_seg(to_postal)}", {"country": country, "deep": deep, "lang": lang})
 
 
-class _CurrencySync:
-    def __init__(self, client: ParseAPI):
-        self._client = client
-
-    def __call__(self, code: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return self._client._get(f"/currency/{_seg(code)}", {"deep": deep, "lang": lang})
-
-    def rate(
-        self, base: str, quote_currency: str, *, date: Optional[str] = None, amount: Optional[float] = None
-    ) -> Json:
-        return self._client._get(
-            f"/currency/{_seg(base)}/{_seg(quote_currency)}", {"date": date, "amount": amount}
-        )
 
 
 class _HolidaySync:
@@ -669,13 +652,11 @@ class AsyncParseAPI:
         self.state = _StateAsync(self)
         self.city = _CityAsync(self)
         self.postal = _PostalAsync(self)
-        self.currency = _CurrencyAsync(self)
         self.holiday = _HolidayAsync(self)
         self.emoji = _EmojiAsync(self)
         self.industry = _IndustryAsync(self)
         self.naics = self.industry
         self.date = _DateAsync(self)
-        self.measure = _MeasureAsync(self)
         self.time = _TimeAsync(self)
         self.timezone = _TimezoneAsync(self)
         self.address = _AddressAsync(self)
@@ -781,8 +762,6 @@ class AsyncParseAPI:
     async def asn(self, asn: str, *, lang: Optional[str] = None) -> Json:
         return await self._get(f"/asn/{_seg(asn)}", {"lang": lang})
 
-    async def mac(self, mac: str) -> Json:
-        return await self._get(f"/mac/{_seg(mac)}")
 
     async def dns(self, domain: str, *, type: str | None = None) -> Json:
         """Published DNS records with TTLs. Omit type to check all supported types.
@@ -1026,19 +1005,6 @@ class _PostalAsync:
         return await self._client._get(f"/postal/{_seg(from_postal)}/distance/{_seg(to_postal)}", {"country": country, "deep": deep, "lang": lang})
 
 
-class _CurrencyAsync:
-    def __init__(self, client: AsyncParseAPI):
-        self._client = client
-
-    async def __call__(self, code: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return await self._client._get(f"/currency/{_seg(code)}", {"deep": deep, "lang": lang})
-
-    async def rate(
-        self, base: str, quote_currency: str, *, date: Optional[str] = None, amount: Optional[float] = None
-    ) -> Json:
-        return await self._client._get(
-            f"/currency/{_seg(base)}/{_seg(quote_currency)}", {"date": date, "amount": amount}
-        )
 
 
 class _HolidayAsync:
@@ -1217,40 +1183,6 @@ class _AddressAsync:
         result has reason more_input, missing_context or no_matches. Suggestions have reason null.
         Operational failures are errors."""
         return await self._client._get("/address", {"q": query, "country": country, "postal": postal, "city": city, "state": state, "ip": ip})
-
-
-class _MeasureSync:
-    def __init__(self, client: ParseAPI):
-        self._client = client
-
-    def __call__(self, measure: str, *, to: Optional[str] = None, locale: Optional[str] = None, system: Optional[str] = None) -> Json:
-        """Parse or convert a measurement. Amount is a decimal string. Without to, use the
-        type's canonical unit. Locale and system (us or imperial) resolve explicit ambiguity.
-        Successful JSON omits reason and choices. Invalid input adds reason and alternatives add choices.
-        Invalid measurements return valid=False and a reason. Invalid targets raise an API error.
-        """
-        return self._client._get(f"/measure/{_seg(measure)}", {"to": to, "locale": locale, "system": system})
-
-    def units(self, *, query: Optional[str] = None, type: Optional[str] = None, unit: Optional[str] = None, lang: Optional[str] = None) -> Json:
-        """Discover reviewed units. unit filters compatible conversion targets."""
-        return self._client._get("/measure/units", {"q": query, "type": type, "unit": unit, "lang": lang})
-
-
-class _MeasureAsync:
-    def __init__(self, client: AsyncParseAPI):
-        self._client = client
-
-    async def __call__(self, measure: str, *, to: Optional[str] = None, locale: Optional[str] = None, system: Optional[str] = None) -> Json:
-        """Parse or convert a measurement. Amount is a decimal string. Without to, use the
-        type's canonical unit. Locale and system (us or imperial) resolve explicit ambiguity.
-        Successful JSON omits reason and choices. Invalid input adds reason and alternatives add choices.
-        Invalid measurements return valid=False and a reason. Invalid targets raise an API error.
-        """
-        return await self._client._get(f"/measure/{_seg(measure)}", {"to": to, "locale": locale, "system": system})
-
-    async def units(self, *, query: Optional[str] = None, type: Optional[str] = None, unit: Optional[str] = None, lang: Optional[str] = None) -> Json:
-        """Discover reviewed units. unit filters compatible conversion targets."""
-        return await self._client._get("/measure/units", {"q": query, "type": type, "unit": unit, "lang": lang})
 
 
 class _CompanySync:

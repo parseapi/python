@@ -49,10 +49,6 @@ URL_TABLE = [
     (lambda p: p.industry.search("coffee & tea", limit=5), "https://api.parseapi.com/industry?q=coffee+%26+tea&limit=5"),
     (lambda p: p.industry.search("plumbing"), "https://api.parseapi.com/industry?q=plumbing"),
     (lambda p: p.name("Andrea / Smith", country="IT"), "https://api.parseapi.com/name/Andrea%20%2F%20Smith?country=IT"),
-    (lambda p: p.measure("5 ft 11 in", to="cm", locale="en-US", system="us"), "https://api.parseapi.com/measure/5%20ft%2011%20in?to=cm&locale=en-US&system=us"),
-    (lambda p: p.measure("1 kg/m^3", to="g/L"), "https://api.parseapi.com/measure/1%20kg%2Fm%5E3?to=g%2FL"),
-    (lambda p: p.measure.units(query="US gallon", type="volume", unit="L"), "https://api.parseapi.com/measure/units?q=US+gallon&type=volume&unit=L"),
-    (lambda p: p.measure.units(), "https://api.parseapi.com/measure/units"),
     (lambda p: p.address("10 rue / Paris", country="FR"),
      "https://api.parseapi.com/address/10%20rue%20%2F%20Paris?country=FR"),
     (lambda p: p.address.search("10 rue", country="FR", postal="75001"),
@@ -111,19 +107,10 @@ URL_TABLE = [
     (lambda p: p.domain("example.com"), "https://api.parseapi.com/domain/example.com"),
     (lambda p: p.asn("AS13335"), "https://api.parseapi.com/asn/AS13335"),
     (lambda p: p.asn("13335"), "https://api.parseapi.com/asn/13335"),
-    (lambda p: p.mac("00:1B:63:84:45:E6"), "https://api.parseapi.com/mac/00%3A1B%3A63%3A84%3A45%3AE6"),
     (lambda p: p.mx("example.com"), "https://api.parseapi.com/mx/example.com"),
     (lambda p: p.useragent("TestUA/1.0"), "https://api.parseapi.com/useragent"),
 
 
-
-
-    (lambda p: p.currency("USD"), "https://api.parseapi.com/currency/USD"),
-    (lambda p: p.currency.rate("USD", "EUR"), "https://api.parseapi.com/currency/USD/EUR"),
-    (
-        lambda p: p.currency.rate("USD", "JPY", date="2026-08-28", amount=100),
-        "https://api.parseapi.com/currency/USD/JPY?date=2026-08-28&amount=100",
-    ),
     (lambda p: p.language("en"), "https://api.parseapi.com/language/en"),
     (lambda p: p.name("Smith, John"), "https://api.parseapi.com/name/Smith%2C%20John"),
     (lambda p: p.timezone("America/New_York"), "https://api.parseapi.com/timezone/America%2FNew_York"),
@@ -398,29 +385,6 @@ def test_async_cancellation_does_not_retry():
     asyncio.run(run())
 
 
-def test_measure_decimal_and_unknown_results():
-    for body in [
-        {"measure": "0 m", "valid": True, "type": "future-type", "amount": "0", "unit": "m", "reason": None, "choices": [], "future": None},
-        {"measure": "1 gallon", "valid": False, "type": None, "amount": None, "unit": None, "reason": "ambiguous_unit", "choices": [{"unit": "us_gal", "name": "US liquid gallon"}]},
-    ]:
-        client, _ = make_client(ok(body))
-        with client:
-            assert client.measure(body["measure"]) == body
-        async def check():
-            async with AsyncParseAPI("test_key", transport=httpx.MockTransport(ok(body))) as client:
-                assert await client.measure(body["measure"]) == body
-        asyncio.run(check())
-
-
-def test_measure_invalid_target_preserves_error_without_retry():
-    client, calls = make_client(lambda request: httpx.Response(400, json={"code": "bad_request", "message": "Incompatible units", "request_id": "req_measure"}), retries=None)
-    with client, pytest.raises(ParseAPIError) as raised:
-        client.measure("1 m", to="kg")
-    assert raised.value.code == "bad_request"
-    assert raised.value.request_id == "req_measure"
-    assert len(calls) == 1
-
-
 def test_dns_preserves_presentation_and_empty_records_sync_and_async():
     async def run(body):
         async with AsyncParseAPI("test_key", transport=httpx.MockTransport(ok(body))) as client:
@@ -464,7 +428,7 @@ def test_card_reference_null_false_and_error():
     assert len(calls) == 0
 
 
-ADP_CASES = [('country', ['US'], {}), ('state', ['NC'], {'country': 'US'}), ('state.districts', ['NC'], {'country': 'US'}), ('district', ['37081'], {'country': 'US', 'state': 'NC'}), ('city', ['Charlotte'], {'country': 'US', 'state': 'NC'}), ('city.id', ['city_test'], {}), ('city.search', ['Charlotte'], {'country': 'US', 'state': 'NC', 'limit': 2}), ('city.nearest', [0, 0], {}), ('city.nearby', ['Charlotte'], {'radius': 0, 'unit': 'km', 'country': 'US', 'state': 'NC', 'limit': 2}), ('postal', ['28202'], {'country': 'US'}), ('postal.nearby', ['28202'], {'country': 'US', 'radius': 0, 'unit': 'km'}), ('postal.distance', ['28202', '10001'], {'country': 'US'}), ('carrier', ['+14155552671'], {'country': 'US'}), ('hlr', ['+447712345678'], {'country': 'GB'}), ('naics', ['31-33'], {}), ('naics.search', ['coffee'], {'limit': 2}), ('currency', ['USD'], {}), ('language', ['ar'], {}), ('name', ['Andrea'], {'country': 'IT'}), ('time', [], {'at': '2026-09-08', 'to': 'UTC'}), ('time.at', [0, 0], {'at': '2026-09-08', 'to': 'UTC'}), ('timezone', ['UTC'], {'at': '2026-09-08', 'to': 'UTC'}), ('timezone.at', [0, 0], {'at': '2026-09-08'}), ('date', ['03/04/2026'], {'format': 'dmy', 'to': '2026-09-08'}), ('date.today', [], {'to': '2026-09-08'}), ('emoji', ['fire'], {}), ('emoji.search', ['fire'], {'limit': 2})]
+ADP_CASES = [('country', ['US'], {}), ('state', ['NC'], {'country': 'US'}), ('state.districts', ['NC'], {'country': 'US'}), ('district', ['37081'], {'country': 'US', 'state': 'NC'}), ('city', ['Charlotte'], {'country': 'US', 'state': 'NC'}), ('city.id', ['city_test'], {}), ('city.search', ['Charlotte'], {'country': 'US', 'state': 'NC', 'limit': 2}), ('city.nearest', [0, 0], {}), ('city.nearby', ['Charlotte'], {'radius': 0, 'unit': 'km', 'country': 'US', 'state': 'NC', 'limit': 2}), ('postal', ['28202'], {'country': 'US'}), ('postal.nearby', ['28202'], {'country': 'US', 'radius': 0, 'unit': 'km'}), ('postal.distance', ['28202', '10001'], {'country': 'US'}), ('carrier', ['+14155552671'], {'country': 'US'}), ('hlr', ['+447712345678'], {'country': 'GB'}), ('naics', ['31-33'], {}), ('naics.search', ['coffee'], {'limit': 2}), ('language', ['ar'], {}), ('name', ['Andrea'], {'country': 'IT'}), ('time', [], {'at': '2026-09-08', 'to': 'UTC'}), ('time.at', [0, 0], {'at': '2026-09-08', 'to': 'UTC'}), ('timezone', ['UTC'], {'at': '2026-09-08', 'to': 'UTC'}), ('timezone.at', [0, 0], {'at': '2026-09-08'}), ('date', ['03/04/2026'], {'format': 'dmy', 'to': '2026-09-08'}), ('date.today', [], {'to': '2026-09-08'}), ('emoji', ['fire'], {}), ('emoji.search', ['fire'], {'limit': 2})]
 
 @pytest.mark.parametrize("method,args,options", ADP_CASES)
 @pytest.mark.parametrize("async_mode", [False, True])

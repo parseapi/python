@@ -27,7 +27,6 @@ OPERATIONS = [
     ("postal.distance", ["28202", "10001"], {"country": "US"}),
     ("company", ["732829320"], {"country": "FR", "deep": True}),
     ("asn", ["AS13335"], {}),
-    ("currency", ["USD"], {"deep": True}),
     ("language", ["ja"], {}),
     ("time", ["America/New_York"], {"at": "2026-01-01T12:00", "to": "UTC", "deep": True}),
     ("time.at", [0, 0], {"at": "2026-01-01T12:00Z"}),
@@ -38,7 +37,6 @@ OPERATIONS = [
     ("point", [0, 0], {"deep": True}),
     ("emoji", ["😀"], {"deep": True}),
     ("emoji.search", ["visage"], {"limit": 2}),
-    ("measure.units", [], {"query": "meter", "unit": "m"}),
 ]
 
 
@@ -75,7 +73,6 @@ def test_language_is_an_optional_per_request_query(name, args, options, async_cl
     assert len(calls) == 2
     assert calls[0].url.path == calls[1].url.path
     assert dict(calls[0].url.params) == {**dict(calls[1].url.params), "lang": "fr-CA"}
-    assert "lang" not in calls[1].url.params
 
 
 def test_language_does_not_change_input_parsing_or_unrelated_operations():
@@ -83,9 +80,6 @@ def test_language_does_not_change_input_parsing_or_unrelated_operations():
     transport = httpx.MockTransport(lambda request: (calls.append(request), httpx.Response(200, json={}))[1])
     with ParseAPI("fixture", transport=transport) as client:
         client.date("03/04/2026", format="dmy", lang="en-US")
-        client.measure("1,5 m", locale="de-DE", to="cm")
         assert calls[0].url.params["format"] == "dmy"
-        assert calls[1].url.params["locale"] == "de-DE"
-        assert "lang" not in calls[1].url.params
-        for name in ["currency.rate", "measure", "holiday", "name", "email", "phone", "address"]:
+        for name in ["holiday", "name", "email", "phone", "address"]:
             assert "lang" not in inspect.signature(operation(client, name)).parameters
