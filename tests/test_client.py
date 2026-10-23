@@ -100,14 +100,8 @@ URL_TABLE = [
     ),
     (lambda p: p.email("a@b.com"), "https://api.parseapi.com/email/a%40b.com"),
 
-    (
-        lambda p: p.bank("DE89370400440532013000"),
-        "https://api.parseapi.com/bank",
-    ),
-    (
-        lambda p: p.bank("89370400440532013000", country="DE"),
-        "https://api.parseapi.com/bank",
-    ),
+
+
 
 
     (lambda p: p.phone("+14155552671", deep=True), "https://api.parseapi.com/phone/%2B14155552671?deep=true"),
@@ -470,7 +464,7 @@ def test_card_reference_null_false_and_error():
     assert len(calls) == 0
 
 
-ADP_CASES = [('country', ['US'], {}), ('state', ['NC'], {'country': 'US'}), ('state.districts', ['NC'], {'country': 'US'}), ('district', ['37081'], {'country': 'US', 'state': 'NC'}), ('city', ['Charlotte'], {'country': 'US', 'state': 'NC'}), ('city.id', ['city_test'], {}), ('city.search', ['Charlotte'], {'country': 'US', 'state': 'NC', 'limit': 2}), ('city.nearest', [0, 0], {}), ('city.nearby', ['Charlotte'], {'radius': 0, 'unit': 'km', 'country': 'US', 'state': 'NC', 'limit': 2}), ('postal', ['28202'], {'country': 'US'}), ('postal.nearby', ['28202'], {'country': 'US', 'radius': 0, 'unit': 'km'}), ('postal.distance', ['28202', '10001'], {'country': 'US'}), ('bank', ['DE89370400440532013000'], {'country': 'DE'}), ('carrier', ['+14155552671'], {'country': 'US'}), ('hlr', ['+447712345678'], {'country': 'GB'}), ('naics', ['31-33'], {}), ('naics.search', ['coffee'], {'limit': 2}), ('currency', ['USD'], {}), ('language', ['ar'], {}), ('name', ['Andrea'], {'country': 'IT'}), ('time', [], {'at': '2026-09-08', 'to': 'UTC'}), ('time.at', [0, 0], {'at': '2026-09-08', 'to': 'UTC'}), ('timezone', ['UTC'], {'at': '2026-09-08', 'to': 'UTC'}), ('timezone.at', [0, 0], {'at': '2026-09-08'}), ('date', ['03/04/2026'], {'format': 'dmy', 'to': '2026-09-08'}), ('date.today', [], {'to': '2026-09-08'}), ('emoji', ['fire'], {}), ('emoji.search', ['fire'], {'limit': 2})]
+ADP_CASES = [('country', ['US'], {}), ('state', ['NC'], {'country': 'US'}), ('state.districts', ['NC'], {'country': 'US'}), ('district', ['37081'], {'country': 'US', 'state': 'NC'}), ('city', ['Charlotte'], {'country': 'US', 'state': 'NC'}), ('city.id', ['city_test'], {}), ('city.search', ['Charlotte'], {'country': 'US', 'state': 'NC', 'limit': 2}), ('city.nearest', [0, 0], {}), ('city.nearby', ['Charlotte'], {'radius': 0, 'unit': 'km', 'country': 'US', 'state': 'NC', 'limit': 2}), ('postal', ['28202'], {'country': 'US'}), ('postal.nearby', ['28202'], {'country': 'US', 'radius': 0, 'unit': 'km'}), ('postal.distance', ['28202', '10001'], {'country': 'US'}), ('carrier', ['+14155552671'], {'country': 'US'}), ('hlr', ['+447712345678'], {'country': 'GB'}), ('naics', ['31-33'], {}), ('naics.search', ['coffee'], {'limit': 2}), ('currency', ['USD'], {}), ('language', ['ar'], {}), ('name', ['Andrea'], {'country': 'IT'}), ('time', [], {'at': '2026-09-08', 'to': 'UTC'}), ('time.at', [0, 0], {'at': '2026-09-08', 'to': 'UTC'}), ('timezone', ['UTC'], {'at': '2026-09-08', 'to': 'UTC'}), ('timezone.at', [0, 0], {'at': '2026-09-08'}), ('date', ['03/04/2026'], {'format': 'dmy', 'to': '2026-09-08'}), ('date.today', [], {'to': '2026-09-08'}), ('emoji', ['fire'], {}), ('emoji.search', ['fire'], {'limit': 2})]
 
 @pytest.mark.parametrize("method,args,options", ADP_CASES)
 @pytest.mark.parametrize("async_mode", [False, True])

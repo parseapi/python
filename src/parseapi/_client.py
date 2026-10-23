@@ -267,8 +267,6 @@ class ParseAPI:
         return self._get(f"/email/{_seg(email)}", {"deep": deep})
 
 
-    def iban(self, iban: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
-        return self._get(f"/iban/{_seg(iban)}", {"country": country, "deep": deep})
 
 
     def bin(self, bin: str, *, deep: bool = False) -> Json:
@@ -278,16 +276,8 @@ class ParseAPI:
 
 
 
-    def bank(self, iban: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
-        return self._get("/bank", json={"iban": iban, **({"country": country} if country is not None else {}), "deep": deep})
 
-    def bank_us_ach(self, *, routing: str, account: str) -> Json:
-        """Check US routing/account syntax via POST; no account or ACH eligibility verification."""
-        return self._get("/bank", json={"format": "us_ach", "country": "US", "routing": routing, "account": account})
 
-    def bank_requirements(self, country: str, *, format: Optional[str] = None) -> Json:
-        """Describe accepted fields and check scope, not directory completeness."""
-        return self._get("/bank/requirements", {"country": country, "format": format})
 
     def card(self, bin: str, *, deep: bool = False) -> Json:
         """Look up a 2-11 digit card prefix, preserving leading zeros."""
@@ -736,8 +726,6 @@ class AsyncParseAPI:
         return await self._get(f"/email/{_seg(email)}", {"deep": deep})
 
 
-    async def iban(self, iban: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
-        return await self._get(f"/iban/{_seg(iban)}", {"country": country, "deep": deep})
 
 
     async def bin(self, bin: str, *, deep: bool = False) -> Json:
@@ -747,16 +735,8 @@ class AsyncParseAPI:
 
 
 
-    async def bank(self, iban: str, *, country: Optional[str] = None, deep: bool = False) -> Json:
-        return await self._get("/bank", json={"iban": iban, **({"country": country} if country is not None else {}), "deep": deep})
 
-    async def bank_us_ach(self, *, routing: str, account: str) -> Json:
-        """Check US routing/account syntax via POST; no account or ACH eligibility verification."""
-        return await self._get("/bank", json={"format": "us_ach", "country": "US", "routing": routing, "account": account})
 
-    async def bank_requirements(self, country: str, *, format: Optional[str] = None) -> Json:
-        """Describe accepted fields and check scope, not directory completeness."""
-        return await self._get("/bank/requirements", {"country": country, "format": format})
 
     async def card(self, bin: str, *, deep: bool = False) -> Json:
         """Look up a 2-11 digit card prefix, preserving leading zeros."""

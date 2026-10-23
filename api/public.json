@@ -81,62 +81,6 @@
       ],
       "returns": "Json"
     },
-    "bank": {
-      "async": true,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "iban",
-          "type": "str"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "country",
-          "type": "Optional[str]"
-        },
-        {
-          "default": false,
-          "kind": "KEYWORD_ONLY",
-          "name": "deep",
-          "type": "bool"
-        }
-      ],
-      "returns": "Json"
-    },
-    "bank_requirements": {
-      "async": true,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "country",
-          "type": "str"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "format",
-          "type": "Optional[str]"
-        }
-      ],
-      "returns": "Json"
-    },
-    "bank_us_ach": {
-      "async": true,
-      "parameters": [
-        {
-          "kind": "KEYWORD_ONLY",
-          "name": "routing",
-          "type": "str"
-        },
-        {
-          "kind": "KEYWORD_ONLY",
-          "name": "account",
-          "type": "str"
-        }
-      ],
-      "returns": "Json"
-    },
     "bin": {
       "async": true,
       "parameters": [
@@ -1943,29 +1887,6 @@
       ],
       "returns": "Json"
     },
-    "iban": {
-      "async": true,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "iban",
-          "type": "str"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "country",
-          "type": "Optional[str]"
-        },
-        {
-          "default": false,
-          "kind": "KEYWORD_ONLY",
-          "name": "deep",
-          "type": "bool"
-        }
-      ],
-      "returns": "Json"
-    },
     "industry": {
       "async": true,
       "parameters": [
@@ -2863,62 +2784,6 @@
           "kind": "KEYWORD_ONLY",
           "name": "lang",
           "type": "Optional[str]"
-        }
-      ],
-      "returns": "Json"
-    },
-    "bank": {
-      "async": false,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "iban",
-          "type": "str"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "country",
-          "type": "Optional[str]"
-        },
-        {
-          "default": false,
-          "kind": "KEYWORD_ONLY",
-          "name": "deep",
-          "type": "bool"
-        }
-      ],
-      "returns": "Json"
-    },
-    "bank_requirements": {
-      "async": false,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "country",
-          "type": "str"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "format",
-          "type": "Optional[str]"
-        }
-      ],
-      "returns": "Json"
-    },
-    "bank_us_ach": {
-      "async": false,
-      "parameters": [
-        {
-          "kind": "KEYWORD_ONLY",
-          "name": "routing",
-          "type": "str"
-        },
-        {
-          "kind": "KEYWORD_ONLY",
-          "name": "account",
-          "type": "str"
         }
       ],
       "returns": "Json"
@@ -4725,29 +4590,6 @@
           "kind": "POSITIONAL_OR_KEYWORD",
           "name": "date",
           "type": "str"
-        }
-      ],
-      "returns": "Json"
-    },
-    "iban": {
-      "async": false,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "iban",
-          "type": "str"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "country",
-          "type": "Optional[str]"
-        },
-        {
-          "default": false,
-          "kind": "KEYWORD_ONLY",
-          "name": "deep",
-          "type": "bool"
         }
       ],
       "returns": "Json"
