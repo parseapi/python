@@ -307,7 +307,7 @@ class ParseAPI:
     def stack(self, domain: str, *, deep: bool = False, pretty: bool = False) -> Json:
         """Identify website technologies and versions by category.
 
-        All categories are lists. Scope, pages and partial describe bounded coverage.
+        Categories are arrays or null.
         Lists are null when no page could be checked and empty for no matches.
         Pass a hostname without a URL scheme or path.
         """
@@ -749,7 +749,7 @@ class AsyncParseAPI:
     async def stack(self, domain: str, *, deep: bool = False, pretty: bool = False) -> Json:
         """Identify website technologies and versions by category.
 
-        All categories are lists. Scope, pages and partial describe bounded coverage.
+        Categories are arrays or null.
         Lists are null when no page could be checked and empty for no matches.
         Pass a hostname without a URL scheme or path.
         """
