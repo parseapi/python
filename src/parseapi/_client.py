@@ -13,7 +13,7 @@ from urllib.parse import quote
 import httpx
 from .city import CityAmbiguityCandidate, city_error_candidates
 
-VERSION = "1.10.4"
+VERSION = "1.10.5"
 _API_VERSION = "2.0.0"
 DEFAULT_BASE_URL = "https://api.parseapi.com"
 DEFAULT_TIMEOUT = 10.0
