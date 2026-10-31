@@ -182,7 +182,7 @@ Choose display names for one request:
 parse.country("DE", lang="fr")
 ```
 
-`lang` is optional on geography lookups and their lists/searches, Language, Date, Time/Timezone, Emoji lookup/search. IP, ASN and national Company number lookups also accept it for their geographic labels. Codes, native names, quantities and response structure retain their meanings. Source coverage determines which labels are translated; unavailable labels use the API's documented fallback.
+`lang` is optional on geography lookups and their lists/searches, Currency lookup, Language, Date, Time/Timezone, Emoji lookup/search. IP, ASN and national Company number lookups also accept it for their geographic labels. Codes, native names, quantities and response structure retain their meanings. Source coverage determines which labels are translated; unavailable labels use the API's documented fallback.
 
 The next call keeps its usual default unless it also supplies `lang`. Existing `deep` rules still apply. Date `format` remains an explicit input-parsing control.
 
@@ -275,6 +275,7 @@ Choose enrichment for the question you need answered.
 | Domain | Registration dates, registrar, status and DNSSEC, included with a paid plan. Use `dns` for DNS records and `mx` for mail routing. |
 | Email | A metered mailbox check with deliverability, catch-all, status, reason and address hints, using included email checks or enabled on-demand usage. |
 | Phone, Time, Date, Language, Emoji, Point | Optional detail in the same pooled request on every plan. |
+| Currency | Currency metadata on paid plans; lookup and exchange-rate conversion use pooled requests. |
 | Country, State, District, City, Postal | The place profile on paid plans, including demographic and tax facts where held. |
 | Name, Industry | Name evidence or the industry definition profile on paid plans. |
 | Company | The complete product detail bag on paid plans. |

@@ -1276,3 +1276,33 @@ def _time_targets(targets: Optional[list[str]], to: Optional[str]) -> Optional[s
 
 def _city_csv(value: Optional[Union[str, Sequence[str]]]) -> Optional[str]:
     return value if isinstance(value, str) or value is None else ",".join(value)
+
+
+class _CurrencySync:
+    def __init__(self, client: ParseAPI):
+        self._client = client
+
+    def __call__(self, code: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
+        return self._client._get(f"/currency/{_seg(code)}", {"deep": deep, "lang": lang})
+
+    def rate(
+        self, base: str, quote_currency: str, *, date: Optional[str] = None, amount: Optional[float] = None
+    ) -> Json:
+        return self._client._get(
+            f"/currency/{_seg(base)}/{_seg(quote_currency)}", {"date": date, "amount": amount}
+        )
+
+
+class _CurrencyAsync:
+    def __init__(self, client: AsyncParseAPI):
+        self._client = client
+
+    async def __call__(self, code: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
+        return await self._client._get(f"/currency/{_seg(code)}", {"deep": deep, "lang": lang})
+
+    async def rate(
+        self, base: str, quote_currency: str, *, date: Optional[str] = None, amount: Optional[float] = None
+    ) -> Json:
+        return await self._client._get(
+            f"/currency/{_seg(base)}/{_seg(quote_currency)}", {"date": date, "amount": amount}
+        )
