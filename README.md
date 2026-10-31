@@ -77,6 +77,15 @@ Discovery example: `parse.company.search(country="US", industry="0700", industry
 Supply `industry` and `industry_type` together. The supported namespace is `sic`, with an exact four-digit string such as `0700`; leading zeros are meaningful. Country-only discovery is also supported. Filters intersect and may narrow an existing selector. Country matches the profile country, not a headquarters or operating-presence claim. Unknown values do not match a requested filter. Filter-only candidates use `match.field: "filters"` and `match.value: null`; reuse the same filters and limit with a returned cursor. Counts describe this directory edition, not complete country coverage.
 
 
+## ISO identifiers
+
+Country uses `iso_alpha3` and `iso_numeric`, State uses the full
+`iso_subdivision` code such as `US-CA`, Language uses `iso_alpha3`, and Currency
+uses `iso_numeric`. Primary `country`, `state`, `language` and `currency` codes
+keep their meaning. Results retain the selected API contract's exact keys,
+values, nulls and nesting. Earlier server contracts retain their earlier ISO
+spellings. Use the existing lookup methods for each resource.
+
 ## Calls
 
 One method per endpoint, named after the route.
@@ -225,7 +234,7 @@ Source deep adds `standard_offset`, `standard_offset_seconds`, signed `dst_offse
 
 ## Place statistics and optional detail
 
-Country Core contains the everyday reference: `name`, `name_full`, `name_local`, demonym and country codes, continent, region and subregion, currency, calling code, `flag`, language and timezone codes, borders, bloc memberships and `capital: { name, lat, lon }`. Paid Deep adds specialist detail, including population, total area and national statistics. `gdp_usd` and `gdp_per_capita_usd` are current US dollars; `population_growth_percent`, `urban_population_percent` and `internet_users_percent` use a 0–100 percent scale (growth can be negative or exceed 100). GDP per person and these three percentages round once to two decimals in the API response. `elevation_average` is average terrain elevation in meters; `lowest_point.elevation` and `highest_point.elevation` keep their point-specific meaning. Unknown stays null and a known zero stays zero. Country tax references are grouped once as `deep.tax: { name, rate }`; the rate remains a percentage. Read capital from the Core object and read the tax name and rate from the Deep tax object.
+Country Core contains the everyday reference: `name`, `name_full`, `name_local`, demonym, `iso_alpha3` and `iso_numeric` country identifiers, continent, region and subregion, currency, calling code, `flag`, language and timezone codes, borders, bloc memberships and `capital: { name, lat, lon }`. Paid Deep adds specialist detail, including population, total area and national statistics. `gdp_usd` and `gdp_per_capita_usd` are current US dollars; `population_growth_percent`, `urban_population_percent` and `internet_users_percent` use a 0–100 percent scale (growth can be negative or exceed 100). GDP per person and these three percentages round once to two decimals in the API response. `elevation_average` is average terrain elevation in meters; `lowest_point.elevation` and `highest_point.elevation` keep their point-specific meaning. Unknown stays null and a known zero stays zero. Country tax references are grouped once as `deep.tax: { name, rate }`; the rate remains a percentage. Read capital from the Core object and read the tax name and rate from the Deep tax object.
 
 Australian postal lookups include core `localities` with suburb choices (`city`, `state`, `state_name`) on every plan. Null or an omitted field means unknown, while `[]` means the reviewed reference has no eligible choices. `city` stays null when the source is ambiguous, even if there is only one eligible choice. Let the user select their suburb and keep manual entry available. These are geographic choices, not mailing-address verification. [G-NAF source, adaptations and licence](https://parseapi.com/legal/attribution#postal-au).
 

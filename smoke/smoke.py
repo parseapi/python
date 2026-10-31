@@ -51,7 +51,7 @@ expect_ok("ip", lambda: parse.ip("8.8.8.8"), lambda r: None if r["ip"] == "8.8.8
 expect_ok("ip.self", lambda: parse.ip.self(), lambda r: None if r.get("ip") else "no ip")
 expect_ok("continent", lambda: parse.continent("NA"), lambda r: None if r["name"] == "North America" else "wrong name")
 expect_ok("continent.countries", lambda: parse.continent.countries("NA"), lambda r: None if r["countries"] else "empty")
-expect_ok("country", lambda: parse.country("US"), lambda r: None if r["iso3"] == "USA" else "wrong iso3")
+expect_ok("country", lambda: parse.country("US"), lambda r: None if r.get("iso_alpha3", r.get("iso3")) == "USA" else "wrong country alpha-3 code")
 expect_ok("country.states", lambda: parse.country.states("US"), lambda r: None if len(r["states"]) >= 50 else "too few")
 expect_ok("state", lambda: parse.state("NC", country="US"), lambda r: None if r["name"] == "North Carolina" else "wrong")
 expect_ok("state.districts", lambda: parse.state.districts("NC", country="US"), lambda r: None if r["districts"] else "empty")
