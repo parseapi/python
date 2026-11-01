@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.3 — 2026-11-01
+
+- Correct Point and optional Deep documentation to describe existing access. Language facts remain in Core; request behavior and response JSON are unchanged.
+
 ## 1.11.2 — 2026-10-31
 
 - Correct Postal compact property-tax and Weather minute-rate migration guidance.
