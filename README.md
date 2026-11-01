@@ -238,7 +238,9 @@ Country Core contains the everyday reference: `name`, `name_full`, `name_local`,
 
 Australian postal lookups include core `localities` with suburb choices (`city`, `state`, `state_name`) on every plan. Null or an omitted field means unknown, while `[]` means the reviewed reference has no eligible choices. `city` stays null when the source is ambiguous, even if there is only one eligible choice. Let the user select their suburb and keep manual entry available. These are geographic choices, not mailing-address verification. [G-NAF source, adaptations and licence](https://parseapi.com/legal/attribution#postal-au).
 
-Postal and District paid profiles include `deep.property_tax` where supported. It contains `annual_median`, `currency` and `period`: median annual property tax payable on owner-occupied homes in the statistical area. The amount is adjusted to the final year of the reporting period (`YYYY-YYYY`). This is an area statistic, not a rate or an individual property bill. Unsupported, missing and censored estimates are null.
+Postal paid profiles include compact `deep.property_tax: { annual_median }` where supported; `deep.currency` supplies the currency. District keeps the richer property-tax record with `annual_median`, `currency` and `period` (`YYYY-YYYY`). Both are area estimates of annual tax payable on owner-occupied homes, not a rate or an individual property bill. Unsupported, missing and censored estimates are null. Earlier nested currency and period values remain available when returned.
+
+Weather minute forecasts use `precipitation_rate` (mm/hour) and `precipitation_rate_in` (inches/hour); update earlier minute field reads to those names. History `precipitation` and `precipitation_in` remain accumulated amounts. These clients return the server JSON directly, preserving null collections, known empty arrays and earlier payload keys without translating them.
 
 ```python
 place = parse.postal("28202", country="US", deep=True)
