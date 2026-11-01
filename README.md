@@ -66,6 +66,8 @@ Use at most one selector: `query` for a name, `domain`, `ticker`, or `identifier
 
 Directory profiles are plain JSON data. `deep` belongs to each company in search results and adds legal/reference detail plus nullable `description`, `logo`, `founded`, and the `social_profiles`, `phone_numbers`, `email_addresses`, `domains` and `sources` collections. A logo is a reported URL. `founded` has `value` and `precision`, distinct from incorporation. Sources identify the website, filing or business register, supported fields and observation/update timestamps. Employee observations retain count, measurement date, organization scope and approximation; null means unknown. Missing, null, empty and unknown fields retain their response values. An empty search is a successful result. Invalid inputs and unknown IDs raise the existing API error.
 
+The public-directory service retires national-number Company lookups in both API versions. Use the directory methods with API 2.0.0.
+
 Company directory social profiles contain `platform`, `url` and `handle`; unknown metadata stays null. Phone and email records use `type` for the source-reported purpose. Earlier response fields remain readable by the client.
 
 The recipe requests one candidate page, one explicitly chosen profile and directory coverage, plus a second page when a cursor is returned. Each operation uses the existing retry settings. The number-validation call remains unchanged. `lang` applies to national company-number lookup, while directory calls use the source labels.
@@ -278,7 +280,7 @@ Choose enrichment for the question you need answered.
 | Email | A metered mailbox check with deliverability, catch-all, status, reason and address hints, using included email checks or enabled on-demand usage. |
 | Phone, Time, Date, Emoji, Point | Optional detail on paid plans in the same pooled request. Existing accounts retain their current Deep access. |
 | Language | All language facts are in Core; requested Deep is empty. |
-| Currency | Currency metadata on paid plans; lookup and exchange-rate conversion use pooled requests. |
+| Currency | Currency lookup facts are complete in Core; requested Deep is empty. Lookup and exchange-rate conversion use pooled requests. |
 | Country, State, District, City, Postal | The place profile on paid plans, including demographic and tax facts where held. |
 | Name, Industry | Name evidence or the industry definition profile on paid plans. |
 | Company | The complete product detail bag on paid plans. |
@@ -342,9 +344,10 @@ and a CDN SVG `logo`. Brand detection uses reviewed network rules independently
 of issuer records. Unknown or ambiguous prefixes return null brand fields and a
 generic logo; a known network without reviewed artwork also uses the generic logo.
 
-Optional Deep adds `prefix`, `issuer`, `country`, `type` and `prepaid`, included
-in the same pooled request on every plan. Six or more digits enable directory
-matching. Fewer digits return all-null Deep fields. Compare `deep.prefix` with
+Optional Deep adds `prefix`, `issuer`, `country`, `type` and `prepaid` on paid plans
+in the same pooled request. Existing accounts retain their current Deep access.
+Requested but locked Deep is `{}`. Six or more digits enable directory
+matching. With Deep access, fewer digits return all-null Deep fields. Compare `deep.prefix` with
 `bin`: equal is an exact recorded match; shorter is broader; null is no match.
 The longest row wins, including null fields. `prepaid: null` means unknown, not
 false. This is partial reference data, not card validity or payment acceptance.
