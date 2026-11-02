@@ -1148,11 +1148,6 @@
       ],
       "returns": "Json"
     },
-    "company.coverage": {
-      "async": true,
-      "parameters": [],
-      "returns": "Json"
-    },
     "company.id": {
       "async": true,
       "parameters": [
@@ -3732,11 +3727,6 @@
           "type": "Optional[str]"
         }
       ],
-      "returns": "Json"
-    },
-    "company.coverage": {
-      "async": false,
-      "parameters": [],
       "returns": "Json"
     },
     "company.id": {

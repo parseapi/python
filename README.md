@@ -59,18 +59,19 @@ if candidates["next"] is not None:
     next_page = parse.company.search(
         query="GitLab", country="US", limit=5, cursor=candidates["next"]
     )
-coverage = parse.company.coverage()
 ```
 
 Use at most one selector: `query` for a name, `domain`, `ticker`, or `identifier`; country or exact industry filters also allow discovery without a selector. The API validates selectors and filters. Use `country` to scope candidates, `exchange` with a ticker, and `authority` with an identifier. Search returns `companies` and an opaque `next` cursor. Review candidate identity and match details before choosing a stable Company ID. Pass `next` as `cursor` with the same selector, filters and limit to continue that result set.
 
 Directory profiles are plain JSON data. `deep` belongs to each company in search results and adds legal/reference detail plus nullable `description`, `logo`, `founded`, and the `social_profiles`, `phone_numbers`, `email_addresses`, `domains` and `sources` collections. A logo is a reported URL. `founded` has `value` and `precision`, distinct from incorporation. Sources identify the website, filing or business register, supported fields and observation/update timestamps. Employee observations retain count, measurement date, organization scope and approximation; null means unknown. Missing, null, empty and unknown fields retain their response values. An empty search is a successful result. Invalid inputs and unknown IDs raise the existing API error.
 
-Company directory social profiles contain `platform`, `url` and `handle`; unknown metadata stays null. Phone and email records use `type` for the source-reported purpose. Earlier response fields remain readable by the client.
+The public-directory service retires national-number Company lookups in both API versions. Use the directory methods with API 2.0.0.
 
-The recipe requests one candidate page, one explicitly chosen profile and directory coverage, plus a second page when a cursor is returned. Each operation uses the existing retry settings. The number-validation call remains unchanged. `lang` applies to national company-number lookup, while directory calls use the source labels.
+Company directory social profiles include `platform` and `url`. Known handles are included when available; unknown handles may be omitted or returned as null by older servers. Phone and email records use `type` for the source-reported purpose. Earlier response fields remain readable by the client.
 
-`AsyncParseAPI` exposes the same `company`, `company.id`, `company.search` and `company.coverage` calls with `await`.
+The recipe requests one candidate page, one explicitly chosen profile, plus a second page when a cursor is returned. Each operation uses the existing retry settings. The number-validation call remains unchanged. `lang` applies to national company-number lookup, while directory calls use the source labels.
+
+`AsyncParseAPI` exposes the same `company`, `company.id` and `company.search` calls with `await`.
 
 Discovery example: `parse.company.search(country="US", industry="0700", industry_type="sic")`
 
@@ -110,7 +111,6 @@ parse.company.id("co_caczn6wf36hj", deep=True)
 parse.company.search(domain="about.gitlab.com")
 parse.company.search(ticker="GTLB", exchange="Nasdaq")
 parse.company.search(identifier="0001653482", authority="sec")
-parse.company.coverage()
 parse.city("charlotte", country="US")
 parse.city.id("city_mb8mbqrkz8zb")
 parse.city.search("char", country="US", limit=10)

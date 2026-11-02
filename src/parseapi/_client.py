@@ -1212,10 +1212,6 @@ class _CompanySync:
             "identifier": identifier, "country": country, "exchange": exchange, "authority": authority,
             "limit": limit, "cursor": cursor, "deep": deep, "industry": industry, "industry_type": industry_type})
 
-    def coverage(self) -> Json:
-        """Read the directory edition and source coverage."""
-        return self._client._get("/company/directory/coverage")
-
 
 class _CompanyAsync:
     def __init__(self, client: AsyncParseAPI, lookup: _CompanyAsyncClassCall):
@@ -1243,10 +1239,6 @@ class _CompanyAsync:
         return await self._client._get("/company", {"q": query, "domain": domain, "ticker": ticker,
             "identifier": identifier, "country": country, "exchange": exchange, "authority": authority,
             "limit": limit, "cursor": cursor, "deep": deep, "industry": industry, "industry_type": industry_type})
-
-    async def coverage(self) -> Json:
-        """Read the directory edition and source coverage."""
-        return await self._client._get("/company/directory/coverage")
 
 def _time_source(timezone, **values):
     primary = [values.get(key) for key in ("ip", "city", "iata", "icao", "unlocode", "address") if values.get(key) is not None]
