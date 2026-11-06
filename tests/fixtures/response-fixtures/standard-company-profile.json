@@ -5,13 +5,11 @@
   "website": "https://www.acme.com/",
   "listings": [],
   "address": null,
-  "deep": {
-    "employees": {
-      "count": 12,
-      "as_of": "2025-12-31",
-      "scope": "consolidated_group",
-      "method": "reported",
-      "approximate": false
-    }
+  "employees": {
+    "count": 12,
+    "as_of": "2025-12-31",
+    "scope": "consolidated_group",
+    "method": "reported",
+    "approximate": false
   }
 }

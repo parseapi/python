@@ -48,7 +48,6 @@ def exercise(async_client, operations, responses, **config):
     (lambda p: p.company.search(industry="0700", industry_type="sic"), "/company", {"industry": "0700", "industry_type": "sic"}),
     (lambda p: p.company.search(country="US", industry="0700", industry_type="sic", cursor="opaque+/=", limit=2, deep=True), "/company", {"country": "US", "industry": "0700", "industry_type": "sic", "cursor": "opaque+/=", "limit": "2", "deep": "true"}),
     (lambda p: p.company.search(query="Example", industry="0700", industry_type="sic", deep=False), "/company", {"q": "Example", "industry": "0700", "industry_type": "sic"}),
-    (lambda p: p.company.coverage(), "/company/directory/coverage", {}),
 ])
 def test_routes_encoding_and_direct_request(async_client, operation, path, params):
     body = {"companies": [], "next": None, "future": None}
@@ -57,7 +56,7 @@ def test_routes_encoding_and_direct_request(async_client, operation, path, param
     assert len(calls) == 1
     assert calls[0].url.raw_path.split(b"?")[0].decode() == path
     assert dict(calls[0].url.params) == params
-    assert calls[0].headers["Parse-Version"] == "2.0.0"
+    assert calls[0].headers["X-API-Version"] == "2.1.0"
     assert calls[0].headers["X-API-Key"] == "test_company"
     assert calls[0].extensions["timeout"]["read"] == 1.25
 
@@ -67,9 +66,8 @@ def test_plain_profiles_deep_triad_pagination_and_coverage(async_client):
     profiles = [BASE, {**BASE, "deep": {}}, {**BASE, "deep": RICH}, {**BASE, "deep": {"description": None, "logo": None, "socials": None, "founded": None, "sources": None}}]
     page = {"companies": [{**p, "match": {"field": "future_field", "value": None}} for p in profiles], "next": "opaque+/=", "future": None}
     empty = {"companies": [], "next": None}
-    coverage = {"scope": "future_scope", "companies": 0, "countries": [], "future": None}
-    operations = [lambda p: p.company.id(BASE["id"]), lambda p: p.company.id(BASE["id"], deep=True), lambda p: p.company.id(BASE["id"], deep=True), lambda p: p.company.id(BASE["id"], deep=True), lambda p: p.company.search(query="GitLab", deep=True, limit=4), lambda p: p.company.search(query="GitLab", deep=True, limit=4, cursor=page["next"]), lambda p: p.company.coverage()]
-    expected = profiles + [page, empty, coverage]
+    operations = [lambda p: p.company.id(BASE["id"]), lambda p: p.company.id(BASE["id"], deep=True), lambda p: p.company.id(BASE["id"], deep=True), lambda p: p.company.id(BASE["id"], deep=True), lambda p: p.company.search(query="GitLab", deep=True, limit=4), lambda p: p.company.search(query="GitLab", deep=True, limit=4, cursor=page["next"])]
+    expected = profiles + [page, empty]
     results, calls = exercise(async_client, operations, [(200, item) for item in expected])
     assert results == expected
     assert len(calls) == len(operations)
@@ -99,7 +97,7 @@ def test_directory_uses_existing_retry_controls(async_client):
     result, calls = exercise(async_client, [lambda p: p.company.id(BASE["id"], deep=True)], [(503, {}), (503, {}), (200, BASE)])
     assert result == [BASE] and len(calls) == 3
     with pytest.raises(ParseAPIError):
-        exercise(async_client, [lambda p: p.company.coverage()], [(503, {})], retries=0)
+        exercise(async_client, [lambda p: p.company.search(query="Example")], [(503, {})], retries=0)
 
 
 def test_sync_async_signatures_and_no_directory_lang():
@@ -108,7 +106,7 @@ def test_sync_async_signatures_and_no_directory_lang():
         async_client = AsyncParseAPI("fixture")
         try:
             assert async_client.company is async_client.company
-            for name in ("__call__", "id", "search", "coverage"):
+            for name in ("__call__", "id", "search"):
                 assert inspect.signature(getattr(sync.company, name)) == inspect.signature(getattr(async_client.company, name))
             for method, arguments in [(sync.company.id, (BASE["id"],)), (sync.company.search, ())]:
                 with pytest.raises(TypeError):
@@ -127,7 +125,7 @@ def test_readme_recipe_uses_explicit_selection_and_returned_cursor():
         return httpx.Response(200, json=responses.pop(0))
     with ParseAPI("fixture", transport=httpx.MockTransport(handler)) as parse:
         exec(compile(code, "README.md", "exec"), {"parse": parse})
-    assert len(calls) == 4
+    assert len(calls) == 3
     assert calls[1].url.path == "/company/id/co_caczn6wf36hj"
     assert calls[2].url.params["cursor"] == "opaque+/="
 

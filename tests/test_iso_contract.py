@@ -5,6 +5,7 @@ from pathlib import Path
 import httpx
 from parseapi import ParseAPI, AsyncParseAPI
 
+# Exercise the same public client access used by the docs and downloads.
 CASES = json.loads((Path(__file__).parent / "fixtures/iso-contract.json").read_text())
 
 def options(sample):

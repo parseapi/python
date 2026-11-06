@@ -14,9 +14,9 @@ def test_city_canonical_projection_filters_traversal_and_classic_defaults(asynch
     options=dict(countries=['AT','CH'],exclude_countries=['JP'],timezones=['Europe/Vienna','Europe/Zurich'],min_elevation=-10,max_elevation=0,min_population=0,sort='country,-population,name',cursor='opaque+/=?&')
     operations=[
         lambda c:c.city.list(**options),
-        lambda c:c.city.id('city_7aj899nvwyku',format='resource',),
-        lambda c:c.city.search('Vi',format='list',),
-        lambda c:c.city.nearby('Vienna',format='list',),
+        lambda c:c.city.id('city_7aj899nvwyku',),
+        lambda c:c.city.search('Vi',),
+        lambda c:c.city.nearby('Vienna',),
         lambda c:c.city.children('city_7aj899nvwyku',limit=2,cursor='opaque+/=',deep=True),
         lambda c:c.city.ancestors('city_7aj899nvwyku',),
         lambda c:c.city.siblings('city_7aj899nvwyku',hierarchy=True),
@@ -30,9 +30,9 @@ def test_city_canonical_projection_filters_traversal_and_classic_defaults(asynch
     else:
         with ParseAPI('fixture',transport=httpx.MockTransport(respond)) as c:
             for operation in operations:assert operation(c)==body
-    assert dict(seen[0].params)=={'browse':'true','format':'list','countries':'AT,CH','exclude_countries':'JP','timezones':'Europe/Vienna,Europe/Zurich','min_elevation':'-10','max_elevation':'0','min_population':'0','sort':'country,-population,name','cursor':'opaque+/=?&'}
-    assert dict(seen[1].params)=={'format':'resource',}
-    assert seen[2].params['format']=='list' and seen[3].params['format']=='list'
+    assert dict(seen[0].params)=={'browse':'true','countries':'AT,CH','exclude_countries':'JP','timezones':'Europe/Vienna,Europe/Zurich','min_elevation':'-10','max_elevation':'0','min_population':'0','sort':'country,-population,name','cursor':'opaque+/=?&'}
+    assert dict(seen[1].params)=={}
+    assert dict(seen[2].params)=={'q':'Vi'} and not seen[3].params
     assert seen[4].path.endswith('/children') and dict(seen[4].params)=={'limit':'2','cursor':'opaque+/=','deep':'true'}
     assert seen[5].path.endswith('/ancestors') and dict(seen[5].params)=={}
     assert seen[6].path.endswith('/siblings') and dict(seen[6].params)=={'hierarchy':'true'}
@@ -82,14 +82,14 @@ def test_city_explicit_matching_and_suggestion_evidence(asynchronous):
     def respond(request):calls.append(request.url);return httpx.Response(200,json=body)
     async def run():
         async with AsyncParseAPI('fixture',transport=httpx.MockTransport(respond)) as c:
-            assert (await c.city.search('Viena',match='fuzzy',max_distance=1,format='list'))==body
+            assert (await c.city.search('Viena',match='fuzzy',max_distance=1,))=={'q':'Viena','cities':body['data'],'next_cursor':None}
             await c.city.search('Vi')
     if asynchronous:asyncio.run(run())
     else:
         with ParseAPI('fixture',transport=httpx.MockTransport(respond)) as c:
-            assert c.city.search('Viena',match='fuzzy',max_distance=1,format='list')==body
+            assert c.city.search('Viena',match='fuzzy',max_distance=1,)=={'q':'Viena','cities':body['data'],'next_cursor':None}
             c.city.search('Vi')
-    assert dict(calls[0].params)=={'q':'Viena','match':'fuzzy','max_distance':'1','format':'list'}
+    assert dict(calls[0].params)=={'q':'Viena','match':'fuzzy','max_distance':'1',}
     assert dict(calls[1].params)=={'q':'Vi'}
 
 
@@ -99,18 +99,18 @@ def test_city_reviewed_romanized_optin_and_null(asynchronous):
     def respond(request):calls.append(request.url);return httpx.Response(200,json=payload)
     async def run():
         async with AsyncParseAPI('fixture',transport=httpx.MockTransport(respond)) as c:
-            assert await c.city.id(payload['id'],format='resource',romanized=True)==payload
+            assert await c.city.id(payload['id'],romanized=True)==payload
             payload['name_romanized']=None;payload['romanization_language']=None
-            assert await c.city.id(payload['id'],format='resource',romanized=True)==payload
+            assert await c.city.id(payload['id'],romanized=True)==payload
             await c.city('Vienna')
     if asynchronous:asyncio.run(run())
     else:
         with ParseAPI('fixture',transport=httpx.MockTransport(respond)) as c:
-            assert c.city.id(payload['id'],format='resource',romanized=True)==payload
+            assert c.city.id(payload['id'],romanized=True)==payload
             payload['name_romanized']=None;payload['romanization_language']=None
-            assert c.city.id(payload['id'],format='resource',romanized=True)==payload
+            assert c.city.id(payload['id'],romanized=True)==payload
             c.city('Vienna')
-    assert dict(calls[0].params)=={'format':'resource','romanized':'true'} and not calls[2].params
+    assert dict(calls[0].params)=={'romanized':'true'} and not calls[2].params
 
 @pytest.mark.parametrize('asynchronous',[False,True])
 def test_spelling_route_classic_adapter_and_unchanged_default(asynchronous):
@@ -121,12 +121,12 @@ def test_spelling_route_classic_adapter_and_unchanged_default(asynchronous):
     async def run():
         async with AsyncParseAPI('fixture',transport=httpx.MockTransport(respond)) as c:
             assert (await c.city.search('Viena',match='fuzzy',max_distance=1))['cities']==[row]
-            assert (await c.city.search('Viena',match='fuzzy',format='list'))['data']==[row]
+            assert (await c.city.search('Viena',match='fuzzy',))['cities']==[row]
             assert (await c.city.search('Vi'))['cities']==[row]
     if asynchronous:asyncio.run(run())
     else:
         with ParseAPI('fixture',transport=httpx.MockTransport(respond)) as c:
             assert c.city.search('Viena',match='fuzzy',max_distance=1)['cities']==[row]
-            assert c.city.search('Viena',match='fuzzy',format='list')['data']==[row]
+            assert c.city.search('Viena',match='fuzzy',)['cities']==[row]
             assert c.city.search('Vi')['cities']==[row]
     assert calls==['/city/search','/city/search','/city']

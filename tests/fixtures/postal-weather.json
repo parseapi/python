@@ -5,71 +5,62 @@
   },
   "postal_locked": {
     "postal": "10001",
-    "country": "US",
-    "deep": {}
+    "country": "US"
   },
   "postal_unknown": {
     "postal": "10001",
     "country": "US",
-    "deep": {
-      "property_tax": null
-    }
+    "property_tax": null
   },
   "postal_compact": {
     "postal": "10001",
     "country": "US",
-    "deep": {
-      "currency": "USD",
-      "property_tax": {
-        "annual_median": 0
-      }
+    "currency": "USD",
+    "property_tax": {
+      "annual_median": 0
     }
   },
   "weather_current": {
     "latitude": 0,
     "longitude": 0,
     "current": {},
-    "deep": {
-      "forecast": null,
-      "alerts": [],
-      "hours": null,
-      "days": [],
-      "minutes": [
-        {
-          "at": "2026-10-31T12:00:00Z",
-          "precipitation_rate": 1.8,
-          "precipitation_rate_in": 0.071,
-          "type": "rain"
-        },
-        {
-          "at": "2026-10-31T12:01:00Z",
-          "precipitation_rate": 0,
-          "precipitation_rate_in": 0,
-          "type": null
-        },
-        {
-          "at": "2026-10-31T12:02:00Z",
-          "precipitation_rate": null,
-          "precipitation_rate_in": null,
-          "type": null
-        }
-      ],
-      "history": {
-        "precipitation": 12.3,
-        "precipitation_in": 0.484
+    "forecast": null,
+    "alerts": [],
+    "hours": null,
+    "days": [],
+    "minutes": [
+      {
+        "at": "2026-10-31T12:00:00Z",
+        "precipitation_rate": 1.8,
+        "precipitation_rate_in": 0.071,
+        "type": "rain"
+      },
+      {
+        "at": "2026-10-31T12:01:00Z",
+        "precipitation_rate": 0,
+        "precipitation_rate_in": 0,
+        "type": null
+      },
+      {
+        "at": "2026-10-31T12:02:00Z",
+        "precipitation_rate": null,
+        "precipitation_rate_in": null,
+        "type": null
       }
+    ],
+    "history": {
+      "precipitation": 12.3,
+      "precipitation_in": 0.484
     }
   },
   "weather_earlier": {
-    "deep": {
-      "minutes": [
-        {
-          "at": "2026-10-31T12:00:00Z",
-          "precipitation": 1.8,
-          "precipitation_in": 0.071,
-          "type": "rain"
-        }
-      ]
-    }
+    "minutes": [
+      {
+        "at": "2026-10-31T12:00:00Z",
+        "precipitation": 1.8,
+        "precipitation_in": 0.071,
+        "type": "rain"
+      }
+    ]
   }
 }

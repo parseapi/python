@@ -31,7 +31,7 @@ def test_sync_and_async_emoji_catalog_and_text_body():
         assert calls[4].url.path == "/emoji/parse" and calls[4].method == "POST"
         assert json.loads(calls[4].content) == {"text": "x 👍🏿 👍🏿"}
         assert dict(calls[4].url.params) == {"deep": "true", "lang": "fr"}
-        assert calls[4].headers["Parse-Version"] == "2.0.0"
+        assert calls[4].headers["X-API-Version"] == "2.1.0"
         if async_mode:
             await client.close()
         else:
@@ -51,14 +51,14 @@ def test_sync_async_emoji_download_and_metadata():
         async def call(method, **kwargs):
             value = method(**kwargs)
             return await value if async_mode else value
-        result = await call(client.emoji.catalog, deep=False, include_skin_tones=False, lang='fr', max_version='17.0')
+        result = await call(client.emoji.catalog, include_skin_tones=False, lang='fr', max_version='17.0')
         assert result['forms']['❤'] == '❤️'
-        assert result['emojis'][0]['deep']['artwork'] == {}
-        assert dict(calls[0].url.params) == {'deep':'false','include_skin_tones':'false','lang':'fr','max_version':'17.0'}
+        assert result['emojis'][0]['artwork'] == {}
+        assert dict(calls[0].url.params) == {'include_skin_tones':'false','lang':'fr','max_version':'17.0'}
         await call(client.emoji.catalog)
-        assert dict(calls[1].url.params) == {'deep':'true'}
-        assert (await call(client.emoji.metadata))['total'] == 1
-        assert calls[2].url.path == '/emoji/metadata' and not calls[2].url.params
+        assert dict(calls[1].url.params) == {}
+        assert (await call(client.emoji.catalog))['metadata']['total'] == 1
+        assert calls[2].url.path == '/emoji/catalog' and not calls[2].url.params
         if async_mode: await client.close()
         else: client.close()
     asyncio.run(run(False))
@@ -92,7 +92,7 @@ def test_actual_keyed_artwork_sync_and_async():
             cls = AsyncParseAPI if mode else ParseAPI
             client = cls('test', transport=httpx.MockTransport(lambda request: httpx.Response(200, json=fixture['emoji'])))
             result = await client.emoji('rocket', deep=True) if mode else client.emoji('rocket', deep=True)
-            artwork = result['deep']['artwork']
+            artwork = result['artwork']
             assert list(artwork) == ['noto', 'twemoji', 'openmoji']
             assert artwork['openmoji']['svg'] == 'https://cdn.parseapi.com/emoji/openmoji/17.0.0/1f680.svg'
             assert artwork['openmoji']['png']['72'] == 'https://cdn.parseapi.com/emoji/openmoji/17.0.0/72/1f680.png'

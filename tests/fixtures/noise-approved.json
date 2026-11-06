@@ -1,0 +1,654 @@
+[
+  {
+    "id": "city-prefix-core",
+    "body": {
+      "object": "list",
+      "data": [
+        {
+          "object": "city",
+          "name": "Denver",
+          "name_local": null,
+          "type": "city",
+          "district": "08031",
+          "district_name": "Denver",
+          "state": "CO",
+          "state_name": "Colorado",
+          "country": "US",
+          "country_name": "United States",
+          "latitude": 39.76185,
+          "longitude": -104.881105,
+          "timezone": "America/Denver",
+          "id": "city_ccvrzq54e65m",
+          "match": {
+            "type": "exact",
+            "value": "Denver",
+            "language": null
+          }
+        },
+        {
+          "object": "city",
+          "name": "Denver",
+          "name_local": null,
+          "type": "borough",
+          "district": "42071",
+          "district_name": "Lancaster",
+          "state": "PA",
+          "state_name": "Pennsylvania",
+          "country": "US",
+          "country_name": "United States",
+          "latitude": 40.234122,
+          "longitude": -76.141163,
+          "timezone": "America/New_York",
+          "id": "city_dp7ynpukggkj",
+          "match": {
+            "type": "exact",
+            "value": "Denver",
+            "language": null
+          }
+        }
+      ],
+      "next_cursor": "eyJ2IjoxLCJpZCI6ImNpdHlfZHA3eW5wdWtnZ2tqIiwiaCI6IjRhZTY5Nzk3ZDBiMmQ1ZGE5ZGMwMjlmN2ZkNjQxMzdlYmFkN2M4NjFhNjQxYjkyNzMwMGUxNzQyZDkxZmIwOWYiLCJrIjoiNTM2MDg1MGE2OGZlYWYxNmQzMDg2NjYyZmZlYmE3MjkwNWFlOTFjOGNjOGFhZDU4OGY3ZGYwNjMzOWVhN2I5NCJ9",
+      "q": "Denver",
+      "match": "prefix"
+    }
+  },
+  {
+    "id": "city-prefix-deep",
+    "body": {
+      "object": "list",
+      "data": [
+        {
+          "object": "city",
+          "name": "Denver",
+          "name_local": null,
+          "type": "city",
+          "district": "08031",
+          "district_name": "Denver",
+          "state": "CO",
+          "state_name": "Colorado",
+          "country": "US",
+          "country_name": "United States",
+          "latitude": 39.76185,
+          "longitude": -104.881105,
+          "timezone": "America/Denver",
+          "id": "city_ccvrzq54e65m",
+          "match": {
+            "type": "exact",
+            "value": "Denver",
+            "language": null
+          },
+          "capital_of": "state",
+          "elevation": 1612,
+          "elevation_ft": 5289,
+          "population": 729019,
+          "area": 400.74,
+          "land_area": 396.46,
+          "water_area": 4.28
+        },
+        {
+          "object": "city",
+          "name": "Denver",
+          "name_local": null,
+          "type": "borough",
+          "district": "42071",
+          "district_name": "Lancaster",
+          "state": "PA",
+          "state_name": "Pennsylvania",
+          "country": "US",
+          "country_name": "United States",
+          "latitude": 40.234122,
+          "longitude": -76.141163,
+          "timezone": "America/New_York",
+          "id": "city_dp7ynpukggkj",
+          "match": {
+            "type": "exact",
+            "value": "Denver",
+            "language": null
+          },
+          "capital_of": null,
+          "elevation": 118,
+          "elevation_ft": 387,
+          "population": 3760,
+          "area": 3.36,
+          "land_area": 3.31,
+          "water_area": 0.05
+        }
+      ],
+      "next_cursor": "eyJ2IjoxLCJpZCI6ImNpdHlfZHA3eW5wdWtnZ2tqIiwiaCI6ImQ3NGI0N2U4YzgwMDYzMmFiODliMzVmNGNlNjAwOWRjNmZlZTJjNTA4MGU2OTNjOWJlN2E1MWY3NDRjZDkzMWQiLCJrIjoiNTM2MDg1MGE2OGZlYWYxNmQzMDg2NjYyZmZlYmE3MjkwNWFlOTFjOGNjOGFhZDU4OGY3ZGYwNjMzOWVhN2I5NCJ9",
+      "q": "Denver",
+      "match": "prefix"
+    }
+  },
+  {
+    "id": "city-fuzzy-core",
+    "body": {
+      "object": "list",
+      "data": [
+        {
+          "object": "city",
+          "name": "Denver",
+          "name_local": null,
+          "type": "city",
+          "district": "08031",
+          "district_name": "Denver",
+          "state": "CO",
+          "state_name": "Colorado",
+          "country": "US",
+          "country_name": "United States",
+          "latitude": 39.76185,
+          "longitude": -104.881105,
+          "timezone": "America/Denver",
+          "id": "city_ccvrzq54e65m",
+          "match": {
+            "type": "fuzzy",
+            "value": "Denver",
+            "language": null
+          }
+        },
+        {
+          "object": "city",
+          "name": "Denver",
+          "name_local": null,
+          "type": "borough",
+          "district": "42071",
+          "district_name": "Lancaster",
+          "state": "PA",
+          "state_name": "Pennsylvania",
+          "country": "US",
+          "country_name": "United States",
+          "latitude": 40.234122,
+          "longitude": -76.141163,
+          "timezone": "America/New_York",
+          "id": "city_dp7ynpukggkj",
+          "match": {
+            "type": "fuzzy",
+            "value": "Denver",
+            "language": null
+          }
+        }
+      ],
+      "next_cursor": "eyJ2IjoxLCJpZCI6ImNpdHlfZHA3eW5wdWtnZ2tqIiwiaCI6IjY2MDQ5Y2U4ZTM2OGNkNjdjZjQxZTk2MjEzMjM1ODJjZDNmMzdjOTk5MmM1OTgzZGFlN2I4OWY4N2NmZDA3MDEiLCJrIjoiMjAwODVkMzBmODVhOGMxN2VkYjE5MTA4NGZkZTJkODQ2MWQ1NzIzY2Y2NjI4OTc1ZWJiMWFlNzhjN2E1NzM5MyJ9",
+      "q": "Denvar",
+      "match": "fuzzy"
+    }
+  },
+  {
+    "id": "city-fuzzy-deep",
+    "body": {
+      "object": "list",
+      "data": [
+        {
+          "object": "city",
+          "name": "Denver",
+          "name_local": null,
+          "type": "city",
+          "district": "08031",
+          "district_name": "Denver",
+          "state": "CO",
+          "state_name": "Colorado",
+          "country": "US",
+          "country_name": "United States",
+          "latitude": 39.76185,
+          "longitude": -104.881105,
+          "timezone": "America/Denver",
+          "id": "city_ccvrzq54e65m",
+          "match": {
+            "type": "fuzzy",
+            "value": "Denver",
+            "language": null
+          },
+          "capital_of": "state",
+          "elevation": 1612,
+          "elevation_ft": 5289,
+          "population": 729019,
+          "area": 400.74,
+          "land_area": 396.46,
+          "water_area": 4.28
+        },
+        {
+          "object": "city",
+          "name": "Denver",
+          "name_local": null,
+          "type": "borough",
+          "district": "42071",
+          "district_name": "Lancaster",
+          "state": "PA",
+          "state_name": "Pennsylvania",
+          "country": "US",
+          "country_name": "United States",
+          "latitude": 40.234122,
+          "longitude": -76.141163,
+          "timezone": "America/New_York",
+          "id": "city_dp7ynpukggkj",
+          "match": {
+            "type": "fuzzy",
+            "value": "Denver",
+            "language": null
+          },
+          "capital_of": null,
+          "elevation": 118,
+          "elevation_ft": 387,
+          "population": 3760,
+          "area": 3.36,
+          "land_area": 3.31,
+          "water_area": 0.05
+        }
+      ],
+      "next_cursor": "eyJ2IjoxLCJpZCI6ImNpdHlfZHA3eW5wdWtnZ2tqIiwiaCI6IjFhMTZhYzJiNDU4YzRjZTIxNTc2NDAyMTI1MTg5YTQyMmFiNGJkMDlmMDIwYjc1YmEzYjIyNTRiYmQ5ZGI4OTMiLCJrIjoiMjAwODVkMzBmODVhOGMxN2VkYjE5MTA4NGZkZTJkODQ2MWQ1NzIzY2Y2NjI4OTc1ZWJiMWFlNzhjN2E1NzM5MyJ9",
+      "q": "Denvar",
+      "match": "fuzzy"
+    }
+  },
+  {
+    "id": "holiday-business-date-core",
+    "body": {
+      "country": "US",
+      "start_date": "2026-12-24",
+      "business_days": 3,
+      "date": "2026-12-30",
+      "region": null,
+      "policy": {
+        "weekend": [
+          0,
+          6
+        ],
+        "include_start_date": false
+      },
+      "calendars": [
+        {
+          "year": 2026,
+          "scope": "Observed federal holidays. State, local and employer-specific calendars are outside this scope.",
+          "completeness": "reviewed_scope"
+        }
+      ]
+    }
+  },
+  {
+    "id": "holiday-workdays-core",
+    "body": {
+      "country": "US",
+      "from": "2026-12-24",
+      "to": "2026-12-30",
+      "region": null,
+      "policy": {
+        "weekend": [
+          0,
+          6
+        ]
+      },
+      "workdays": 4,
+      "calendars": [
+        {
+          "year": 2026,
+          "scope": "Observed federal holidays. State, local and employer-specific calendars are outside this scope.",
+          "completeness": "reviewed_scope"
+        }
+      ]
+    }
+  },
+  {
+    "id": "holiday-calendar-core",
+    "body": {
+      "country": "US",
+      "year": 2026,
+      "scope": "Observed federal holidays. State, local and employer-specific calendars are outside this scope.",
+      "completeness": "reviewed_scope",
+      "holidays": [
+        {
+          "date": "2026-01-01",
+          "name": "New Year's Day",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        },
+        {
+          "date": "2026-01-19",
+          "name": "Birthday of Martin Luther King, Jr.",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        },
+        {
+          "date": "2026-02-16",
+          "name": "Washington's Birthday",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        },
+        {
+          "date": "2026-05-25",
+          "name": "Memorial Day",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        },
+        {
+          "date": "2026-06-19",
+          "name": "Juneteenth National Independence Day",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        },
+        {
+          "date": "2026-07-03",
+          "name": "Independence Day",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": true
+        },
+        {
+          "date": "2026-09-07",
+          "name": "Labor Day",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        },
+        {
+          "date": "2026-10-12",
+          "name": "Columbus Day",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        },
+        {
+          "date": "2026-11-11",
+          "name": "Veterans Day",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        },
+        {
+          "date": "2026-11-26",
+          "name": "Thanksgiving Day",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        },
+        {
+          "date": "2026-12-25",
+          "name": "Christmas Day",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        }
+      ]
+    }
+  },
+  {
+    "id": "holiday-business-date-deep",
+    "body": {
+      "country": "US",
+      "start_date": "2026-12-24",
+      "business_days": 3,
+      "date": "2026-12-30",
+      "region": null,
+      "policy": {
+        "weekend": [
+          0,
+          6
+        ],
+        "include_start_date": false
+      },
+      "calendars": [
+        {
+          "year": 2026,
+          "scope": "Observed federal holidays. State, local and employer-specific calendars are outside this scope.",
+          "completeness": "reviewed_scope"
+        }
+      ],
+      "days": [
+        {
+          "date": "2026-12-24",
+          "working": true,
+          "reason": "working_day",
+          "counted": false
+        },
+        {
+          "date": "2026-12-25",
+          "working": false,
+          "reason": "public_holiday",
+          "counted": false
+        },
+        {
+          "date": "2026-12-26",
+          "working": false,
+          "reason": "weekend",
+          "counted": false
+        },
+        {
+          "date": "2026-12-27",
+          "working": false,
+          "reason": "weekend",
+          "counted": false
+        },
+        {
+          "date": "2026-12-28",
+          "working": true,
+          "reason": "working_day",
+          "counted": true
+        },
+        {
+          "date": "2026-12-29",
+          "working": true,
+          "reason": "working_day",
+          "counted": true
+        },
+        {
+          "date": "2026-12-30",
+          "working": true,
+          "reason": "working_day",
+          "counted": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "holiday-workdays-deep",
+    "body": {
+      "country": "US",
+      "from": "2026-12-24",
+      "to": "2026-12-30",
+      "region": null,
+      "policy": {
+        "weekend": [
+          0,
+          6
+        ]
+      },
+      "workdays": 4,
+      "calendars": [
+        {
+          "year": 2026,
+          "scope": "Observed federal holidays. State, local and employer-specific calendars are outside this scope.",
+          "completeness": "reviewed_scope"
+        }
+      ],
+      "days": [
+        {
+          "date": "2026-12-24",
+          "working": true,
+          "reason": "working_day"
+        },
+        {
+          "date": "2026-12-25",
+          "working": false,
+          "reason": "public_holiday"
+        },
+        {
+          "date": "2026-12-26",
+          "working": false,
+          "reason": "weekend"
+        },
+        {
+          "date": "2026-12-27",
+          "working": false,
+          "reason": "weekend"
+        },
+        {
+          "date": "2026-12-28",
+          "working": true,
+          "reason": "working_day"
+        },
+        {
+          "date": "2026-12-29",
+          "working": true,
+          "reason": "working_day"
+        },
+        {
+          "date": "2026-12-30",
+          "working": true,
+          "reason": "working_day"
+        }
+      ]
+    }
+  },
+  {
+    "id": "holiday-calendar-deep",
+    "body": {
+      "country": "US",
+      "year": 2026,
+      "scope": "Observed federal holidays. State, local and employer-specific calendars are outside this scope.",
+      "completeness": "reviewed_scope",
+      "holidays": [
+        {
+          "date": "2026-01-01",
+          "name": "New Year's Day",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        },
+        {
+          "date": "2026-01-19",
+          "name": "Birthday of Martin Luther King, Jr.",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        },
+        {
+          "date": "2026-02-16",
+          "name": "Washington's Birthday",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        },
+        {
+          "date": "2026-05-25",
+          "name": "Memorial Day",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        },
+        {
+          "date": "2026-06-19",
+          "name": "Juneteenth National Independence Day",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        },
+        {
+          "date": "2026-07-03",
+          "name": "Independence Day",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": true
+        },
+        {
+          "date": "2026-09-07",
+          "name": "Labor Day",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        },
+        {
+          "date": "2026-10-12",
+          "name": "Columbus Day",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        },
+        {
+          "date": "2026-11-11",
+          "name": "Veterans Day",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        },
+        {
+          "date": "2026-11-26",
+          "name": "Thanksgiving Day",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        },
+        {
+          "date": "2026-12-25",
+          "name": "Christmas Day",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        }
+      ],
+      "date_relationships": [
+        {
+          "date": "2026-07-03",
+          "name": "Independence Day",
+          "regions": null,
+          "actual_date": "2026-07-04",
+          "observed_date": "2026-07-03",
+          "sources": [
+            "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/",
+            "https://www.opm.gov/policy-data-oversight/pay-leave/pay-administration/fact-sheets/holidays-work-schedules-and-pay/"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "holiday-range-core",
+    "body": {
+      "country": "US",
+      "from": "2026-12-24",
+      "to": "2026-12-30",
+      "region": null,
+      "holidays": [
+        {
+          "date": "2026-12-25",
+          "name": "Christmas Day",
+          "name_local": null,
+          "type": "public",
+          "regions": null,
+          "substitute": false
+        }
+      ],
+      "calendars": [
+        {
+          "year": 2026,
+          "scope": "Observed federal holidays. State, local and employer-specific calendars are outside this scope.",
+          "completeness": "reviewed_scope"
+        }
+      ]
+    }
+  }
+]

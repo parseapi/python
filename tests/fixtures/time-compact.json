@@ -1,0 +1,2744 @@
+[
+  {
+    "id": "airport-iata-core",
+    "path": "/time?iata=JFK&at=2026-09-24T12%3A00%3A00Z",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-09-24T08:00:00-04:00",
+      "unix": 1790251200,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true,
+      "location": {
+        "name": "John F. Kennedy International Airport",
+        "state": "NY",
+        "country": "US",
+        "latitude": 40.639447,
+        "longitude": -73.779317
+      }
+    }
+  },
+  {
+    "id": "airport-iata-deep",
+    "path": "/time?iata=JFK&at=2026-09-24T12%3A00%3A00Z&deep=true",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-09-24T08:00:00-04:00",
+      "unix": 1790251200,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true,
+      "location": {
+        "name": "John F. Kennedy International Airport",
+        "state": "NY",
+        "country": "US",
+        "latitude": 40.639447,
+        "longitude": -73.779317
+      },
+      "name": "Eastern Time",
+      "offset_minutes": -240,
+      "offset_seconds": -14400,
+      "next_dst": {
+        "at": "2026-11-01T06:00:00.000Z",
+        "dst": false,
+        "offset": "-05:00",
+        "abbreviation": "EST"
+      },
+      "standard_offset": "-05:00",
+      "standard_offset_seconds": -18000,
+      "dst_offset_seconds": 3600,
+      "season": {
+        "start": {
+          "at": "2026-03-08T07:00:00.000Z",
+          "before": {
+            "at": "2026-03-08T02:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "after": {
+            "at": "2026-03-08T03:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "change_seconds": 3600
+        },
+        "end": {
+          "at": "2026-11-01T06:00:00.000Z",
+          "before": {
+            "at": "2026-11-01T02:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "after": {
+            "at": "2026-11-01T01:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "change_seconds": -3600
+        }
+      }
+    }
+  },
+  {
+    "id": "airport-icao-core",
+    "path": "/time?icao=KJFK&at=2026-09-24T12%3A00%3A00Z",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-09-24T08:00:00-04:00",
+      "unix": 1790251200,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true,
+      "location": {
+        "name": "John F. Kennedy International Airport",
+        "state": "NY",
+        "country": "US",
+        "latitude": 40.639447,
+        "longitude": -73.779317
+      }
+    }
+  },
+  {
+    "id": "airport-icao-deep",
+    "path": "/time?icao=KJFK&at=2026-09-24T12%3A00%3A00Z&deep=true",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-09-24T08:00:00-04:00",
+      "unix": 1790251200,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true,
+      "location": {
+        "name": "John F. Kennedy International Airport",
+        "state": "NY",
+        "country": "US",
+        "latitude": 40.639447,
+        "longitude": -73.779317
+      },
+      "name": "Eastern Time",
+      "offset_minutes": -240,
+      "offset_seconds": -14400,
+      "next_dst": {
+        "at": "2026-11-01T06:00:00.000Z",
+        "dst": false,
+        "offset": "-05:00",
+        "abbreviation": "EST"
+      },
+      "standard_offset": "-05:00",
+      "standard_offset_seconds": -18000,
+      "dst_offset_seconds": 3600,
+      "season": {
+        "start": {
+          "at": "2026-03-08T07:00:00.000Z",
+          "before": {
+            "at": "2026-03-08T02:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "after": {
+            "at": "2026-03-08T03:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "change_seconds": 3600
+        },
+        "end": {
+          "at": "2026-11-01T06:00:00.000Z",
+          "before": {
+            "at": "2026-11-01T02:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "after": {
+            "at": "2026-11-01T01:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "change_seconds": -3600
+        }
+      }
+    }
+  },
+  {
+    "id": "port-core",
+    "path": "/time?unlocode=USNYC&at=2026-09-24T12%3A00%3A00Z",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-09-24T08:00:00-04:00",
+      "unix": 1790251200,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true,
+      "location": {
+        "name": "New York City",
+        "country": "US",
+        "latitude": 40.700000000000045,
+        "longitude": -74.01666699999998
+      }
+    }
+  },
+  {
+    "id": "port-deep",
+    "path": "/time?unlocode=USNYC&at=2026-09-24T12%3A00%3A00Z&deep=true",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-09-24T08:00:00-04:00",
+      "unix": 1790251200,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true,
+      "location": {
+        "name": "New York City",
+        "country": "US",
+        "latitude": 40.700000000000045,
+        "longitude": -74.01666699999998
+      },
+      "name": "Eastern Time",
+      "offset_minutes": -240,
+      "offset_seconds": -14400,
+      "next_dst": {
+        "at": "2026-11-01T06:00:00.000Z",
+        "dst": false,
+        "offset": "-05:00",
+        "abbreviation": "EST"
+      },
+      "standard_offset": "-05:00",
+      "standard_offset_seconds": -18000,
+      "dst_offset_seconds": 3600,
+      "season": {
+        "start": {
+          "at": "2026-03-08T07:00:00.000Z",
+          "before": {
+            "at": "2026-03-08T02:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "after": {
+            "at": "2026-03-08T03:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "change_seconds": 3600
+        },
+        "end": {
+          "at": "2026-11-01T06:00:00.000Z",
+          "before": {
+            "at": "2026-11-01T02:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "after": {
+            "at": "2026-11-01T01:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "change_seconds": -3600
+        }
+      }
+    }
+  },
+  {
+    "id": "country-single-core",
+    "path": "/time?country=IE&at=2026-09-24T12%3A00%3A00Z",
+    "body": {
+      "timezone": "Europe/Dublin",
+      "at": "2026-09-24T13:00:00+01:00",
+      "unix": 1790251200,
+      "offset": "+01:00",
+      "abbreviation": "IST",
+      "dst": false
+    }
+  },
+  {
+    "id": "country-single-deep",
+    "path": "/time?country=IE&at=2026-09-24T12%3A00%3A00Z&deep=true",
+    "body": {
+      "timezone": "Europe/Dublin",
+      "at": "2026-09-24T13:00:00+01:00",
+      "unix": 1790251200,
+      "offset": "+01:00",
+      "abbreviation": "IST",
+      "dst": false,
+      "name": "Ireland Time",
+      "offset_minutes": 60,
+      "offset_seconds": 3600,
+      "next_dst": {
+        "at": "2026-10-25T01:00:00.000Z",
+        "dst": true,
+        "offset": "+00:00",
+        "abbreviation": "GMT"
+      },
+      "standard_offset": "+01:00",
+      "standard_offset_seconds": 3600,
+      "dst_offset_seconds": 0,
+      "season": {
+        "start": {
+          "at": "2026-10-25T01:00:00.000Z",
+          "before": {
+            "at": "2026-10-25T02:00:00+01:00",
+            "offset": "+01:00",
+            "offset_seconds": 3600,
+            "abbreviation": "IST",
+            "dst": false
+          },
+          "after": {
+            "at": "2026-10-25T01:00:00+00:00",
+            "offset": "+00:00",
+            "offset_seconds": 0,
+            "abbreviation": "GMT",
+            "dst": true
+          },
+          "change_seconds": -3600
+        },
+        "end": {
+          "at": "2027-03-28T01:00:00.000Z",
+          "before": {
+            "at": "2027-03-28T01:00:00+00:00",
+            "offset": "+00:00",
+            "offset_seconds": 0,
+            "abbreviation": "GMT",
+            "dst": true
+          },
+          "after": {
+            "at": "2027-03-28T02:00:00+01:00",
+            "offset": "+01:00",
+            "offset_seconds": 3600,
+            "abbreviation": "IST",
+            "dst": false
+          },
+          "change_seconds": 3600
+        }
+      }
+    }
+  },
+  {
+    "id": "country-ambiguous-core",
+    "path": "/time?country=US&at=2026-09-24T12%3A00%3A00Z",
+    "body": {
+      "location": {
+        "input": {
+          "type": "country",
+          "value": "US"
+        },
+        "status": "ambiguous",
+        "truncated": false,
+        "candidates": [
+          {
+            "timezone": "America/Adak"
+          },
+          {
+            "timezone": "America/Anchorage"
+          },
+          {
+            "timezone": "America/Boise"
+          },
+          {
+            "timezone": "America/Chicago"
+          },
+          {
+            "timezone": "America/Denver"
+          },
+          {
+            "timezone": "America/Detroit"
+          },
+          {
+            "timezone": "America/Indiana/Indianapolis"
+          },
+          {
+            "timezone": "America/Indiana/Knox"
+          },
+          {
+            "timezone": "America/Indiana/Marengo"
+          },
+          {
+            "timezone": "America/Indiana/Petersburg"
+          },
+          {
+            "timezone": "America/Indiana/Tell_City"
+          },
+          {
+            "timezone": "America/Indiana/Vevay"
+          },
+          {
+            "timezone": "America/Indiana/Vincennes"
+          },
+          {
+            "timezone": "America/Indiana/Winamac"
+          },
+          {
+            "timezone": "America/Juneau"
+          },
+          {
+            "timezone": "America/Kentucky/Louisville"
+          },
+          {
+            "timezone": "America/Kentucky/Monticello"
+          },
+          {
+            "timezone": "America/Los_Angeles"
+          },
+          {
+            "timezone": "America/Menominee"
+          },
+          {
+            "timezone": "America/Metlakatla"
+          },
+          {
+            "timezone": "America/New_York"
+          },
+          {
+            "timezone": "America/Nome"
+          },
+          {
+            "timezone": "America/North_Dakota/Beulah"
+          },
+          {
+            "timezone": "America/North_Dakota/Center"
+          },
+          {
+            "timezone": "America/North_Dakota/New_Salem"
+          },
+          {
+            "timezone": "America/Phoenix"
+          },
+          {
+            "timezone": "America/Sitka"
+          },
+          {
+            "timezone": "America/Yakutat"
+          },
+          {
+            "timezone": "Pacific/Honolulu"
+          }
+        ]
+      },
+      "latitude": null,
+      "longitude": null,
+      "timezone": null,
+      "at": null,
+      "unix": null,
+      "offset": null,
+      "abbreviation": null,
+      "dst": null
+    }
+  },
+  {
+    "id": "country-ambiguous-deep",
+    "path": "/time?country=US&at=2026-09-24T12%3A00%3A00Z&deep=true",
+    "body": {
+      "location": {
+        "input": {
+          "type": "country",
+          "value": "US"
+        },
+        "status": "ambiguous",
+        "truncated": false,
+        "candidates": [
+          {
+            "timezone": "America/Adak"
+          },
+          {
+            "timezone": "America/Anchorage"
+          },
+          {
+            "timezone": "America/Boise"
+          },
+          {
+            "timezone": "America/Chicago"
+          },
+          {
+            "timezone": "America/Denver"
+          },
+          {
+            "timezone": "America/Detroit"
+          },
+          {
+            "timezone": "America/Indiana/Indianapolis"
+          },
+          {
+            "timezone": "America/Indiana/Knox"
+          },
+          {
+            "timezone": "America/Indiana/Marengo"
+          },
+          {
+            "timezone": "America/Indiana/Petersburg"
+          },
+          {
+            "timezone": "America/Indiana/Tell_City"
+          },
+          {
+            "timezone": "America/Indiana/Vevay"
+          },
+          {
+            "timezone": "America/Indiana/Vincennes"
+          },
+          {
+            "timezone": "America/Indiana/Winamac"
+          },
+          {
+            "timezone": "America/Juneau"
+          },
+          {
+            "timezone": "America/Kentucky/Louisville"
+          },
+          {
+            "timezone": "America/Kentucky/Monticello"
+          },
+          {
+            "timezone": "America/Los_Angeles"
+          },
+          {
+            "timezone": "America/Menominee"
+          },
+          {
+            "timezone": "America/Metlakatla"
+          },
+          {
+            "timezone": "America/New_York"
+          },
+          {
+            "timezone": "America/Nome"
+          },
+          {
+            "timezone": "America/North_Dakota/Beulah"
+          },
+          {
+            "timezone": "America/North_Dakota/Center"
+          },
+          {
+            "timezone": "America/North_Dakota/New_Salem"
+          },
+          {
+            "timezone": "America/Phoenix"
+          },
+          {
+            "timezone": "America/Sitka"
+          },
+          {
+            "timezone": "America/Yakutat"
+          },
+          {
+            "timezone": "Pacific/Honolulu"
+          }
+        ]
+      },
+      "latitude": null,
+      "longitude": null,
+      "timezone": null,
+      "at": null,
+      "unix": null,
+      "offset": null,
+      "abbreviation": null,
+      "dst": null,
+      "name": null,
+      "offset_minutes": null,
+      "offset_seconds": null,
+      "next_dst": null,
+      "standard_offset": null,
+      "standard_offset_seconds": null,
+      "dst_offset_seconds": null,
+      "season": null
+    }
+  },
+  {
+    "id": "airport-unknown-core",
+    "path": "/time?iata=ZZZ&at=2026-09-24T12%3A00%3A00Z",
+    "body": {
+      "location": {
+        "input": {
+          "type": "iata",
+          "value": "ZZZ"
+        },
+        "status": "not_found",
+        "truncated": false,
+        "candidates": []
+      },
+      "latitude": null,
+      "longitude": null,
+      "timezone": null,
+      "at": null,
+      "unix": null,
+      "offset": null,
+      "abbreviation": null,
+      "dst": null
+    }
+  },
+  {
+    "id": "airport-unknown-deep",
+    "path": "/time?iata=ZZZ&at=2026-09-24T12%3A00%3A00Z&deep=true",
+    "body": {
+      "location": {
+        "input": {
+          "type": "iata",
+          "value": "ZZZ"
+        },
+        "status": "not_found",
+        "truncated": false,
+        "candidates": []
+      },
+      "latitude": null,
+      "longitude": null,
+      "timezone": null,
+      "at": null,
+      "unix": null,
+      "offset": null,
+      "abbreviation": null,
+      "dst": null,
+      "name": null,
+      "offset_minutes": null,
+      "offset_seconds": null,
+      "next_dst": null,
+      "standard_offset": null,
+      "standard_offset_seconds": null,
+      "dst_offset_seconds": null,
+      "season": null
+    }
+  },
+  {
+    "id": "airport-conversion-core",
+    "path": "/time?iata=JFK&at=2026-09-24T12%3A00%3A00Z&to=Asia%2FTokyo",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-09-24T08:00:00-04:00",
+      "unix": 1790251200,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true,
+      "location": {
+        "name": "John F. Kennedy International Airport",
+        "state": "NY",
+        "country": "US",
+        "latitude": 40.639447,
+        "longitude": -73.779317
+      },
+      "to": {
+        "timezone": "Asia/Tokyo",
+        "at": "2026-09-24T21:00:00+09:00",
+        "unix": 1790251200,
+        "offset": "+09:00",
+        "abbreviation": "JST",
+        "dst": false
+      }
+    }
+  },
+  {
+    "id": "airport-conversion-deep",
+    "path": "/time?iata=JFK&at=2026-09-24T12%3A00%3A00Z&to=Asia%2FTokyo&deep=true",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-09-24T08:00:00-04:00",
+      "unix": 1790251200,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true,
+      "location": {
+        "name": "John F. Kennedy International Airport",
+        "state": "NY",
+        "country": "US",
+        "latitude": 40.639447,
+        "longitude": -73.779317
+      },
+      "to": {
+        "timezone": "Asia/Tokyo",
+        "at": "2026-09-24T21:00:00+09:00",
+        "unix": 1790251200,
+        "offset": "+09:00",
+        "abbreviation": "JST",
+        "dst": false,
+        "name": "Japan Standard Time",
+        "offset_minutes": 540,
+        "offset_seconds": 32400
+      },
+      "name": "Eastern Time",
+      "offset_minutes": -240,
+      "offset_seconds": -14400,
+      "next_dst": {
+        "at": "2026-11-01T06:00:00.000Z",
+        "dst": false,
+        "offset": "-05:00",
+        "abbreviation": "EST"
+      },
+      "standard_offset": "-05:00",
+      "standard_offset_seconds": -18000,
+      "dst_offset_seconds": 3600,
+      "season": {
+        "start": {
+          "at": "2026-03-08T07:00:00.000Z",
+          "before": {
+            "at": "2026-03-08T02:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "after": {
+            "at": "2026-03-08T03:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "change_seconds": 3600
+        },
+        "end": {
+          "at": "2026-11-01T06:00:00.000Z",
+          "before": {
+            "at": "2026-11-01T02:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "after": {
+            "at": "2026-11-01T01:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "change_seconds": -3600
+        }
+      }
+    }
+  },
+  {
+    "id": "airport-targets-core",
+    "path": "/time?iata=JFK&at=2026-09-24T12%3A00%3A00Z&targets=UTC%2CAsia%2FTokyo%2CUTC",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-09-24T08:00:00-04:00",
+      "unix": 1790251200,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true,
+      "location": {
+        "name": "John F. Kennedy International Airport",
+        "state": "NY",
+        "country": "US",
+        "latitude": 40.639447,
+        "longitude": -73.779317
+      },
+      "targets": [
+        {
+          "timezone": "UTC",
+          "at": "2026-09-24T12:00:00+00:00",
+          "unix": 1790251200,
+          "offset": "+00:00",
+          "abbreviation": "UTC",
+          "dst": false
+        },
+        {
+          "timezone": "Asia/Tokyo",
+          "at": "2026-09-24T21:00:00+09:00",
+          "unix": 1790251200,
+          "offset": "+09:00",
+          "abbreviation": "JST",
+          "dst": false
+        },
+        {
+          "timezone": "UTC",
+          "at": "2026-09-24T12:00:00+00:00",
+          "unix": 1790251200,
+          "offset": "+00:00",
+          "abbreviation": "UTC",
+          "dst": false
+        }
+      ]
+    }
+  },
+  {
+    "id": "airport-targets-deep",
+    "path": "/time?iata=JFK&at=2026-09-24T12%3A00%3A00Z&targets=UTC%2CAsia%2FTokyo%2CUTC&deep=true",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-09-24T08:00:00-04:00",
+      "unix": 1790251200,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true,
+      "location": {
+        "name": "John F. Kennedy International Airport",
+        "state": "NY",
+        "country": "US",
+        "latitude": 40.639447,
+        "longitude": -73.779317
+      },
+      "targets": [
+        {
+          "timezone": "UTC",
+          "at": "2026-09-24T12:00:00+00:00",
+          "unix": 1790251200,
+          "offset": "+00:00",
+          "abbreviation": "UTC",
+          "dst": false,
+          "name": "GMT+00:00",
+          "offset_minutes": 0,
+          "offset_seconds": 0
+        },
+        {
+          "timezone": "Asia/Tokyo",
+          "at": "2026-09-24T21:00:00+09:00",
+          "unix": 1790251200,
+          "offset": "+09:00",
+          "abbreviation": "JST",
+          "dst": false,
+          "name": "Japan Standard Time",
+          "offset_minutes": 540,
+          "offset_seconds": 32400
+        },
+        {
+          "timezone": "UTC",
+          "at": "2026-09-24T12:00:00+00:00",
+          "unix": 1790251200,
+          "offset": "+00:00",
+          "abbreviation": "UTC",
+          "dst": false,
+          "name": "GMT+00:00",
+          "offset_minutes": 0,
+          "offset_seconds": 0
+        }
+      ],
+      "name": "Eastern Time",
+      "offset_minutes": -240,
+      "offset_seconds": -14400,
+      "next_dst": {
+        "at": "2026-11-01T06:00:00.000Z",
+        "dst": false,
+        "offset": "-05:00",
+        "abbreviation": "EST"
+      },
+      "standard_offset": "-05:00",
+      "standard_offset_seconds": -18000,
+      "dst_offset_seconds": 3600,
+      "season": {
+        "start": {
+          "at": "2026-03-08T07:00:00.000Z",
+          "before": {
+            "at": "2026-03-08T02:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "after": {
+            "at": "2026-03-08T03:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "change_seconds": 3600
+        },
+        "end": {
+          "at": "2026-11-01T06:00:00.000Z",
+          "before": {
+            "at": "2026-11-01T02:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "after": {
+            "at": "2026-11-01T01:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "change_seconds": -3600
+        }
+      }
+    }
+  },
+  {
+    "id": "overlap-core",
+    "path": "/time?iata=JFK&at=2026-11-01T01%3A30&to=UTC&disambiguation=later",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-11-01T01:30:00-05:00",
+      "unix": 1793514600,
+      "offset": "-05:00",
+      "abbreviation": "EST",
+      "dst": false,
+      "location": {
+        "name": "John F. Kennedy International Airport",
+        "state": "NY",
+        "country": "US",
+        "latitude": 40.639447,
+        "longitude": -73.779317
+      },
+      "to": {
+        "timezone": "UTC",
+        "at": "2026-11-01T06:30:00+00:00",
+        "unix": 1793514600,
+        "offset": "+00:00",
+        "abbreviation": "UTC",
+        "dst": false
+      }
+    }
+  },
+  {
+    "id": "overlap-deep",
+    "path": "/time?iata=JFK&at=2026-11-01T01%3A30&to=UTC&disambiguation=later&deep=true",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-11-01T01:30:00-05:00",
+      "unix": 1793514600,
+      "offset": "-05:00",
+      "abbreviation": "EST",
+      "dst": false,
+      "location": {
+        "name": "John F. Kennedy International Airport",
+        "state": "NY",
+        "country": "US",
+        "latitude": 40.639447,
+        "longitude": -73.779317
+      },
+      "to": {
+        "timezone": "UTC",
+        "at": "2026-11-01T06:30:00+00:00",
+        "unix": 1793514600,
+        "offset": "+00:00",
+        "abbreviation": "UTC",
+        "dst": false,
+        "name": "GMT+00:00",
+        "offset_minutes": 0,
+        "offset_seconds": 0
+      },
+      "name": "Eastern Time",
+      "offset_minutes": -300,
+      "offset_seconds": -18000,
+      "next_dst": {
+        "at": "2027-03-14T07:00:00.000Z",
+        "dst": true,
+        "offset": "-04:00",
+        "abbreviation": "EDT"
+      },
+      "resolution": {
+        "kind": "overlap",
+        "policy": "later",
+        "adjustment_seconds": 0,
+        "alternatives": [
+          {
+            "at": "2026-11-01T01:30:00-04:00",
+            "unix": 1793511000,
+            "offset": "-04:00"
+          },
+          {
+            "at": "2026-11-01T01:30:00-05:00",
+            "unix": 1793514600,
+            "offset": "-05:00"
+          }
+        ]
+      },
+      "standard_offset": "-05:00",
+      "standard_offset_seconds": -18000,
+      "dst_offset_seconds": 0,
+      "season": {
+        "start": {
+          "at": "2027-03-14T07:00:00.000Z",
+          "before": {
+            "at": "2027-03-14T02:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "after": {
+            "at": "2027-03-14T03:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "change_seconds": 3600
+        },
+        "end": {
+          "at": "2027-11-07T06:00:00.000Z",
+          "before": {
+            "at": "2027-11-07T02:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "after": {
+            "at": "2027-11-07T01:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "change_seconds": -3600
+        }
+      }
+    }
+  },
+  {
+    "id": "gap-core",
+    "path": "/time?iata=JFK&at=2026-03-08T02%3A30&to=UTC",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-03-08T03:30:00-04:00",
+      "unix": 1772955000,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true,
+      "location": {
+        "name": "John F. Kennedy International Airport",
+        "state": "NY",
+        "country": "US",
+        "latitude": 40.639447,
+        "longitude": -73.779317
+      },
+      "to": {
+        "timezone": "UTC",
+        "at": "2026-03-08T07:30:00+00:00",
+        "unix": 1772955000,
+        "offset": "+00:00",
+        "abbreviation": "UTC",
+        "dst": false
+      }
+    }
+  },
+  {
+    "id": "gap-deep",
+    "path": "/time?iata=JFK&at=2026-03-08T02%3A30&to=UTC&deep=true",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-03-08T03:30:00-04:00",
+      "unix": 1772955000,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true,
+      "location": {
+        "name": "John F. Kennedy International Airport",
+        "state": "NY",
+        "country": "US",
+        "latitude": 40.639447,
+        "longitude": -73.779317
+      },
+      "to": {
+        "timezone": "UTC",
+        "at": "2026-03-08T07:30:00+00:00",
+        "unix": 1772955000,
+        "offset": "+00:00",
+        "abbreviation": "UTC",
+        "dst": false,
+        "name": "GMT+00:00",
+        "offset_minutes": 0,
+        "offset_seconds": 0
+      },
+      "name": "Eastern Time",
+      "offset_minutes": -240,
+      "offset_seconds": -14400,
+      "next_dst": {
+        "at": "2026-11-01T06:00:00.000Z",
+        "dst": false,
+        "offset": "-05:00",
+        "abbreviation": "EST"
+      },
+      "resolution": {
+        "kind": "gap",
+        "policy": "compatible",
+        "adjustment_seconds": 3600,
+        "alternatives": [
+          {
+            "at": "2026-03-08T01:30:00-05:00",
+            "unix": 1772951400,
+            "offset": "-05:00"
+          },
+          {
+            "at": "2026-03-08T03:30:00-04:00",
+            "unix": 1772955000,
+            "offset": "-04:00"
+          }
+        ]
+      },
+      "standard_offset": "-05:00",
+      "standard_offset_seconds": -18000,
+      "dst_offset_seconds": 3600,
+      "season": {
+        "start": {
+          "at": "2026-03-08T07:00:00.000Z",
+          "before": {
+            "at": "2026-03-08T02:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "after": {
+            "at": "2026-03-08T03:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "change_seconds": 3600
+        },
+        "end": {
+          "at": "2026-11-01T06:00:00.000Z",
+          "before": {
+            "at": "2026-11-01T02:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "after": {
+            "at": "2026-11-01T01:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "change_seconds": -3600
+        }
+      }
+    }
+  },
+  {
+    "id": "coordinates-core",
+    "path": "/time?lat=40.7128&lon=-74.006&at=2026-09-24T12%3A00%3A00Z",
+    "body": {
+      "latitude": 40.7128,
+      "longitude": -74.006,
+      "timezone": "America/New_York",
+      "at": "2026-09-24T08:00:00-04:00",
+      "unix": 1790251200,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true
+    }
+  },
+  {
+    "id": "coordinates-deep",
+    "path": "/time?lat=40.7128&lon=-74.006&at=2026-09-24T12%3A00%3A00Z&deep=true",
+    "body": {
+      "latitude": 40.7128,
+      "longitude": -74.006,
+      "timezone": "America/New_York",
+      "at": "2026-09-24T08:00:00-04:00",
+      "unix": 1790251200,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true,
+      "name": "Eastern Time",
+      "offset_minutes": -240,
+      "offset_seconds": -14400,
+      "next_dst": {
+        "at": "2026-11-01T06:00:00.000Z",
+        "dst": false,
+        "offset": "-05:00",
+        "abbreviation": "EST"
+      },
+      "standard_offset": "-05:00",
+      "standard_offset_seconds": -18000,
+      "dst_offset_seconds": 3600,
+      "season": {
+        "start": {
+          "at": "2026-03-08T07:00:00.000Z",
+          "before": {
+            "at": "2026-03-08T02:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "after": {
+            "at": "2026-03-08T03:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "change_seconds": 3600
+        },
+        "end": {
+          "at": "2026-11-01T06:00:00.000Z",
+          "before": {
+            "at": "2026-11-01T02:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "after": {
+            "at": "2026-11-01T01:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "change_seconds": -3600
+        }
+      }
+    }
+  },
+  {
+    "id": "zone-core",
+    "path": "/time/America/New_York?at=2026-09-24T12%3A00%3A00Z",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-09-24T08:00:00-04:00",
+      "unix": 1790251200,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true
+    }
+  },
+  {
+    "id": "zone-deep",
+    "path": "/time/America/New_York?at=2026-09-24T12%3A00%3A00Z&deep=true",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-09-24T08:00:00-04:00",
+      "unix": 1790251200,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true,
+      "name": "Eastern Time",
+      "offset_minutes": -240,
+      "offset_seconds": -14400,
+      "next_dst": {
+        "at": "2026-11-01T06:00:00.000Z",
+        "dst": false,
+        "offset": "-05:00",
+        "abbreviation": "EST"
+      },
+      "standard_offset": "-05:00",
+      "standard_offset_seconds": -18000,
+      "dst_offset_seconds": 3600,
+      "season": {
+        "start": {
+          "at": "2026-03-08T07:00:00.000Z",
+          "before": {
+            "at": "2026-03-08T02:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "after": {
+            "at": "2026-03-08T03:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "change_seconds": 3600
+        },
+        "end": {
+          "at": "2026-11-01T06:00:00.000Z",
+          "before": {
+            "at": "2026-11-01T02:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "after": {
+            "at": "2026-11-01T01:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "change_seconds": -3600
+        }
+      }
+    }
+  },
+  {
+    "id": "utc-core",
+    "path": "/time?at=2026-09-24T12%3A00%3A00Z",
+    "body": {
+      "timezone": "UTC",
+      "at": "2026-09-24T12:00:00+00:00",
+      "unix": 1790251200,
+      "offset": "+00:00",
+      "abbreviation": "UTC",
+      "dst": false
+    }
+  },
+  {
+    "id": "utc-deep",
+    "path": "/time?at=2026-09-24T12%3A00%3A00Z&deep=true",
+    "body": {
+      "timezone": "UTC",
+      "at": "2026-09-24T12:00:00+00:00",
+      "unix": 1790251200,
+      "offset": "+00:00",
+      "abbreviation": "UTC",
+      "dst": false,
+      "name": "GMT+00:00",
+      "offset_minutes": 0,
+      "offset_seconds": 0,
+      "next_dst": null,
+      "standard_offset": "+00:00",
+      "standard_offset_seconds": 0,
+      "dst_offset_seconds": 0,
+      "season": null
+    }
+  },
+  {
+    "id": "no-dst-core",
+    "path": "/time/Asia/Kolkata?at=2026-09-24T12%3A00%3A00Z",
+    "body": {
+      "timezone": "Asia/Calcutta",
+      "at": "2026-09-24T17:30:00+05:30",
+      "unix": 1790251200,
+      "offset": "+05:30",
+      "abbreviation": "IST",
+      "dst": false
+    }
+  },
+  {
+    "id": "no-dst-deep",
+    "path": "/time/Asia/Kolkata?at=2026-09-24T12%3A00%3A00Z&deep=true",
+    "body": {
+      "timezone": "Asia/Calcutta",
+      "at": "2026-09-24T17:30:00+05:30",
+      "unix": 1790251200,
+      "offset": "+05:30",
+      "abbreviation": "IST",
+      "dst": false,
+      "name": "India Standard Time",
+      "offset_minutes": 330,
+      "offset_seconds": 19800,
+      "next_dst": null,
+      "standard_offset": "+05:30",
+      "standard_offset_seconds": 19800,
+      "dst_offset_seconds": 0,
+      "season": null
+    }
+  },
+  {
+    "id": "historical-seconds-core",
+    "path": "/time/Europe/Paris?at=1900-01-01T00%3A00%3A00Z",
+    "body": {
+      "timezone": "Europe/Paris",
+      "at": "1900-01-01T00:09:21+00:09:21",
+      "unix": -2208988800,
+      "offset": "+00:09:21",
+      "abbreviation": "PMT",
+      "dst": false
+    }
+  },
+  {
+    "id": "historical-seconds-deep",
+    "path": "/time/Europe/Paris?at=1900-01-01T00%3A00%3A00Z&deep=true",
+    "body": {
+      "timezone": "Europe/Paris",
+      "at": "1900-01-01T00:09:21+00:09:21",
+      "unix": -2208988800,
+      "offset": "+00:09:21",
+      "abbreviation": "PMT",
+      "dst": false,
+      "name": "France Time",
+      "offset_minutes": 9,
+      "offset_seconds": 561,
+      "next_dst": null,
+      "standard_offset": "+00:09:21",
+      "standard_offset_seconds": 561,
+      "dst_offset_seconds": 0,
+      "season": null
+    }
+  },
+  {
+    "id": "city-fixture-core",
+    "path": "/time?city=New+York&country=US&state=NY&at=2026-09-24T12%3A00%3A00Z",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-09-24T08:00:00-04:00",
+      "unix": 1790251200,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true,
+      "location": {
+        "name": "New York",
+        "state": "NY",
+        "country": "US",
+        "id": "city_nyc",
+        "latitude": 40.7128,
+        "longitude": -74.006
+      }
+    }
+  },
+  {
+    "id": "city-fixture-deep",
+    "path": "/time?city=New+York&country=US&state=NY&at=2026-09-24T12%3A00%3A00Z&deep=true",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-09-24T08:00:00-04:00",
+      "unix": 1790251200,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true,
+      "location": {
+        "name": "New York",
+        "state": "NY",
+        "country": "US",
+        "id": "city_nyc",
+        "latitude": 40.7128,
+        "longitude": -74.006
+      },
+      "name": "Eastern Time",
+      "offset_minutes": -240,
+      "offset_seconds": -14400,
+      "next_dst": {
+        "at": "2026-11-01T06:00:00.000Z",
+        "dst": false,
+        "offset": "-05:00",
+        "abbreviation": "EST"
+      },
+      "standard_offset": "-05:00",
+      "standard_offset_seconds": -18000,
+      "dst_offset_seconds": 3600,
+      "season": {
+        "start": {
+          "at": "2026-03-08T07:00:00.000Z",
+          "before": {
+            "at": "2026-03-08T02:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "after": {
+            "at": "2026-03-08T03:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "change_seconds": 3600
+        },
+        "end": {
+          "at": "2026-11-01T06:00:00.000Z",
+          "before": {
+            "at": "2026-11-01T02:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "after": {
+            "at": "2026-11-01T01:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "change_seconds": -3600
+        }
+      }
+    }
+  },
+  {
+    "id": "city-ambiguous-fixture-core",
+    "path": "/time?city=Ambiguous&at=2026-09-24T12%3A00%3A00Z",
+    "body": {
+      "location": {
+        "input": {
+          "type": "city",
+          "value": "Ambiguous"
+        },
+        "status": "ambiguous",
+        "truncated": false,
+        "candidates": [
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_nyc"
+          },
+          {
+            "name": "Other place",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/Los_Angeles",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_other"
+          }
+        ]
+      },
+      "latitude": null,
+      "longitude": null,
+      "timezone": null,
+      "at": null,
+      "unix": null,
+      "offset": null,
+      "abbreviation": null,
+      "dst": null
+    }
+  },
+  {
+    "id": "city-ambiguous-fixture-deep",
+    "path": "/time?city=Ambiguous&at=2026-09-24T12%3A00%3A00Z&deep=true",
+    "body": {
+      "location": {
+        "input": {
+          "type": "city",
+          "value": "Ambiguous"
+        },
+        "status": "ambiguous",
+        "truncated": false,
+        "candidates": [
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_nyc"
+          },
+          {
+            "name": "Other place",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/Los_Angeles",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_other"
+          }
+        ]
+      },
+      "latitude": null,
+      "longitude": null,
+      "timezone": null,
+      "at": null,
+      "unix": null,
+      "offset": null,
+      "abbreviation": null,
+      "dst": null,
+      "name": null,
+      "offset_minutes": null,
+      "offset_seconds": null,
+      "next_dst": null,
+      "standard_offset": null,
+      "standard_offset_seconds": null,
+      "dst_offset_seconds": null,
+      "season": null
+    }
+  },
+  {
+    "id": "city-truncated-fixture-core",
+    "path": "/time?city=Truncated&at=2026-09-24T12%3A00%3A00Z",
+    "body": {
+      "location": {
+        "input": {
+          "type": "city",
+          "value": "Truncated"
+        },
+        "status": "ambiguous",
+        "truncated": true,
+        "candidates": [
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture0"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture1"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture2"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture3"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture4"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture5"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture6"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture7"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture8"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture9"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture10"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture11"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture12"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture13"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture14"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture15"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture16"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture17"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture18"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture19"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture20"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture21"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture22"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture23"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture24"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture25"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture26"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture27"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture28"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture29"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture30"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture31"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture32"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture33"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture34"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture35"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture36"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture37"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture38"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture39"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture40"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture41"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture42"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture43"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture44"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture45"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture46"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture47"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture48"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture49"
+          }
+        ]
+      },
+      "latitude": null,
+      "longitude": null,
+      "timezone": null,
+      "at": null,
+      "unix": null,
+      "offset": null,
+      "abbreviation": null,
+      "dst": null
+    }
+  },
+  {
+    "id": "city-truncated-fixture-deep",
+    "path": "/time?city=Truncated&at=2026-09-24T12%3A00%3A00Z&deep=true",
+    "body": {
+      "location": {
+        "input": {
+          "type": "city",
+          "value": "Truncated"
+        },
+        "status": "ambiguous",
+        "truncated": true,
+        "candidates": [
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture0"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture1"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture2"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture3"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture4"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture5"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture6"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture7"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture8"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture9"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture10"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture11"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture12"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture13"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture14"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture15"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture16"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture17"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture18"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture19"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture20"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture21"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture22"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture23"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture24"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture25"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture26"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture27"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture28"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture29"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture30"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture31"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture32"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture33"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture34"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture35"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture36"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture37"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture38"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture39"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture40"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture41"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture42"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture43"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture44"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture45"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture46"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture47"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture48"
+          },
+          {
+            "name": "New York",
+            "state": "NY",
+            "country": "US",
+            "timezone": "America/New_York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "id": "city_fixture49"
+          }
+        ]
+      },
+      "latitude": null,
+      "longitude": null,
+      "timezone": null,
+      "at": null,
+      "unix": null,
+      "offset": null,
+      "abbreviation": null,
+      "dst": null,
+      "name": null,
+      "offset_minutes": null,
+      "offset_seconds": null,
+      "next_dst": null,
+      "standard_offset": null,
+      "standard_offset_seconds": null,
+      "dst_offset_seconds": null,
+      "season": null
+    }
+  },
+  {
+    "id": "ip-fixture-core",
+    "path": "/time?ip=8.8.8.8&at=2026-09-24T12%3A00%3A00Z",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-09-24T08:00:00-04:00",
+      "unix": 1790251200,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true,
+      "location": {
+        "name": "New York",
+        "state": "NY",
+        "country": "US",
+        "id": "city_nyc",
+        "latitude": 40.7128,
+        "longitude": -74.006
+      }
+    }
+  },
+  {
+    "id": "ip-fixture-deep",
+    "path": "/time?ip=8.8.8.8&at=2026-09-24T12%3A00%3A00Z&deep=true",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-09-24T08:00:00-04:00",
+      "unix": 1790251200,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true,
+      "location": {
+        "name": "New York",
+        "state": "NY",
+        "country": "US",
+        "id": "city_nyc",
+        "latitude": 40.7128,
+        "longitude": -74.006
+      },
+      "name": "Eastern Time",
+      "offset_minutes": -240,
+      "offset_seconds": -14400,
+      "next_dst": {
+        "at": "2026-11-01T06:00:00.000Z",
+        "dst": false,
+        "offset": "-05:00",
+        "abbreviation": "EST"
+      },
+      "standard_offset": "-05:00",
+      "standard_offset_seconds": -18000,
+      "dst_offset_seconds": 3600,
+      "season": {
+        "start": {
+          "at": "2026-03-08T07:00:00.000Z",
+          "before": {
+            "at": "2026-03-08T02:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "after": {
+            "at": "2026-03-08T03:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "change_seconds": 3600
+        },
+        "end": {
+          "at": "2026-11-01T06:00:00.000Z",
+          "before": {
+            "at": "2026-11-01T02:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "after": {
+            "at": "2026-11-01T01:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "change_seconds": -3600
+        }
+      }
+    }
+  },
+  {
+    "id": "private-ip-core",
+    "path": "/time?ip=127.0.0.1&at=2026-09-24T12%3A00%3A00Z",
+    "body": {
+      "location": {
+        "input": {
+          "type": "ip",
+          "value": "127.0.0.1"
+        },
+        "status": "not_found",
+        "truncated": false,
+        "candidates": []
+      },
+      "latitude": null,
+      "longitude": null,
+      "timezone": null,
+      "at": null,
+      "unix": null,
+      "offset": null,
+      "abbreviation": null,
+      "dst": null
+    }
+  },
+  {
+    "id": "private-ip-deep",
+    "path": "/time?ip=127.0.0.1&at=2026-09-24T12%3A00%3A00Z&deep=true",
+    "body": {
+      "location": {
+        "input": {
+          "type": "ip",
+          "value": "127.0.0.1"
+        },
+        "status": "not_found",
+        "truncated": false,
+        "candidates": []
+      },
+      "latitude": null,
+      "longitude": null,
+      "timezone": null,
+      "at": null,
+      "unix": null,
+      "offset": null,
+      "abbreviation": null,
+      "dst": null,
+      "name": null,
+      "offset_minutes": null,
+      "offset_seconds": null,
+      "next_dst": null,
+      "standard_offset": null,
+      "standard_offset_seconds": null,
+      "dst_offset_seconds": null,
+      "season": null
+    }
+  },
+  {
+    "id": "address-fixture-core",
+    "path": "/time?address=1600+Pennsylvania+Avenue+NW%2C+Washington%2C+DC+20500&country=US&at=2026-09-24T12%3A00%3A00Z",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-09-24T08:00:00-04:00",
+      "unix": 1790251200,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true,
+      "location": {
+        "name": "1600 Pennsylvania Avenue NW, Washington",
+        "state": "DC",
+        "country": "US",
+        "latitude": 38.8977,
+        "longitude": -77.0365
+      }
+    }
+  },
+  {
+    "id": "address-fixture-deep",
+    "path": "/time?address=1600+Pennsylvania+Avenue+NW%2C+Washington%2C+DC+20500&country=US&at=2026-09-24T12%3A00%3A00Z&deep=true",
+    "body": {
+      "timezone": "America/New_York",
+      "at": "2026-09-24T08:00:00-04:00",
+      "unix": 1790251200,
+      "offset": "-04:00",
+      "abbreviation": "EDT",
+      "dst": true,
+      "location": {
+        "name": "1600 Pennsylvania Avenue NW, Washington",
+        "state": "DC",
+        "country": "US",
+        "latitude": 38.8977,
+        "longitude": -77.0365
+      },
+      "name": "Eastern Time",
+      "offset_minutes": -240,
+      "offset_seconds": -14400,
+      "next_dst": {
+        "at": "2026-11-01T06:00:00.000Z",
+        "dst": false,
+        "offset": "-05:00",
+        "abbreviation": "EST"
+      },
+      "standard_offset": "-05:00",
+      "standard_offset_seconds": -18000,
+      "dst_offset_seconds": 3600,
+      "season": {
+        "start": {
+          "at": "2026-03-08T07:00:00.000Z",
+          "before": {
+            "at": "2026-03-08T02:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "after": {
+            "at": "2026-03-08T03:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "change_seconds": 3600
+        },
+        "end": {
+          "at": "2026-11-01T06:00:00.000Z",
+          "before": {
+            "at": "2026-11-01T02:00:00-04:00",
+            "offset": "-04:00",
+            "offset_seconds": -14400,
+            "abbreviation": "EDT",
+            "dst": true
+          },
+          "after": {
+            "at": "2026-11-01T01:00:00-05:00",
+            "offset": "-05:00",
+            "offset_seconds": -18000,
+            "abbreviation": "EST",
+            "dst": false
+          },
+          "change_seconds": -3600
+        }
+      }
+    }
+  }
+]

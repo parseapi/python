@@ -226,7 +226,7 @@ def test_stack_sync_and_async_preserve_site_inventory_shapes_and_encoding():
 def check(calls):
     assert str(calls[0].url) == "https://api.parseapi.com/stack/b%C3%BCcher.example?deep=true&pretty=true"
     assert str(calls[1].url) == "https://api.parseapi.com/stack/example.com"
-    assert all(request.headers["Parse-Version"] == "2.0.0" for request in calls)
+    assert all(request.headers["X-API-Version"] == "2.1.0" for request in calls)
 
 def test_stack_deadline_defaults_and_explicit_sync_async_settings():
     for explicit in [None, 10.0, 1.2, 45.0]:

@@ -81,23 +81,6 @@
       ],
       "returns": "Json"
     },
-    "bin": {
-      "async": true,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "bin",
-          "type": "str"
-        },
-        {
-          "default": false,
-          "kind": "KEYWORD_ONLY",
-          "name": "deep",
-          "type": "bool"
-        }
-      ],
-      "returns": "Json"
-    },
     "caller": {
       "async": true,
       "parameters": [
@@ -215,7 +198,7 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "format",
-          "type": "Optional[Literal['resource']]"
+          "type": "Optional[Literal['geojson']]"
         },
         {
           "default": false,
@@ -354,7 +337,7 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "format",
-          "type": "Optional[Literal['resource']]"
+          "type": "Optional[Literal['geojson']]"
         },
         {
           "default": false,
@@ -455,12 +438,6 @@
         {
           "default": null,
           "kind": "KEYWORD_ONLY",
-          "name": "timezone",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
           "name": "bbox",
           "type": "Optional[str]"
         },
@@ -468,12 +445,6 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "sort",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "order",
           "type": "Optional[str]"
         },
         {
@@ -616,12 +587,6 @@
         {
           "default": null,
           "kind": "KEYWORD_ONLY",
-          "name": "timezone",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
           "name": "bbox",
           "type": "Optional[str]"
         },
@@ -629,12 +594,6 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "sort",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "order",
           "type": "Optional[str]"
         },
         {
@@ -659,7 +618,7 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "format",
-          "type": "Optional[Literal['list']]"
+          "type": "Optional[Literal['geojson']]"
         },
         {
           "default": false,
@@ -782,12 +741,6 @@
         {
           "default": null,
           "kind": "KEYWORD_ONLY",
-          "name": "timezone",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
           "name": "bbox",
           "type": "Optional[str]"
         },
@@ -795,12 +748,6 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "sort",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "order",
           "type": "Optional[str]"
         },
         {
@@ -883,7 +830,7 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "format",
-          "type": "Optional[Literal['resource']]"
+          "type": "Optional[Literal['geojson']]"
         },
         {
           "default": false,
@@ -1007,12 +954,6 @@
         {
           "default": null,
           "kind": "KEYWORD_ONLY",
-          "name": "timezone",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
           "name": "bbox",
           "type": "Optional[str]"
         },
@@ -1020,12 +961,6 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "sort",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "order",
           "type": "Optional[str]"
         },
         {
@@ -1050,7 +985,7 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "format",
-          "type": "Optional[Literal['list']]"
+          "type": "Optional[Literal['geojson']]"
         },
         {
           "default": false,
@@ -1146,11 +1081,6 @@
           "type": "Optional[str]"
         }
       ],
-      "returns": "Json"
-    },
-    "company.coverage": {
-      "async": true,
-      "parameters": [],
       "returns": "Json"
     },
     "company.id": {
@@ -1357,6 +1287,57 @@
       ],
       "returns": "Json"
     },
+    "currency": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "currency.rate": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "base",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "quote_currency",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "date",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "amount",
+          "type": "Optional[float]"
+        }
+      ],
+      "returns": "Json"
+    },
     "date": {
       "async": true,
       "parameters": [
@@ -1518,6 +1499,17 @@
       ],
       "returns": "Json"
     },
+    "email_verify": {
+      "async": true,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "email",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
     "emoji": {
       "async": true,
       "parameters": [
@@ -1611,12 +1603,6 @@
       "async": true,
       "parameters": [
         {
-          "default": true,
-          "kind": "KEYWORD_ONLY",
-          "name": "deep",
-          "type": "bool"
-        },
-        {
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "lang",
@@ -1651,12 +1637,6 @@
           "kind": "KEYWORD_ONLY",
           "name": "include_skin_tones",
           "type": "Optional[bool]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "profile",
-          "type": "Optional[str]"
         }
       ],
       "returns": "Json"
@@ -1685,11 +1665,6 @@
           "type": "str"
         }
       ],
-      "returns": "Json"
-    },
-    "emoji.metadata": {
-      "async": true,
-      "parameters": [],
       "returns": "Json"
     },
     "emoji.parse": {
@@ -2667,23 +2642,6 @@
       ],
       "returns": "Json"
     },
-    "bin": {
-      "async": false,
-      "parameters": [
-        {
-          "kind": "POSITIONAL_OR_KEYWORD",
-          "name": "bin",
-          "type": "str"
-        },
-        {
-          "default": false,
-          "kind": "KEYWORD_ONLY",
-          "name": "deep",
-          "type": "bool"
-        }
-      ],
-      "returns": "Json"
-    },
     "caller": {
       "async": false,
       "parameters": [
@@ -2801,7 +2759,7 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "format",
-          "type": "Optional[Literal['resource']]"
+          "type": "Optional[Literal['geojson']]"
         },
         {
           "default": false,
@@ -2940,7 +2898,7 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "format",
-          "type": "Optional[Literal['resource']]"
+          "type": "Optional[Literal['geojson']]"
         },
         {
           "default": false,
@@ -3041,12 +2999,6 @@
         {
           "default": null,
           "kind": "KEYWORD_ONLY",
-          "name": "timezone",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
           "name": "bbox",
           "type": "Optional[str]"
         },
@@ -3054,12 +3006,6 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "sort",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "order",
           "type": "Optional[str]"
         },
         {
@@ -3202,12 +3148,6 @@
         {
           "default": null,
           "kind": "KEYWORD_ONLY",
-          "name": "timezone",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
           "name": "bbox",
           "type": "Optional[str]"
         },
@@ -3215,12 +3155,6 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "sort",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "order",
           "type": "Optional[str]"
         },
         {
@@ -3245,7 +3179,7 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "format",
-          "type": "Optional[Literal['list']]"
+          "type": "Optional[Literal['geojson']]"
         },
         {
           "default": false,
@@ -3368,12 +3302,6 @@
         {
           "default": null,
           "kind": "KEYWORD_ONLY",
-          "name": "timezone",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
           "name": "bbox",
           "type": "Optional[str]"
         },
@@ -3381,12 +3309,6 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "sort",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "order",
           "type": "Optional[str]"
         },
         {
@@ -3469,7 +3391,7 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "format",
-          "type": "Optional[Literal['resource']]"
+          "type": "Optional[Literal['geojson']]"
         },
         {
           "default": false,
@@ -3593,12 +3515,6 @@
         {
           "default": null,
           "kind": "KEYWORD_ONLY",
-          "name": "timezone",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
           "name": "bbox",
           "type": "Optional[str]"
         },
@@ -3606,12 +3522,6 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "sort",
-          "type": "Optional[str]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "order",
           "type": "Optional[str]"
         },
         {
@@ -3636,7 +3546,7 @@
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "format",
-          "type": "Optional[Literal['list']]"
+          "type": "Optional[Literal['geojson']]"
         },
         {
           "default": false,
@@ -3732,11 +3642,6 @@
           "type": "Optional[str]"
         }
       ],
-      "returns": "Json"
-    },
-    "company.coverage": {
-      "async": false,
-      "parameters": [],
       "returns": "Json"
     },
     "company.id": {
@@ -3943,6 +3848,57 @@
       ],
       "returns": "Json"
     },
+    "currency": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "code",
+          "type": "str"
+        },
+        {
+          "default": false,
+          "kind": "KEYWORD_ONLY",
+          "name": "deep",
+          "type": "bool"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "lang",
+          "type": "Optional[str]"
+        }
+      ],
+      "returns": "Json"
+    },
+    "currency.rate": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "base",
+          "type": "str"
+        },
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "quote_currency",
+          "type": "str"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "date",
+          "type": "Optional[str]"
+        },
+        {
+          "default": null,
+          "kind": "KEYWORD_ONLY",
+          "name": "amount",
+          "type": "Optional[float]"
+        }
+      ],
+      "returns": "Json"
+    },
     "date": {
       "async": false,
       "parameters": [
@@ -4104,6 +4060,17 @@
       ],
       "returns": "Json"
     },
+    "email_verify": {
+      "async": false,
+      "parameters": [
+        {
+          "kind": "POSITIONAL_OR_KEYWORD",
+          "name": "email",
+          "type": "str"
+        }
+      ],
+      "returns": "Json"
+    },
     "emoji": {
       "async": false,
       "parameters": [
@@ -4197,12 +4164,6 @@
       "async": false,
       "parameters": [
         {
-          "default": true,
-          "kind": "KEYWORD_ONLY",
-          "name": "deep",
-          "type": "bool"
-        },
-        {
           "default": null,
           "kind": "KEYWORD_ONLY",
           "name": "lang",
@@ -4237,12 +4198,6 @@
           "kind": "KEYWORD_ONLY",
           "name": "include_skin_tones",
           "type": "Optional[bool]"
-        },
-        {
-          "default": null,
-          "kind": "KEYWORD_ONLY",
-          "name": "profile",
-          "type": "Optional[str]"
         }
       ],
       "returns": "Json"
@@ -4271,11 +4226,6 @@
           "type": "str"
         }
       ],
-      "returns": "Json"
-    },
-    "emoji.metadata": {
-      "async": false,
-      "parameters": [],
       "returns": "Json"
     },
     "emoji.parse": {

@@ -34,6 +34,6 @@ def test_postal_weather_json_and_package_version_header(async_mode):
 
     assert len(calls) == len(entries)
     assert all(request.headers["User-Agent"] == f"parseapi-python/{__version__}" for request in calls)
-    assert fixtures["postal_compact"]["deep"]["property_tax"] == {"annual_median": 0}
-    assert fixtures["weather_current"]["deep"]["forecast"] is None
-    assert fixtures["weather_current"]["deep"]["alerts"] == []
+    assert fixtures["postal_compact"]["property_tax"] == {"annual_median": 0}
+    assert fixtures["weather_current"]["forecast"] is None
+    assert fixtures["weather_current"]["alerts"] == []

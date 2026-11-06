@@ -23,6 +23,9 @@ def ok(body=None):
 
 
 URL_TABLE = [
+    (lambda p: p.currency("JPY"), "https://api.parseapi.com/currency/JPY"),
+    (lambda p: p.currency("USD", deep=True, lang="fr"), "https://api.parseapi.com/currency/USD?deep=true&lang=fr"),
+    (lambda p: p.currency.rate("USD", "EUR", date="2026-10-30", amount=0), "https://api.parseapi.com/currency/USD/EUR?date=2026-10-30&amount=0"),
     (lambda p: p.time("America/New_York", at="2026-11-01T01:30:00", to="UTC", disambiguation="compatible"), "https://api.parseapi.com/time/America%2FNew_York?at=2026-11-01T01%3A30%3A00&to=UTC&disambiguation=compatible"),
     (lambda p: p.time.at(40.71, -74.01, at="2026-11-01T01:30:00", to="UTC", disambiguation="compatible"), "https://api.parseapi.com/time?lat=40.71&lon=-74.01&at=2026-11-01T01%3A30%3A00&to=UTC&disambiguation=compatible"),
     (lambda p: p.time("America/New_York", at="2026-11-01T01:30:00", to="UTC", disambiguation="earlier"), "https://api.parseapi.com/time/America%2FNew_York?at=2026-11-01T01%3A30%3A00&to=UTC&disambiguation=earlier"),
@@ -35,8 +38,6 @@ URL_TABLE = [
     (lambda p: p.time.zones('Europe'), "https://api.parseapi.com/time/zones?q=Europe"),
     (lambda p: p.time('UTC', targets=['UTC', 'Asia/Tokyo', 'UTC']), "https://api.parseapi.com/time/UTC?targets=UTC%2CAsia%2FTokyo%2CUTC"),
     (lambda p: p.time.at(0, 0, targets=['UTC', 'Asia/Tokyo', 'UTC']), "https://api.parseapi.com/time?lat=0&lon=0&targets=UTC%2CAsia%2FTokyo%2CUTC"),
-    (lambda p: p.bin("001234"), "https://api.parseapi.com/bin/001234"),
-    (lambda p: p.bin("00 1234-56", deep=True), "https://api.parseapi.com/bin/00%201234-56?deep=true"),
     (lambda p: p.card("001234"), "https://api.parseapi.com/card/001234"),
     (lambda p: p.card("00 1234-56"), "https://api.parseapi.com/card/00%201234-56"),
     (lambda p: p.time(), "https://api.parseapi.com/time"),
@@ -478,3 +479,24 @@ def test_name_local_preserved_sync_and_async(name_local):
             async with AsyncParseAPI("test_key", transport=httpx.MockTransport(ok(body))) as client:
                 assert await invoke(client) == body
         asyncio.run(check())
+
+
+def test_async_currency_helpers_are_available_through_the_public_client():
+    async def run():
+        calls = []
+        def transport(request):
+            calls.append(request)
+            return httpx.Response(200, json={"currency": "JPY", "digits": 0})
+        async with AsyncParseAPI("fixture", transport=httpx.MockTransport(transport)) as client:
+            assert (await client.currency("JPY"))["digits"] == 0
+            await client.currency.rate("USD", "EUR", date="2026-10-30", amount=0)
+        assert calls[0].url.path == "/currency/JPY"
+        assert calls[0].headers["x-api-version"] == "2.1.0"
+        assert str(calls[1].url) == "https://api.parseapi.com/currency/USD/EUR?date=2026-10-30&amount=0"
+    asyncio.run(run())
+
+
+def test_legacy_bin_is_not_a_public_lookup():
+    for client_type in (ParseAPI, AsyncParseAPI):
+        assert not hasattr(client_type, "bin")
+        assert callable(getattr(client_type, "card"))

@@ -31,7 +31,8 @@ def test_contract_pin_survives_retry_self_and_useragent(async_mode):
 
     assert [request.url.path for request in calls] == ["/country/US", "/country/US", "/ip", "/useragent"]
     for request in calls:
-        assert request.headers["Parse-Version"] == "2.0.0"
+        assert request.headers["X-API-Version"] == "2.1.0"
+        assert "Parse-Version" not in request.headers
         assert request.headers["X-API-Key"] == "same-production-key"
         assert not request.url.query
     assert calls[-1].headers["User-Agent"] == "Custom browser"

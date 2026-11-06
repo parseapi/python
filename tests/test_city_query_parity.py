@@ -16,8 +16,7 @@ def test_city_collections_filter_names_zero_values_cursor_and_legacy_calls(async
         return httpx.Response(200, json=first if len(seen) == 1 else {"object": "list", "data": [], "has_more": False, "url": "/city", "next_cursor": None})
 
     options = dict(country="JP", min_population=0, max_population=1000000,
-                   timezone="Asia/Tokyo", bbox="170,-20,-170,20", sort="population",
-                   order="desc", limit=7)
+                   timezones=["Asia/Tokyo"], bbox="170,-20,-170,20", sort="-population", limit=7)
 
     async def run_async():
         async with AsyncParseAPI("test", transport=httpx.MockTransport(respond)) as client:
@@ -43,11 +42,11 @@ def test_city_collections_filter_names_zero_values_cursor_and_legacy_calls(async
             client.city.nearest(0, 0)
             client.city.search("Wi", page=False)
 
-    assert dict(seen[0].params) == {"format": "list", "browse": "true", "country": "JP", "min_population": "0",
-                                  "max_population": "1000000", "timezone": "Asia/Tokyo",
-                                  "bbox": "170,-20,-170,20", "sort": "population", "order": "desc", "limit": "7"}
+    assert dict(seen[0].params) == {"browse": "true", "country": "JP", "min_population": "0",
+                                  "max_population": "1000000", "timezones": "Asia/Tokyo",
+                                  "bbox": "170,-20,-170,20", "sort": "-population", "limit": "7"}
     assert seen[1].params["cursor"] == "opaque+cursor/="
-    assert dict(seen[2].params) == {"lat": "0", "lon": "0", "nearby": "true", "format": "list", "radius": "3", "unit": "mi", "min_population": "0"}
+    assert dict(seen[2].params) == {"lat": "0", "lon": "0", "nearby": "true", "radius": "3", "unit": "mi", "min_population": "0"}
     assert seen[3].params["page"] == "true"
     assert seen[4].params["max_population"] == "0"
     assert dict(seen[5].params) == {"lat": "0", "lon": "0"}

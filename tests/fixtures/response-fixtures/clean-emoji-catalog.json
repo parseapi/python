@@ -140,13 +140,11 @@
         ":heart:"
       ],
       "category": "Smileys & Emotion",
-      "deep": {
-        "version": "0.6",
-        "keywords": [
-          "love"
-        ],
-        "subcategory": "heart"
-      }
+      "version": "0.6",
+      "keywords": [
+        "love"
+      ],
+      "subcategory": "heart"
     }
   ],
   "forms": {

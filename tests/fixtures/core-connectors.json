@@ -1,0 +1,251 @@
+{
+  "country": {
+    "country": "US",
+    "name": "United States",
+    "name_local": null,
+    "continent": "NA",
+    "currency": "USD",
+    "currency_name": "Dollar",
+    "currency_symbol": "$",
+    "calling_code": "+1",
+    "emoji": "🇺🇸",
+    "languages": [
+      "en"
+    ],
+    "timezones": [
+      "America/New_York"
+    ],
+    "iso3": "USA",
+    "borders": [
+      "CA",
+      "MX"
+    ],
+    "capital_lat": 0,
+    "capital_lon": -77.0365,
+    "deep": {
+      "iso3": "USA",
+      "borders": [
+        "CA",
+        "MX"
+      ],
+      "capital_lat": 0,
+      "capital_lon": -77.0365
+    }
+  },
+  "language": {
+    "language": "en",
+    "name": "English",
+    "name_local": null,
+    "script": "Latn",
+    "direction": "ltr",
+    "iso3": "eng",
+    "countries": [
+      "GB",
+      "US"
+    ],
+    "deep": {
+      "iso3": "eng",
+      "countries": [
+        "GB",
+        "US"
+      ]
+    }
+  },
+  "currency": {
+    "currency": "USD",
+    "name": "Dollar",
+    "symbol": "$",
+    "symbol_native": "$",
+    "digits": 2,
+    "countries": [
+      "US"
+    ],
+    "deep": {
+      "countries": [
+        "US"
+      ]
+    }
+  },
+  "postal": {
+    "postal": "00501",
+    "city": null,
+    "city_local": null,
+    "district": null,
+    "district_name": null,
+    "district_name_local": null,
+    "state": "NY",
+    "state_name": "New York",
+    "state_name_local": null,
+    "country": "US",
+    "country_name": "United States",
+    "latitude": 0,
+    "longitude": 0,
+    "timezone": "America/New_York",
+    "deep": {
+      "currency": "USD",
+      "neighbors": [
+        "00544"
+      ]
+    }
+  },
+  "industry": {
+    "naics": "11",
+    "name": "Agriculture",
+    "level": 2,
+    "parent": null,
+    "parent_name": null,
+    "year": 2022,
+    "country": "US",
+    "children": [
+      "111"
+    ],
+    "exclusion_codes": [
+      "541690"
+    ],
+    "deep": {
+      "children": [
+        {
+          "naics": "111",
+          "name": "Crop Production"
+        }
+      ],
+      "exclusions": [
+        {
+          "description": "Consulting",
+          "codes": [
+            {
+              "naics": "541690",
+              "name": "Other Consulting Services"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "emoji": {
+    "emoji": "👍🏻",
+    "name": "thumbs up light skin tone",
+    "shortcodes": [
+      ":thumbsup:"
+    ],
+    "category": "People & Body",
+    "base": "👍",
+    "variants": [
+      "👍🏽"
+    ],
+    "subcategory": "hand-fingers-closed",
+    "deep": {
+      "base": "👍",
+      "variants": [
+        {
+          "emoji": "👍🏽",
+          "tones": [
+            "medium"
+          ]
+        }
+      ],
+      "subcategory": "hand-fingers-closed",
+      "skins": []
+    }
+  },
+  "company": {
+    "id": "company_fixture",
+    "name": "Fixture",
+    "country": "US",
+    "website": "https://example.com",
+    "listings": [],
+    "address": null,
+    "jurisdiction": {
+      "country": "US",
+      "state": "DE"
+    },
+    "domains": [
+      {
+        "domain": "other.example.com",
+        "url": null
+      }
+    ],
+    "identifiers": [
+      {
+        "type": "cik",
+        "authority": "sec",
+        "value": "0000320193"
+      }
+    ],
+    "addresses": [
+      {
+        "type": "business",
+        "street": null,
+        "city": null,
+        "state": "NY",
+        "postal": "00501",
+        "country": "US"
+      }
+    ],
+    "industries": [
+      {
+        "type": "sic",
+        "code": "3571"
+      }
+    ],
+    "parent": null,
+    "phone_numbers": [
+      {
+        "number": "+1 408 996 1010",
+        "country": "US",
+        "e164": "+14089961010"
+      }
+    ],
+    "email_addresses": [
+      {
+        "address": "info@example.com"
+      }
+    ],
+    "deep": {
+      "industries": [
+        {
+          "type": "sic",
+          "code": "3571",
+          "name": "Electronic Computers"
+        }
+      ],
+      "phone_numbers": [
+        {
+          "number": "+1 408 996 1010",
+          "type": null
+        }
+      ]
+    }
+  },
+  "point": {
+    "latitude": 0,
+    "longitude": 0,
+    "country": "US",
+    "country_name": "United States",
+    "state": null,
+    "state_name": null,
+    "district": null,
+    "district_name": null,
+    "timezone": "America/New_York",
+    "city_id": "city_7aj899nvwyku",
+    "deep": {
+      "elevation": 0,
+      "elevation_ft": 0,
+      "resolution": null,
+      "city": {
+        "id": "city_7aj899nvwyku",
+        "name": "Fixture city",
+        "name_local": null,
+        "type": "city",
+        "state": null,
+        "state_name": null,
+        "country": "US",
+        "country_name": "United States",
+        "latitude": 0,
+        "longitude": 0,
+        "distance": 0,
+        "distance_mi": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "ip": "198.51.100.10",
+  "country": "XX",
+  "country_name": "Example",
+  "continent": "NA",
+  "asn": "AS64512",
+  "asn_name": "Fixture",
+  "deep": {
+    "city": "Example",
+    "state": "EX",
+    "state_name": "Example state",
+    "postal": "00123",
+    "latitude": 0,
+    "longitude": -1e-06,
+    "timezone": "Etc/UTC",
+    "network": "198.51.100.0/24",
+    "asn_type": "education",
+    "registry": "arin",
+    "datacenter": false,
+    "relay": false,
+    "tor": false,
+    "vpn": false,
+    "proxy": false,
+    "provider": null
+  }
+}
