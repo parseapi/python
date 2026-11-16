@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.0 - 2026-11-16
+
+- Breaking State field-read migration: update `iso_subdivision` reads to `iso_code`, with the existing value or null. County and State county items add nullable `iso_code` for the exact place. Other ISO representations and package versions are unchanged.
+
 ## 1.12.0 — 2026-11-02
 
 - Select API `2.1.0` through the existing client factory. Requested profile detail uses natural field homes instead of a response `.deep` bag.

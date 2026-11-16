@@ -20,4 +20,4 @@ def test_ordinary_domain_preserves_unknown_and_false_sync_and_async():
                     assert await client.domain("example.com", deep=True) == body
             asyncio.run(run())
             assert len(calls) == 2
-            assert all(request.headers["X-API-Version"] == "2.1.0" for request in calls)
+            assert all(request.headers["X-API-Version"] == "2.2.0" for request in calls)

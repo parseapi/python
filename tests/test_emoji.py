@@ -31,7 +31,7 @@ def test_sync_and_async_emoji_catalog_and_text_body():
         assert calls[4].url.path == "/emoji/parse" and calls[4].method == "POST"
         assert json.loads(calls[4].content) == {"text": "x 👍🏿 👍🏿"}
         assert dict(calls[4].url.params) == {"deep": "true", "lang": "fr"}
-        assert calls[4].headers["X-API-Version"] == "2.1.0"
+        assert calls[4].headers["X-API-Version"] == "2.2.0"
         if async_mode:
             await client.close()
         else:

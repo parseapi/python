@@ -10,7 +10,7 @@ def test_approved_compact_time_sync_and_async():
     def transport_for_rows():
         pending = iter(ROWS)
         def reply(request):
-            assert request.headers['X-API-Version'] == '2.1.0'
+            assert request.headers['X-API-Version'] == '2.2.0'
             return httpx.Response(200, json=next(pending)['body'])
         return httpx.MockTransport(reply)
     with ParseAPI('fixture', retries=0, transport=transport_for_rows()) as client:

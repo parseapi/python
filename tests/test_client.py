@@ -75,8 +75,8 @@ URL_TABLE = [
     (lambda p: p.country.states("US"), "https://api.parseapi.com/country/US/states"),
     (lambda p: p.state("NC", country="US"), "https://api.parseapi.com/state/NC?country=US"),
     (lambda p: p.state("colorado"), "https://api.parseapi.com/state/colorado"),
-    (lambda p: p.state.districts("NC", country="US"), "https://api.parseapi.com/state/NC/districts?country=US"),
-    (lambda p: p.district("37081"), "https://api.parseapi.com/district/37081"),
+    (lambda p: p.state.districts("NC", country="US"), "https://api.parseapi.com/state/NC/counties?country=US"),
+    (lambda p: p.district("37081"), "https://api.parseapi.com/county/37081"),
     (lambda p: p.city("charlotte", state="NC"), "https://api.parseapi.com/city/charlotte?state=NC"),
     (lambda p: p.city.id("city_mb8mbqrkz8zb"), "https://api.parseapi.com/city/id/city_mb8mbqrkz8zb"),
     (lambda p: p.city.search("char", country="US", limit=10), "https://api.parseapi.com/city?q=char&country=US&limit=10"),
@@ -491,7 +491,7 @@ def test_async_currency_helpers_are_available_through_the_public_client():
             assert (await client.currency("JPY"))["digits"] == 0
             await client.currency.rate("USD", "EUR", date="2026-10-30", amount=0)
         assert calls[0].url.path == "/currency/JPY"
-        assert calls[0].headers["x-api-version"] == "2.1.0"
+        assert calls[0].headers["x-api-version"] == "2.2.0"
         assert str(calls[1].url) == "https://api.parseapi.com/currency/USD/EUR?date=2026-10-30&amount=0"
     asyncio.run(run())
 

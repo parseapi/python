@@ -13,8 +13,8 @@ from urllib.parse import quote
 import httpx
 from .city import CityAmbiguityCandidate, city_error_candidates
 
-VERSION = "1.12.0"
-_API_VERSION = "2.1.0"
+VERSION = "1.13.0"
+_API_VERSION = "2.2.0"
 DEFAULT_BASE_URL = "https://api.parseapi.com"
 DEFAULT_TIMEOUT = 10.0
 DEFAULT_RETRIES = 2
@@ -255,8 +255,12 @@ class ParseAPI:
 
     # Plain methods (no subresources)
 
+    def county(self, code: str, *, country: Optional[str] = None, state: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
+        return self._get(f"/county/{_seg(code)}", {"country": country, "state": state, "deep": deep, "lang": lang})
+
     def district(self, code: str, *, country: Optional[str] = None, state: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return self._get(f"/district/{_seg(code)}", {"country": country, "state": state, "deep": deep, "lang": lang})
+        """Deprecated source alias for county; API 2.2 returns county fields."""
+        return self.county(code, country=country, state=state, deep=deep, lang=lang)
 
     def email(self, email: str, *, deep: bool = False) -> Json:
         """Parse an email and check its format and domain. Deep explicitly requests a metered
@@ -352,7 +356,7 @@ class ParseAPI:
         return self._get("/elevation", {"lat": lat, "lon": lon})
 
     def point(self, lat: float, lon: float, *, deep: bool = False, lang: Optional[str] = None) -> Json:
-        """Resolve the country, state, district and timezone at coordinates. Deep adds terrain and
+        """Resolve the country, state, county and timezone at coordinates. Deep adds terrain and
         compact nearest-city context on every plan. The timezone ID stays in core. The nearest
         city is null when none is within 200 km."""
         return self._get("/point", {"lat": lat, "lon": lon, "deep": deep, "lang": lang})
@@ -410,8 +414,12 @@ class _StateSync:
     def __call__(self, code: str, *, country: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
         return self._client._get(f"/state/{_seg(code)}", {"country": country, "deep": deep, "lang": lang})
 
+    def counties(self, code: str, *, country: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
+        return self._client._get(f"/state/{_seg(code)}/counties", {"country": country, "deep": deep, "lang": lang})
+
     def districts(self, code: str, *, country: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return self._client._get(f"/state/{_seg(code)}/districts", {"country": country, "deep": deep, "lang": lang})
+        """Deprecated source alias for counties; API 2.2 returns counties/county fields."""
+        return self.counties(code, country=country, deep=deep, lang=lang)
 
 
 class _CitySync:
@@ -689,8 +697,12 @@ class AsyncParseAPI:
                     continue
             raise _error_from(response)
 
+    async def county(self, code: str, *, country: Optional[str] = None, state: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
+        return await self._get(f"/county/{_seg(code)}", {"country": country, "state": state, "deep": deep, "lang": lang})
+
     async def district(self, code: str, *, country: Optional[str] = None, state: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return await self._get(f"/district/{_seg(code)}", {"country": country, "state": state, "deep": deep, "lang": lang})
+        """Deprecated source alias for county; API 2.2 returns county fields."""
+        return await self.county(code, country=country, state=state, deep=deep, lang=lang)
 
     async def email(self, email: str, *, deep: bool = False) -> Json:
         """Parse an email and check its format and domain. Deep explicitly requests a metered
@@ -786,7 +798,7 @@ class AsyncParseAPI:
         return await self._get("/elevation", {"lat": lat, "lon": lon})
 
     async def point(self, lat: float, lon: float, *, deep: bool = False, lang: Optional[str] = None) -> Json:
-        """Resolve the country, state, district and timezone at coordinates. Deep adds terrain and
+        """Resolve the country, state, county and timezone at coordinates. Deep adds terrain and
         compact nearest-city context on every plan. The timezone ID stays in core. The nearest
         city is null when none is within 200 km."""
         return await self._get("/point", {"lat": lat, "lon": lon, "deep": deep, "lang": lang})
@@ -844,8 +856,12 @@ class _StateAsync:
     async def __call__(self, code: str, *, country: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
         return await self._client._get(f"/state/{_seg(code)}", {"country": country, "deep": deep, "lang": lang})
 
+    async def counties(self, code: str, *, country: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
+        return await self._client._get(f"/state/{_seg(code)}/counties", {"country": country, "deep": deep, "lang": lang})
+
     async def districts(self, code: str, *, country: Optional[str] = None, deep: bool = False, lang: Optional[str] = None) -> Json:
-        return await self._client._get(f"/state/{_seg(code)}/districts", {"country": country, "deep": deep, "lang": lang})
+        """Deprecated source alias for counties; API 2.2 returns counties/county fields."""
+        return await self.counties(code, country=country, deep=deep, lang=lang)
 
 
 class _CityAsync:

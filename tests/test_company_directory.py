@@ -56,7 +56,7 @@ def test_routes_encoding_and_direct_request(async_client, operation, path, param
     assert len(calls) == 1
     assert calls[0].url.raw_path.split(b"?")[0].decode() == path
     assert dict(calls[0].url.params) == params
-    assert calls[0].headers["X-API-Version"] == "2.1.0"
+    assert calls[0].headers["X-API-Version"] == "2.2.0"
     assert calls[0].headers["X-API-Key"] == "test_company"
     assert calls[0].extensions["timeout"]["read"] == 1.25
 

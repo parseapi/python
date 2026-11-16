@@ -121,5 +121,49 @@
       "currency": "XXX",
       "iso_numeric": 0
     }
+  },
+  {
+    "operation": "state",
+    "code": "CO",
+    "country": "US",
+    "deep": false,
+    "body": {
+      "state": "CO",
+      "country": "US",
+      "iso_code": "US-CO"
+    }
+  },
+  {
+    "operation": "state",
+    "code": "CE",
+    "country": "ET",
+    "deep": false,
+    "body": {
+      "state": "CE",
+      "country": "ET",
+      "iso_code": null
+    }
+  },
+  {
+    "operation": "county",
+    "code": "E09000033",
+    "country": "GB",
+    "deep": false,
+    "body": {
+      "county": "E09000033",
+      "country": "GB",
+      "iso_code": "GB-WSM"
+    }
+  },
+  {
+    "operation": "county",
+    "code": "08031",
+    "country": "US",
+    "deep": false,
+    "body": {
+      "county": "08031",
+      "country": "US",
+      "iso_code": null
+    }
   }
 ]

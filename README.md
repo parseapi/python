@@ -17,7 +17,9 @@ Get a key at [parseapi.com](https://parseapi.com). The client also reads `PARSEA
 
 ## API versions
 
-This SDK explicitly selects the API contract supported by this SDK. It sends `X-API-Version: 2.1.0` on every lookup so responses match the API contract supported by the package. Your key and the team's saved default stay the same. The API still accepts earlier `Parse-Version` request pins.
+State and County use `iso_code` for the full ISO 3166-2 code of the exact returned place, including County items in State lists. A null means unassigned or unknown. National `state` and `county` identifiers are unchanged. Update State readers from `iso_subdivision` to `iso_code`. Responses keep the server's keys without adding legacy duplicates.
+
+This SDK explicitly selects the API contract supported by this SDK. It sends `X-API-Version: 2.2.0` on every lookup so responses match the API contract supported by the package. Your key and the team's saved default stay the same. The API still accepts earlier `Parse-Version` request pins.
 
 Upgrade the dependency in staging, review the [release notes](https://parseapi.com/docs/releases), and test the application before deploying the same code and dependency version to production. Commit your dependency lockfile so the tested package travels with your deployment. Future major SDK upgrades can select a newer API contract.
 
@@ -81,7 +83,7 @@ Supply `industry` and `industry_type` together. The supported namespace is `sic`
 ## ISO identifiers
 
 Country uses `iso_alpha3` and `iso_numeric`, State uses the full
-`iso_subdivision` code such as `US-CA`, Language uses `iso_alpha3`, and Currency
+`iso_code` code such as `US-CA`, Language uses `iso_alpha3`, and Currency
 uses `iso_numeric`. Primary `country`, `state`, `language` and `currency` codes
 keep their meaning. Results retain the selected API contract's exact keys,
 values, nulls and nesting. Earlier server contracts retain their earlier ISO
@@ -120,8 +122,8 @@ parse.country("US")
 parse.country.states("US")
 parse.state("colorado")
 parse.state("NC", country="US")
-parse.state.districts("NC", country="US")
-parse.district("37081")
+parse.state.counties("NC", country="US")
+parse.county("37081")
 parse.continent("NA")
 parse.continent.countries("NA")
 parse.currency("USD")
@@ -281,7 +283,7 @@ Call the API and get everything your plan includes. API 2.1 paid plans include t
 | Phone, Time, Date, Emoji, Point | Optional detail on paid plans in the same pooled request. Existing accounts retain their current Deep access. |
 | Language | All language facts are in Core; Deep adds no fields. |
 | Currency | Currency lookup facts are complete in Core; Deep adds no fields. Lookup and exchange-rate conversion use pooled requests. |
-| Country, State, District, City, Postal | The place profile on paid plans, including demographic and tax facts where held. |
+| Country, State, County, City, Postal | The place profile on paid plans, including demographic and tax facts where held. |
 | Name, Industry | Name evidence or the industry definition profile on paid plans. |
 | Company | The complete product detail bag on paid plans. |
 | Weather | Specialist current measurements and the existing forecast, alert, air and history bag on paid plans. |
@@ -510,3 +512,9 @@ The 2.0 API is a temporary migration bridge for older installed clients. There i
 This version selects API `2.1.0`. Update existing `.deep` property reads to the fields at their natural homes, such as `country.population`. User-Agent identities are objects; Postal tax and Weather observations keep their documented object homes. Paid plans include their profile detail automatically in API 2.1. Free keeps its complete routine answer, and existing explicit `deep` options remain supported. Mailbox verification stays explicit.
 
 **This minor version changes existing field reads.** Upgrade the SDK and your application reads together. Existing factories remain. Email verification is explicit and includes basic validation; Carrier/HLR need no extra detail request. Preserve missing values, `null`, `false` and `0`.
+
+## County migration: HTTP API 2.2
+
+This source selects HTTP API `2.2.0`. County is the public name for counties and comparable administrative areas internationally. Use `county` and the State counties operation. Read `county`, `county_name`, `county_name_local` and `counties` in affected geography results; City `capital_of` uses `county` for this administrative level. Actual local types such as `department` and `district` retain their meaning.
+
+This is a breaking field-read upgrade from earlier contracts. Deprecated District callable names remain source aliases, but SDK results use the canonical County fields. Update property reads before upgrading. Older installed packages keep their existing API contract, and this client does not change an account's saved default.

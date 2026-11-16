@@ -16,7 +16,7 @@ def test_default_clean_response_and_retry():
     assert len(calls)==2
     for request in calls:
         assert "Parse-Response" not in request.headers
-        assert request.headers["X-API-Version"]=="2.1.0"
+        assert request.headers["X-API-Version"]=="2.2.0"
         assert not request.url.params
 
 def test_async_preserves_json_without_metadata():

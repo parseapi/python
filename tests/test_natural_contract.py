@@ -10,7 +10,7 @@ def test_explicit_verification_and_basic_email_use_21(asynchronous):
     result = {'email': 'a+b@example.com', 'valid': True, 'deliverable': False, 'catchall': None, 'future': 0}
     def handler(request):
         calls.append(request)
-        assert request.headers['X-API-Version'] == '2.1.0'
+        assert request.headers['X-API-Version'] == '2.2.0'
         return httpx.Response(200, json=result)
     async def run_async():
         async with AsyncParseAPI('fixture', transport=httpx.MockTransport(handler)) as client:
