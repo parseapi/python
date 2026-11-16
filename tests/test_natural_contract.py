@@ -26,8 +26,8 @@ def test_explicit_verification_and_basic_email_use_21(asynchronous):
             assert client.email(result['email'], deep=True) == result
     assert calls[0].method == 'GET' and calls[0].url.path == '/email/a+b@example.com'
     for request in calls[1:]:
-        assert request.method == 'POST' and request.url.path == '/email/verify'
-        assert not request.url.query and json.loads(request.content) == {'email': result['email']}
+        assert request.method == 'GET' and request.url.path == '/email/verify'
+        assert dict(request.url.params) == {'email': result['email']} and request.content == b''
     assert 'deep' not in result
 
 @pytest.mark.parametrize('asynchronous', [False, True])

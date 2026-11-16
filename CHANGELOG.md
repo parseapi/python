@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.13.1 — 2026-11-16
+
+- Existing Email verification and Emoji parse/convert methods now use GET query parameters. Method signatures, response models, API 2.2 selection and no-retry defaults are unchanged.
+- Existing API POST requests remain supported for compatibility. Long or URL-incompatible inputs select POST before dispatch; requests are never retried just to switch methods.
+
 ## 1.13.0 - 2026-11-16
 
 - Breaking State field-read migration: update `iso_subdivision` reads to `iso_code`, with the existing value or null. County and State county items add nullable `iso_code` for the exact place. Other ISO representations and package versions are unchanged.

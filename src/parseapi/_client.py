@@ -4,7 +4,6 @@ import os
 import re
 import math
 import random
-import re
 import time
 from email.utils import parsedate_to_datetime
 from typing import Any, Dict, List, Literal, Optional, Protocol, Sequence, Union, overload
@@ -13,7 +12,7 @@ from urllib.parse import quote
 import httpx
 from .city import CityAmbiguityCandidate, city_error_candidates
 
-VERSION = "1.13.0"
+VERSION = "1.13.1"
 _API_VERSION = "2.2.0"
 DEFAULT_BASE_URL = "https://api.parseapi.com"
 DEFAULT_TIMEOUT = 10.0
@@ -232,6 +231,16 @@ class ParseAPI:
         self.close()
 
     def _get(self, path: str, params: Optional[Dict[str, Any]] = None, headers: Optional[Dict[str, str]] = None, *, json: Optional[Dict[str, Any]] = None) -> Json:
+        if json is None and path in ('/email/verify', '/emoji/parse', '/emoji/convert'):
+            field = 'email' if path == '/email/verify' else 'text'
+            value = (params or {}).get(field)
+            try:
+                use_body = not isinstance(value, str) or len(str(self._http.base_url).rstrip('/') + path + '?' + str(httpx.QueryParams(_clean(params or {})))) > 8000
+            except UnicodeEncodeError:
+                use_body = True
+            if use_body:
+                json = {field: value}
+                params = {key: item for key, item in (params or {}).items() if key != field}
         retries = self._config.retries if self._config.retries is not None else _default_retries(path, params)
         attempt = 0
         while True:
@@ -271,7 +280,7 @@ class ParseAPI:
 
     def email_verify(self, email: str) -> Json:
         """Run one explicit metered mailbox check. No automatic retries by default."""
-        return self._get("/email/verify", json={"email": email})
+        return self._get("/email/verify", {"email": email})
 
 
 
@@ -599,11 +608,11 @@ class _EmojiSync:
 
     def parse(self, text: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
         """Extract complete emoji sequences. Positions are UTF-16 code units; end is exclusive."""
-        return self._client._get("/emoji/parse", {"deep": deep, "lang": lang}, json={"text": text})
+        return self._client._get("/emoji/parse", {"text": text, "deep": deep, "lang": lang})
 
     def convert(self, text: str, *, direction: str, shortcode_source: str) -> Json:
         """Convert complete sequences; unresolved codes stay literal. Offsets refer to input UTF-16."""
-        return self._client._get("/emoji/convert", {"direction": direction, "shortcode_source": shortcode_source}, json={"text": text})
+        return self._client._get("/emoji/convert", {"text": text, "direction": direction, "shortcode_source": shortcode_source})
 
 
 
@@ -676,6 +685,16 @@ class AsyncParseAPI:
     ) -> Json:
         import asyncio
 
+        if json is None and path in ('/email/verify', '/emoji/parse', '/emoji/convert'):
+            field = 'email' if path == '/email/verify' else 'text'
+            value = (params or {}).get(field)
+            try:
+                use_body = not isinstance(value, str) or len(str(self._http.base_url).rstrip('/') + path + '?' + str(httpx.QueryParams(_clean(params or {})))) > 8000
+            except UnicodeEncodeError:
+                use_body = True
+            if use_body:
+                json = {field: value}
+                params = {key: item for key, item in (params or {}).items() if key != field}
         retries = self._config.retries if self._config.retries is not None else _default_retries(path, params)
         attempt = 0
         while True:
@@ -713,7 +732,7 @@ class AsyncParseAPI:
 
     async def email_verify(self, email: str) -> Json:
         """Run one explicit metered mailbox check. No automatic retries by default."""
-        return await self._get("/email/verify", json={"email": email})
+        return await self._get("/email/verify", {"email": email})
 
 
 
@@ -1043,11 +1062,11 @@ class _EmojiAsync:
 
     async def parse(self, text: str, *, deep: bool = False, lang: Optional[str] = None) -> Json:
         """Extract complete emoji sequences. Positions are UTF-16 code units; end is exclusive."""
-        return await self._client._get("/emoji/parse", {"deep": deep, "lang": lang}, json={"text": text})
+        return await self._client._get("/emoji/parse", {"text": text, "deep": deep, "lang": lang})
 
     async def convert(self, text: str, *, direction: str, shortcode_source: str) -> Json:
         """Convert complete sequences; unresolved codes stay literal. Offsets refer to input UTF-16."""
-        return await self._client._get("/emoji/convert", {"direction": direction, "shortcode_source": shortcode_source}, json={"text": text})
+        return await self._client._get("/emoji/convert", {"text": text, "direction": direction, "shortcode_source": shortcode_source})
 
 
 

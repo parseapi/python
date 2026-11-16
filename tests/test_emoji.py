@@ -28,9 +28,9 @@ def test_sync_and_async_emoji_catalog_and_text_body():
         assert dict(calls[1].url.params) == {"q": "face", "category": "Smileys & Emotion", "version": "17.0", "max_version": "18.0", "include_skin_tones": "false", "offset": "0"}
         assert dict(calls[2].url.params) == {"category": "People & Body", "include_skin_tones": "false", "offset": "2"}
         assert calls[3].url.path == "/emoji/categories" and not calls[3].url.params
-        assert calls[4].url.path == "/emoji/parse" and calls[4].method == "POST"
-        assert json.loads(calls[4].content) == {"text": "x 👍🏿 👍🏿"}
-        assert dict(calls[4].url.params) == {"deep": "true", "lang": "fr"}
+        assert calls[4].url.path == "/emoji/parse" and calls[4].method == "GET"
+        assert calls[4].content == b''
+        assert dict(calls[4].url.params) == {"text": "x 👍🏿 👍🏿", "deep": "true", "lang": "fr"}
         assert calls[4].headers["X-API-Version"] == "2.2.0"
         if async_mode:
             await client.close()
@@ -76,9 +76,9 @@ def test_sync_async_private_conversion():
         result=client.emoji.convert(':rocket:',direction='to_emoji',shortcode_source='github')
         if async_mode: result=await result
         assert result['text']=='🚀'
-        assert len(calls)==1 and calls[0].method=='POST'
-        assert json.loads(calls[0].content)=={'text':':rocket:'}
-        assert dict(calls[0].url.params)=={'direction':'to_emoji','shortcode_source':'github'}
+        assert len(calls)==1 and calls[0].method=='GET'
+        assert dict(calls[0].url.params)['text']==':rocket:' and calls[0].content==b''
+        assert dict(calls[0].url.params)=={'text':':rocket:','direction':'to_emoji','shortcode_source':'github'}
         if async_mode: await client.close()
         else: client.close()
     asyncio.run(run(False));asyncio.run(run(True))
@@ -99,3 +99,24 @@ def test_actual_keyed_artwork_sync_and_async():
             if mode: await client.close()
             else: client.close()
     asyncio.run(run())
+
+
+def test_sync_async_long_text_keeps_one_post_and_empty_text_keeps_get():
+    async def run(async_mode):
+        for text in ['🚀' * 8000, '']:
+            calls = []
+            def handle(request):
+                calls.append(request)
+                return httpx.Response(200, json={'emojis': []})
+            client = AsyncParseAPI('fixture', transport=httpx.MockTransport(handle)) if async_mode else ParseAPI('fixture', transport=httpx.MockTransport(handle))
+            result = client.emoji.parse(text)
+            if async_mode: await result
+            assert len(calls) == 1
+            if text:
+                assert calls[0].method == 'POST' and json.loads(calls[0].content) == {'text': text}
+                assert 'text' not in calls[0].url.params
+            else:
+                assert calls[0].method == 'GET' and calls[0].url.params['text'] == ''
+            if async_mode: await client.close()
+            else: client.close()
+    asyncio.run(run(False)); asyncio.run(run(True))
